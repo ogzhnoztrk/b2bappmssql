@@ -10,20 +10,19 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public class SubeStokService : ISubeStokService
+    public class UrunService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public SubeStokService(IUnitOfWork unitOfWork)
+        public UrunService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-
-        public void addSubeStok(SubeStok SubeStok)
+        public void addUrun(Urun Urun)
         {
             try
             {
-                _unitOfWork.SubeStok.InsertOne(SubeStok);
+                _unitOfWork.Urun.InsertOne(Urun);
             }
             catch (Exception)
             {
@@ -32,11 +31,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteSubeStok(ObjectId objectId)
+        public void deleteUrun(ObjectId objectId)
         {
             try
             {
-                _unitOfWork.SubeStok.DeleteById(objectId.ToString());
+                _unitOfWork.Urun.DeleteById(objectId.ToString());
             }
             catch (Exception)
             {
@@ -45,11 +44,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<ICollection<SubeStok>> getAll()
+        public Result<ICollection<Urun>> getAll()
         {
             try
             {
-                return _unitOfWork.SubeStok.GetAll();
+                return _unitOfWork.Urun.GetAll();
             }
             catch (Exception)
             {
@@ -58,11 +57,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<SubeStok> getSubeStokById(ObjectId objectId)
+        public Result<Urun> getUrunById(ObjectId objectId)
         {
             try
             {
-                return _unitOfWork.SubeStok.GetById(objectId.ToString());
+                return _unitOfWork.Urun.GetById(objectId.ToString());
             }
             catch (Exception)
             {
@@ -72,11 +71,11 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public void updateSubeStok(SubeStok SubeStok)
+        public void updateUrun(Urun Urun)
         {
             try
             {
-                _unitOfWork.SubeStok.ReplaceOne(SubeStok, SubeStok.Id.ToString());
+                _unitOfWork.Urun.ReplaceOne(Urun, Urun.Id.ToString());
             }
             catch (Exception)
             {
@@ -84,6 +83,5 @@ namespace B2BApp.Business.Abstract
                 throw;
             }
         }
-
     }
 }

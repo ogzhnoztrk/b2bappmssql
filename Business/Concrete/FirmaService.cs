@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public class FirmalarService : IFirmalarService
+    public class FirmaService : IFirmaService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public FirmalarService(IUnitOfWork unitOfWork)
+        public FirmaService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -32,10 +32,23 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+        public void deleteFirma(ObjectId objectId)
+        {
+            try
+            {
+                _unitOfWork.Firma.DeleteById(objectId.ToString());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public Result<ICollection<Firma>> getAll()
         {
             try
-            {    
+            {
                 return _unitOfWork.Firma.GetAll();
             }
             catch (Exception)
@@ -53,9 +66,22 @@ namespace B2BApp.Business.Abstract
             catch (Exception)
             {
 
-                throw ;
+                throw;
             }
             throw new NotImplementedException();
+        }
+
+        public void updateFirma(Firma firma)
+        {
+            try
+            {
+                _unitOfWork.Firma.ReplaceOne(firma, firma.Id.ToString());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

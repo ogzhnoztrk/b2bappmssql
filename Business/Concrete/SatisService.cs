@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public class SubeStokService : ISubeStokService
+    public class SatisService :ISatisService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public SubeStokService(IUnitOfWork unitOfWork)
+        public SatisService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
 
-        public void addSubeStok(SubeStok SubeStok)
+        public void addSatis(Satis Satis)
         {
             try
             {
-                _unitOfWork.SubeStok.InsertOne(SubeStok);
+                _unitOfWork.Satis.InsertOne(Satis);
             }
             catch (Exception)
             {
@@ -32,11 +32,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteSubeStok(ObjectId objectId)
+        public void deleteSatis(ObjectId objectId)
         {
             try
             {
-                _unitOfWork.SubeStok.DeleteById(objectId.ToString());
+                _unitOfWork.Satis.DeleteById(objectId.ToString());
             }
             catch (Exception)
             {
@@ -45,11 +45,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<ICollection<SubeStok>> getAll()
+        public Result<ICollection<Satis>> getAll()
         {
             try
             {
-                return _unitOfWork.SubeStok.GetAll();
+                return _unitOfWork.Satis.GetAll();
             }
             catch (Exception)
             {
@@ -58,11 +58,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<SubeStok> getSubeStokById(ObjectId objectId)
+        public Result<Satis> getSatisById(ObjectId objectId)
         {
             try
             {
-                return _unitOfWork.SubeStok.GetById(objectId.ToString());
+                return _unitOfWork.Satis.GetById(objectId.ToString());
             }
             catch (Exception)
             {
@@ -72,11 +72,11 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public void updateSubeStok(SubeStok SubeStok)
+        public void updateSatis(Satis Satis)
         {
             try
             {
-                _unitOfWork.SubeStok.ReplaceOne(SubeStok, SubeStok.Id.ToString());
+                _unitOfWork.Satis.ReplaceOne(Satis, Satis.Id.ToString());
             }
             catch (Exception)
             {
@@ -84,6 +84,5 @@ namespace B2BApp.Business.Abstract
                 throw;
             }
         }
-
     }
 }

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public interface IFirmalarService
+    public interface ISubeService
     {
-
-        void addFirma(Firma firma);
-        Result<ICollection<Firma>> getAll();
-        Result<Firma> getFirmaById(ObjectId objectId);
-
+        void addSube(Sube sube);
+        void updateSube(Sube sube);
+        void deleteSube(ObjectId objectId);
+        Result<ICollection<Sube>> getAll();
+        Result<Sube> getSubeById(ObjectId objectId);
     }
 }

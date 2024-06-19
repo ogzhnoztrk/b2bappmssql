@@ -10,20 +10,19 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public class SubeStokService : ISubeStokService
+    public class KategoriService : IKategoriService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public SubeStokService(IUnitOfWork unitOfWork)
+        public KategoriService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-
-        public void addSubeStok(SubeStok SubeStok)
+        public void addKategori(Kategori kategori)
         {
             try
             {
-                _unitOfWork.SubeStok.InsertOne(SubeStok);
+                _unitOfWork.Kategori.InsertOne(kategori);
             }
             catch (Exception)
             {
@@ -32,11 +31,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteSubeStok(ObjectId objectId)
+        public void deleteKategori(ObjectId objectId)
         {
             try
             {
-                _unitOfWork.SubeStok.DeleteById(objectId.ToString());
+                _unitOfWork.Kategori.DeleteById(objectId.ToString());
             }
             catch (Exception)
             {
@@ -45,11 +44,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<ICollection<SubeStok>> getAll()
+        public Result<ICollection<Kategori>> getAll()
         {
             try
             {
-                return _unitOfWork.SubeStok.GetAll();
+                return _unitOfWork.Kategori.GetAll();
             }
             catch (Exception)
             {
@@ -58,25 +57,25 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<SubeStok> getSubeStokById(ObjectId objectId)
+        public Result<Kategori> getKategoriById(ObjectId objectId)
         {
             try
             {
-                return _unitOfWork.SubeStok.GetById(objectId.ToString());
+                return _unitOfWork.Kategori.GetById(objectId.ToString());
             }
             catch (Exception)
             {
 
                 throw;
             }
-
+            
         }
 
-        public void updateSubeStok(SubeStok SubeStok)
+        public void updateKategori(Kategori kategori)
         {
             try
             {
-                _unitOfWork.SubeStok.ReplaceOne(SubeStok, SubeStok.Id.ToString());
+                _unitOfWork.Kategori.ReplaceOne(kategori, kategori.Id.ToString());
             }
             catch (Exception)
             {
@@ -84,6 +83,5 @@ namespace B2BApp.Business.Abstract
                 throw;
             }
         }
-
     }
 }

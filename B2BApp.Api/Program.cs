@@ -1,8 +1,15 @@
+using B2BApp.DataAccess.Abstract;
+using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.TryAddSingleton<IUnitOfWork, UnitOfWork>();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
