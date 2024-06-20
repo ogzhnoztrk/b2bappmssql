@@ -2,11 +2,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Firmalar</h2>
+<h2>Urunler</h2>
 <hr />
 
 <div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Firma</button>
+    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Urun</button>
 
 </div>
 <br />
@@ -16,13 +16,15 @@
 <table id="myTable" class="display" style="width:100%">
     <thead>
         <tr>
-            <th>Firma Adi</th>
+            <th>Urun</th>
+            <th>Kategori</th>
             <th></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <th>Firma Adi</th>
+            <th>Urun</th>
+            <th>Kategori</th>
             <th></th>
         </tr>
     </tfoot>
@@ -39,10 +41,11 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
-            "ajax": '/fakeData/firmalar.json',
+            "ajax": '/fakeData/urunler.json',
 
             "columns": [
-                { "data": 'firma_adi' },
+                { "data": 'urun_adi' },
+                { "data": 'kategori_adi' },
                 {
                     "data": "id", "render": function (data) {
                         return `
@@ -76,13 +79,13 @@
                     success: function (data) {
                         if (data.success) {
                             Swal.fire({
-                                title: "Firma Silindi",
+                                title: "Urun Silindi",
                                 icon: "success"
                             });
                         }
                         else {
                             Swal.fire({
-                                title: "Firma Silinirken Bir Sorun Oluştu",
+                                title: "Urun Silinirken Bir Sorun Oluştu",
                                 icon: "error"
                             });
                         }

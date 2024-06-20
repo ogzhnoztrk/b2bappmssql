@@ -2,11 +2,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Firmalar</h2>
+<h2>Satislar</h2>
 <hr />
 
 <div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Firma</button>
+    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Satis</button>
 
 </div>
 <br />
@@ -17,12 +17,15 @@
     <thead>
         <tr>
             <th>Firma Adi</th>
+            <th>Şube Adi</th>
+            
             <th></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
             <th>Firma Adi</th>
+            <th>Şube Adi</th>
             <th></th>
         </tr>
     </tfoot>
@@ -36,13 +39,15 @@
 <script type="text/javascript">
     $(document).ready(function () {
         new DataTable('#myTable', {
-            language: {
+            "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
-            "ajax": '/fakeData/firmalar.json',
+            "ajax": '/fakeData/subeler.json',
 
             "columns": [
                 { "data": 'firma_adi' },
+                { "data": 'sube_adi' },
+                
                 {
                     "data": "id", "render": function (data) {
                         return `
@@ -76,13 +81,13 @@
                     success: function (data) {
                         if (data.success) {
                             Swal.fire({
-                                title: "Firma Silindi",
+                                title: "Satis Silindi",
                                 icon: "success"
                             });
                         }
                         else {
                             Swal.fire({
-                                title: "Firma Silinirken Bir Sorun Oluştu",
+                                title: "Satis Silinirken Bir Sorun Oluştu",
                                 icon: "error"
                             });
                         }
@@ -92,5 +97,5 @@
         })
     }
 
-    
+   
 </script>

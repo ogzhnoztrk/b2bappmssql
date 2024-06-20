@@ -2,11 +2,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Firmalar</h2>
+<h2>Sube Stoklar</h2>
 <hr />
 
 <div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Firma</button>
+    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni SubeStok</button>
 
 </div>
 <br />
@@ -16,13 +16,18 @@
 <table id="myTable" class="display" style="width:100%">
     <thead>
         <tr>
-            <th>Firma Adi</th>
+            <th>Şube Adi</th>
+            <th>Ürün</th>
+            <th>Stok</th>
+            
             <th></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <th>Firma Adi</th>
+            <th>Şube Adi</th>
+            <th>Ürün</th>
+            <th>Stok</th>
             <th></th>
         </tr>
     </tfoot>
@@ -33,16 +38,18 @@
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
-<script type="text/javascript">
+<script type="text/javascript"> 
     $(document).ready(function () {
         new DataTable('#myTable', {
-            language: {
+            "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
-            "ajax": '/fakeData/firmalar.json',
+            "ajax": '/fakeData/subeStoklar.json',
 
             "columns": [
-                { "data": 'firma_adi' },
+                { "data": 'sube_adi' },
+                { "data": 'urun_adi' },
+                { "data": 'stok' },
                 {
                     "data": "id", "render": function (data) {
                         return `
@@ -76,13 +83,13 @@
                     success: function (data) {
                         if (data.success) {
                             Swal.fire({
-                                title: "Firma Silindi",
+                                title: "SubeStok Silindi",
                                 icon: "success"
                             });
                         }
                         else {
                             Swal.fire({
-                                title: "Firma Silinirken Bir Sorun Oluştu",
+                                title: "SubeStok Silinirken Bir Sorun Oluştu",
                                 icon: "error"
                             });
                         }
@@ -92,5 +99,5 @@
         })
     }
 
-    
+   
 </script>

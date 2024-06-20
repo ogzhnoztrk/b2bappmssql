@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "firma_adi": "Teknoloji Dünyası",
+      "sube_adi": "İstanbul Merkez"
+    },
+    {
+      "firma_adi": "Teknoloji Dünyası",
+      "sube_adi": "Ankara Kızılay"
+    },
+    {
+      "firma_adi": "Teknoloji Dünyası",
+      "sube_adi": "İzmir Bornova"
+    },
+    {
+      "firma_adi": "Bilgisayar Dünyası",
+      "sube_adi": "İstanbul Kadıköy"
+    },
+    {
+      "firma_adi": "Bilgisayar Dünyası",
+      "sube_adi": "Ankara Çankaya"
+    },
+    {
+      "firma_adi": "Bilgisayar Dünyası",
+      "sube_adi": "İzmir Karşıyaka"
+    },
+    {
+      "firma_adi": "Elektronik Cenneti",
+      "sube_adi": "İstanbul Beşiktaş"
+    },
+    {
+      "firma_adi": "Elektronik Cenneti",
+      "sube_adi": "Ankara Etimesgut"
+    },
+    {
+      "firma_adi": "Elektronik Cenneti",
+      "sube_adi": "İzmir Buca"
+    },
+    {
+      "firma_adi": "TeknoMarket",
+      "sube_adi": "İstanbul Bakırköy"
+    },
+    {
+      "firma_adi": "TeknoMarket",
+      "sube_adi": "Ankara Batıkent"
+    },
+    {
+      "firma_adi": "TeknoMarket",
+      "sube_adi": "İzmir Gaziemir"
+    }
+  ]
+}

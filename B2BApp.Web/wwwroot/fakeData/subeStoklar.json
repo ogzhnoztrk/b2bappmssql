@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "sube_adi": "İstanbul Merkez",
+      "urun_adi": "Dizüstü Bilgisayar",
+      "stok": 25
+    },
+    {
+      "sube_adi": "İstanbul Merkez",
+      "urun_adi": "Akıllı Telefon",
+      "stok": 50
+    },
+    {
+      "sube_adi": "Ankara Kızılay",
+      "urun_adi": "Tablet",
+      "stok": 30
+    },
+    {
+      "sube_adi": "Ankara Kızılay",
+      "urun_adi": "Monitör",
+      "stok": 20
+    },
+    {
+      "sube_adi": "İzmir Bornova",
+      "urun_adi": "Yazıcı",
+      "stok": 15
+    },
+    {
+      "sube_adi": "İzmir Bornova",
+      "urun_adi": "Masaüstü Bilgisayar",
+      "stok": 10
+    },
+    {
+      "sube_adi": "İstanbul Kadıköy",
+      "urun_adi": "Klavye",
+      "stok": 45
+    },
+    {
+      "sube_adi": "İstanbul Kadıköy",
+      "urun_adi": "Fare",
+      "stok": 60
+    },
+    {
+      "sube_adi": "Ankara Çankaya",
+      "urun_adi": "Harici Hard Disk",
+      "stok": 25
+    },
+    {
+      "sube_adi": "Ankara Çankaya",
+      "urun_adi": "Webcam",
+      "stok": 30
+    },
+    {
+      "sube_adi": "İzmir Karşıyaka",
+      "urun_adi": "Kulaklık",
+      "stok": 40
+    },
+    {
+      "sube_adi": "İzmir Karşıyaka",
+      "urun_adi": "Hoparlör",
+      "stok": 35
+    }
+  ]
+}

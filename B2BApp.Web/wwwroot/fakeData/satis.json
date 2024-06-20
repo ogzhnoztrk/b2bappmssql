@@ -1,0 +1,75 @@
+{
+  "data": [
+    {
+      "subeAdi": "Merkez",
+      "urunAdi": "Dizüstü Bilgisayar",
+      "satisMiktari": 5,
+      "satisTarihi": "2024-01-15",
+      "toplamFiyati": 15000
+    },
+    {
+      "subeAdi": "Ankara",
+      "urunAdi": "Akıllı Telefon",
+      "satisMiktari": 10,
+      "satisTarihi": "2024-02-20",
+      "toplamFiyati": 8000
+    },
+    {
+      "subeAdi": "İzmir",
+      "urunAdi": "Tablet",
+      "satisMiktari": 7,
+      "satisTarihi": "2024-03-05",
+      "toplamFiyati": 5600
+    },
+    {
+      "subeAdi": "Merkez",
+      "urunAdi": "Monitör",
+      "satisMiktari": 3,
+      "satisTarihi": "2024-04-10",
+      "toplamFiyati": 2100
+    },
+    {
+      "subeAdi": "Ankara",
+      "urunAdi": "Yazıcı",
+      "satisMiktari": 4,
+      "satisTarihi": "2024-05-25",
+      "toplamFiyati": 3200
+    },
+    {
+      "subeAdi": "İzmir",
+      "urunAdi": "Masaüstü Bilgisayar",
+      "satisMiktari": 2,
+      "satisTarihi": "2024-06-18",
+      "toplamFiyati": 4000
+    },
+    {
+      "subeAdi": "Merkez",
+      "urunAdi": "Klavye",
+      "satisMiktari": 12,
+      "satisTarihi": "2024-07-07",
+      "toplamFiyati": 1800
+    },
+    {
+      "subeAdi": "Ankara",
+      "urunAdi": "Fare",
+      "satisMiktari": 15,
+      "satisTarihi": "2024-08-14",
+      "toplamFiyati": 750
+    },
+    {
+      "subeAdi": "İzmir",
+      "urunAdi": "Harici Hard Disk",
+      "satisMiktari": 6,
+      "satisTarihi": "2024-09-01",
+      "toplamFiyati": 3000
+    },
+    {
+      "subeAdi": "Merkez",
+      "urunAdi": "Webcam",
+      "satisMiktari": 8,
+      "satisTarihi": "2024-10-22",
+      "toplamFiyati": 2400
+    }
+  ]
+
+}

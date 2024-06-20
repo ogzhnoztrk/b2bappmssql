@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\B2BApp.Core\B2BApp.Core.csproj" />
     <ProjectReference Include="..\B2BApp.Entities\B2BApp.Entities.csproj" />
-    <ProjectReference Include="..\Core\B2BApp.Core.csproj" />
   </ItemGroup>
 
 

@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "urun_adi": "Dizüstü Bilgisayar",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Akıllı Telefon",
+      "kategori_adi": "Telefon ve Aksesuar"
+    },
+    {
+      "urun_adi": "Tablet",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Monitör",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Yazıcı",
+      "kategori_adi": "Ofis Malzemeleri"
+    },
+    {
+      "urun_adi": "Masaüstü Bilgisayar",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Klavye",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Fare",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Harici Hard Disk",
+      "kategori_adi": "Depolama"
+    },
+    {
+      "urun_adi": "Webcam",
+      "kategori_adi": "Bilgisayar ve Tablet"
+    },
+    {
+      "urun_adi": "Kulaklık",
+      "kategori_adi": "Ses ve Görüntü"
+    },
+    {
+      "urun_adi": "Hoparlör",
+      "kategori_adi": "Ses ve Görüntü"
+    }
+  ]
+}
