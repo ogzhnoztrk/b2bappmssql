@@ -1,17 +1,16 @@
-﻿using B2BApp.Entities.Abstract;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace B2BApp.Entities.Concrete
+namespace B2BApp.DTOs
 {
-    public class Sube : BaseModel
+    public class SubeDto
     {
-
-        public ObjectId FirmaId{ get; set; }
+        public BaseObjectId ObjectId { get; set; }
+        public BaseObjectId FirmaId { get; set; }
         public string SubeAdi { get; set; }
         public string SubeTel { get; set; }
     }

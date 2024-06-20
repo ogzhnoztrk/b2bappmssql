@@ -12,11 +12,11 @@ namespace B2BApp.Business.Abstract
     public interface IUrunService
     {
 
-        void addUrunlerService(UrunService urunlerService);
-        void updateUrunlerService(UrunService urunlerService);
-        void deleteUrunlerService(ObjectId objectId);
-        Result<ICollection<UrunService>> getAll();
-        Result<UrunService> getUrunlerServiceById(ObjectId objectId);
+        void addUrun(Urun urunler);
+        void updateUrun(Urun urunler, string urunId);
+        void deleteUrun(ObjectId objectId);
+        Result<ICollection<Urun>> getAll();
+        Result<Urun> getUrunById(ObjectId objectId);
 
 
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public class UrunService
+    public class UrunService : IUrunService
     {
         private readonly IUnitOfWork _unitOfWork;
         public UrunService(IUnitOfWork unitOfWork)
@@ -71,7 +71,7 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public void updateUrun(Urun Urun)
+        public void updateUrun(Urun Urun, string urunId)
         {
             try
             {

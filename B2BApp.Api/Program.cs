@@ -1,3 +1,4 @@
+using B2BApp.Business.Abstract;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
@@ -7,14 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.TryAddSingleton<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSingleton<IFirmaService, FirmaService>();
+builder.Services.AddSingleton<IKategoriService, KategoriService>();
+builder.Services.AddSingleton<ISatisService, SatisService>();
+builder.Services.AddSingleton<ISubeService, SubeService>();
+builder.Services.AddSingleton<IUrunService, UrunService>();
+//builder.Services.AddSingleton<ISubeStokRepository, SubeStokService>();
 
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 
 //mongodb ile ilgili ayarlar
@@ -32,7 +39,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(
+        o =>
+        {
+            o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        });
 }
 
 app.UseHttpsRedirection();

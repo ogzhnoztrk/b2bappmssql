@@ -12,7 +12,7 @@ namespace B2BApp.Business.Abstract
     public interface ISubeStokService
     {
         void addSubeStok(SubeStok subeStok);
-        void updateSubeStok(SubeStok subeStok);
+        void updateSubeStok(SubeStok subeStok, string subeStokId);
         void deleteSubeStok(ObjectId objectId);
         Result<ICollection<SubeStok>> getAll();
         Result<SubeStok> getSubeStokById(ObjectId objectId);

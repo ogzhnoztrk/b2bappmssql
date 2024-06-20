@@ -71,11 +71,11 @@ namespace B2BApp.Business.Abstract
             throw new NotImplementedException();
         }
 
-        public void updateFirma(Firma firma)
+        public void updateFirma(Firma firma, string firmaId)
         {
             try
             {
-                _unitOfWork.Firma.ReplaceOne(firma, firma.Id.ToString());
+                _unitOfWork.Firma.ReplaceOne(firma, firmaId);
             }
             catch (Exception)
             {

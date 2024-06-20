@@ -72,7 +72,7 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public void updateSatis(Satis Satis)
+        public void updateSatis(Satis Satis, string satisId)
         {
             try
             {

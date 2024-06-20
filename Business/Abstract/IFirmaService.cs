@@ -13,7 +13,7 @@ namespace B2BApp.Business.Abstract
     {
 
         void addFirma(Firma firma);
-        void updateFirma(Firma firma);
+        void updateFirma(Firma firma, string firmaId);
         void deleteFirma(ObjectId objectId);
         Result<ICollection<Firma>> getAll();
         Result<Firma> getFirmaById(ObjectId objectId);

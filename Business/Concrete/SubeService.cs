@@ -72,7 +72,7 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public void updateSube(Sube Sube)
+        public void updateSube(Sube Sube, string subeId)
         {
             try
             {

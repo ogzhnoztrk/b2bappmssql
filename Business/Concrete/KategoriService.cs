@@ -71,11 +71,11 @@ namespace B2BApp.Business.Abstract
             
         }
 
-        public void updateKategori(Kategori kategori)
+        public void updateKategori(Kategori kategori, string kategoriId)
         {
             try
             {
-                _unitOfWork.Kategori.ReplaceOne(kategori, kategori.Id.ToString());
+                _unitOfWork.Kategori.ReplaceOne(kategori, kategoriId);
             }
             catch (Exception)
             {

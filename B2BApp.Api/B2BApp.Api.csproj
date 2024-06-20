@@ -11,8 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\B2BApp.DTOs\B2BApp.DTOs.csproj" />
+    <ProjectReference Include="..\Business\B2BApp.Business.csproj" />
     <ProjectReference Include="..\Core\B2BApp.Core.csproj" />
-    <ProjectReference Include="..\DataAccess\B2BApp.DataAccess.csproj" />
   </ItemGroup>
 
  
