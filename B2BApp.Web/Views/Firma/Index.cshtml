@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table id="myTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+            <th>Firma Adi</th>
+            <th>Firma Tel</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Firma Adi</th>
+                <th>Firma Tel</th>
+            <th></th>
+
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+     
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        new DataTable('#myTable', {
+            "ajax": '/fakeData/firmalar.json',
+            
+            "columns": [
+                { "data": 'firma_adi'},
+                { "data": 'firma_tel'},
+                {
+                    "data": "id", "render": function (data) {
+                        return `
+                            <div class="w-75 btn-group" role="group">
+                                <a href="/Admin/Product/Upsert?id=${data}"
+                                class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                                <a onClick=Delete('/Admin/Product/Delete/${data}')
+                                class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                
+                            </div>`
+                    }, "width": "25%"
+                },
+              
+            ]
+        });
+    });
+
+    function Delete(url) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            setTimeout(() => { location.reload() }, 500);
+                        }
+                        else {
+                            toastr.error(data.message);
+                        }
+                    }
+                })
+            }
+        })
+    }
+</script>

@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Kategoriler</h2>
+<hr />
+
+<div class="" style="display: flex;justify-content: flex-end;">
+    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Kategori</button>
+    
+</div>
+<br />
+
+
+
+<table id="myTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Kategori Adi</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Kategori Adi</th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        new DataTable('#myTable', {
+            "ajax": '/fakeData/kategoriler.json',
+            
+            "columns": [
+                { "data": 'kategori_adi'},
+                {
+                    "data": "id", "render": function (data) {
+                        return `
+                            <div class="w-75 btn-group" role="group">
+                                <a onClick=Save('/Admin/Product/Upsert?id=${data}')
+                                    class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
+                                <a onClick=Delete('/Admin/Product/Delete/${data}')
+                                    class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                            </div>`
+                    }, "width": "25%"
+                },
+            ]
+        });
+    });
+
+    function Delete(url) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data.success) {
+                            Swal.fire({
+                                title: "Kategori Silindi",
+                                icon: "success"
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                title: "Kategori Silinirken Bir Sorun Oluştu",
+                                icon: "error"
+                            });
+                        }
+                    }
+                })
+            }
+        })
+    }
+
+    function Save(url){
+        Swal.fire({
+            title: "Kategori Ekle",
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            input: "text",
+            inputLabel: "Kategori Adı",
+            inputValue: "",
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return "You need to write something!";
+                }
+            }
+        }).then((result) =>{
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Kategori Eklendi",
+                    icon: "success"
+                });
+            }
+        })
+    }
+</script>

@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "firma_adi": "ABC Corporation",
+      "firma_tel": "+1-202-555-0100"
+    },
+    {
+      "firma_adi": "XYZ Enterprises",
+      "firma_tel": "+1-202-555-0111"
+    },
+    {
+      "firma_adi": "Tech Solutions",
+      "firma_tel": "+1-202-555-0122"
+    },
+    {
+      "firma_adi": "Global Innovations",
+      "firma_tel": "+1-202-555-0133"
+    },
+    {
+      "firma_adi": "Future Technologies",
+      "firma_tel": "+1-202-555-0144"
+    },
+    {
+      "firma_adi": "Innovative Systems",
+      "firma_tel": "+1-202-555-0155"
+    },
+    {
+      "firma_adi": "Alpha Industries",
+      "firma_tel": "+1-202-555-0166"
+    }
+  ]
+}
