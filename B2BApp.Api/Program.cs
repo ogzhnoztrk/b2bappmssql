@@ -17,6 +17,20 @@ builder.Services.AddSingleton<IUrunService, UrunService>();
 //builder.Services.AddSingleton<ISubeStokRepository, SubeStokService>();
 
 
+// Tüm originlere izin verin (Sadece geliþtirme için)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -45,6 +59,20 @@ if (app.Environment.IsDevelopment())
             o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
         });
 }
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(
+        o =>
+        {
+            o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+        });
+}
+
+
+// Tüm originlere izin veren CORS politikasý
+app.UseCors("AllowAll");
+
 
 app.UseHttpsRedirection();
 
