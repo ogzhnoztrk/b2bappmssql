@@ -49,18 +49,18 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Satis> UpdateCompany(SatisDto satisDto,  string satisId)
+        public Result<Satis> UpdateCompany(Satis satis,  string satisId)
         {
-            Satis satis = new Satis 
-            {
-                Id = ObjectId.Parse(satisDto.ObjectId.ToString()) ,
-                SubeId = ObjectId.Parse(satisDto.SubeId.ToString()),
-                UrunId = ObjectId.Parse(satisDto.UrunId.ToString()),
-                SatisMiktari = satisDto.SatisMiktari,
-                SatisTarihi = satisDto.SatisTarihi,
-                Toplam = satisDto.Toplam,
+            //Satis satis = new Satis 
+            //{
+            //    Id = ObjectId.Parse(satisDto.ObjectId.ToString()) ,
+            //    SubeId = ObjectId.Parse(satisDto.SubeId.ToString()),
+            //    UrunId = ObjectId.Parse(satisDto.UrunId.ToString()),
+            //    SatisMiktari = satisDto.SatisMiktari,
+            //    SatisTarihi = satisDto.SatisTarihi,
+            //    Toplam = satisDto.Toplam,
                 
-            };
+            //};
 
 
 

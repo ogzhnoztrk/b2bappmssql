@@ -48,13 +48,13 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Firma> UpdateCompany(FirmaDto firmaDto,string firmaId)
+        public Result<Firma> UpdateCompany(Firma firma,string firmaId)
         {
-            Firma firma = new Firma
-            {
-                FirmaAdi = firmaDto.FirmaAdi,
-                Id = ObjectId.Parse(firmaId)
-            };
+            //Firma firma = new Firma
+            //{
+            //    FirmaAdi = firmaDto.FirmaAdi,
+            //    Id = ObjectId.Parse(firmaId)
+            //};
 
 
             _firmaService.updateFirma(firma, firmaId);

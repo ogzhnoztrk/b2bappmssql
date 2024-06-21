@@ -50,17 +50,17 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Sube> UpdateCompany(SubeDto subeDto, string subeId)
+        public Result<Sube> UpdateCompany(Sube sube, string subeId)
         {
 
-            Sube sube = new Sube
-            {
-                Id = ObjectId.Parse(subeDto.ObjectId.ToString()),
-                FirmaId = ObjectId.Parse(subeDto.FirmaId.ToString()),
-                SubeAdi = subeDto.SubeAdi,
-                SubeTel = subeDto.SubeTel,
+            //Sube sube = new Sube
+            //{
+            //    Id = ObjectId.Parse(subeDto.ObjectId.ToString()),
+            //    FirmaId = ObjectId.Parse(subeDto.FirmaId.ToString()),
+            //    SubeAdi = subeDto.SubeAdi,
+            //    SubeTel = subeDto.SubeTel,
                 
-            };
+            //};
 
 
             _subeService.updateSube(sube, subeId);

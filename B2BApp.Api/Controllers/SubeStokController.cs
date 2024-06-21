@@ -48,15 +48,15 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<SubeStok> UpdateCompany(SubeStokDto subeStokDto,string subeStokId)
+        public Result<SubeStok> UpdateCompany(SubeStok subeStok, string subeStokId)
         {
-            SubeStok subeStok = new SubeStok
-            {
-                Id = ObjectId.Parse(subeStokDto.ObjectId.ToString()),
-                SubeId = ObjectId.Parse(subeStokDto.SubeId.ToString()),
-                UrunId = ObjectId.Parse(subeStokDto.UrunId.ToString()),
-                Stok = subeStokDto.Stok
-            };
+            //SubeStok subeStok = new SubeStok
+            //{
+            //    Id = ObjectId.Parse(subeStokDto.ObjectId.ToString()),
+            //    SubeId = ObjectId.Parse(subeStokDto.SubeId.ToString()),
+            //    UrunId = ObjectId.Parse(subeStokDto.UrunId.ToString()),
+            //    Stok = subeStokDto.Stok
+            //};
 
 
             _subeStokService.updateSubeStok(subeStok,subeStokId);

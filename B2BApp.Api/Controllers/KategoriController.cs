@@ -47,14 +47,14 @@ namespace B2BApp.Api.Controllers
             return kategoriler;
         }
         [HttpPut]
-        public Result<Kategori> UpdateCompany(KategoriDto kategoriDto, string kategoriId)
+        public Result<Kategori> UpdateCompany(Kategori kategori, string kategoriId)
         {
 
-            Kategori kategori = new Kategori
-            {
-                KategoriAdi = kategoriDto.KategoriAdi,
-                Id= ObjectId.Parse(kategoriId)
-            };
+            //Kategori kategori = new Kategori
+            //{
+            //    KategoriAdi = kategoriDto.KategoriAdi,
+            //    Id= ObjectId.Parse(kategoriId)
+            //};
 
             _kategoriService.updateKategori(kategori, kategoriId);
             return new Result<Kategori>

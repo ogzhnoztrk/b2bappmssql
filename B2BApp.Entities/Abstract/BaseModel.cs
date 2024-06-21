@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace B2BApp.Entities.Abstract
@@ -15,6 +16,6 @@ namespace B2BApp.Entities.Abstract
         [JsonProperty("_id")]
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id{ get; set; }
+        public string Id{ get; set; }
     }
 }

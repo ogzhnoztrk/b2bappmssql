@@ -14,14 +14,13 @@ namespace B2BApp.Web.Controllers
         }
 
 
-
+        public IActionResult Update()
+        {
+            return View();
+        }
 
         #region
-        [HttpDelete]
-        public void Delete(ObjectId id)
-        {
 
-        }
 
 
 

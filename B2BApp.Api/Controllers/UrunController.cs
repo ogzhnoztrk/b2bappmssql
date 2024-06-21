@@ -49,16 +49,16 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Urun> UpdateCompany(UrunDto urunDto,string urunId)
+        public Result<Urun> UpdateCompany(Urun urun, string urunId)
         {
 
-            Urun urun = new Urun
-            {
-                Id = ObjectId.Parse(urunDto.BaseObjectId.ToString()),
-                KategoriId = ObjectId.Parse(urunDto.KategoriId.ToString()),
-                Fiyat = urunDto.Fiyat,
-                UrunAdi = urunDto.UrunAdi,
-            };
+            //Urun urun = new Urun
+            //{
+            //    Id = ObjectId.Parse(urunDto.BaseObjectId.ToString()),
+            //    KategoriId = ObjectId.Parse(urunDto.KategoriId.ToString()),
+            //    Fiyat = urunDto.Fiyat,
+            //    UrunAdi = urunDto.UrunAdi,
+            //};
 
 
             _urunService.updateUrun(urun, urunId);
