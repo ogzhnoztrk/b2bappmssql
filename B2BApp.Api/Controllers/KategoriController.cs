@@ -42,8 +42,9 @@ namespace B2BApp.Api.Controllers
         [HttpGet("all")]
         public Result<ICollection<Kategori>> GetCompany()
         {
-            var kategorilar = _kategoriService.getAll();
-            return kategorilar;
+            var kategoriler = _kategoriService.getAll();
+            
+            return kategoriler;
         }
         [HttpPut]
         public Result<Kategori> UpdateCompany(KategoriDto kategoriDto, string kategoriId)
