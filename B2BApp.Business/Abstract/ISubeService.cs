@@ -1,4 +1,5 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DTOs;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
 using System;
@@ -16,5 +17,7 @@ namespace B2BApp.Business.Abstract
         void deleteSube(ObjectId objectId);
         Result<ICollection<Sube>> getAll();
         Result<Sube> getSubeById(ObjectId objectId);
+        Result<ICollection<SubeDto>> getSubelerWithFirma();
+        Result<SubeDto> getSubeWithFirma(ObjectId objectId);
     }
 }

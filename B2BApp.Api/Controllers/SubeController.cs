@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        public Result<Sube> PostCompany(Sube sube)
+        public Result<Sube> PostSube(Sube sube)
         {
 
             _subeService.addSube(sube);
@@ -34,23 +34,34 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
-        public Result<Sube> GetCompany(string id)
+        public Result<Sube> GetSube(string id)
         {
 
             var sube = _subeService.getSubeById(ObjectId.Parse(id));
             return sube;
         }
         [HttpGet("all")]
-        public Result<ICollection<Sube>> GetCompany()
+        public Result<ICollection<Sube>> GetSube()
         {
             var subelar = _subeService.getAll();
             return subelar;
         }
 
+        [HttpGet("GetSubelerWithFirma")]
+        public Result<ICollection<SubeDto>> GetSubelerWithFirma()
+        {
+            return _subeService.getSubelerWithFirma();
+        }
+
+        [HttpGet("GetSubeWithFirma")]
+        public Result<SubeDto> GetSubeWithFirma(string id)
+        {
+            return _subeService.getSubeWithFirma(ObjectId.Parse(id));
+        }
 
 
         [HttpPut]
-        public Result<Sube> UpdateCompany(Sube sube, string subeId)
+        public Result<Sube> UpdateSube(Sube sube, string subeId)
         {
 
             //Sube sube = new Sube
@@ -73,7 +84,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        public Result<Sube> DeleteCompany(string id)
+        public Result<Sube> DeleteSube(string id)
         {
             _subeService.deleteSube(ObjectId.Parse(id));
 

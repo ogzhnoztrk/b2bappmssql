@@ -11,7 +11,7 @@ namespace B2BApp.Entities.Concrete
     public class Sube : BaseModel
     {
 
-        public ObjectId FirmaId{ get; set; }
+        public string FirmaId{ get; set; }
         public string SubeAdi { get; set; }
         public string SubeTel { get; set; }
     }

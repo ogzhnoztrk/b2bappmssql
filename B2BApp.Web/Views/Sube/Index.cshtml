@@ -3,72 +3,336 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 
 }
+<div class="container">
 
-<h2>Satislar</h2>
-<hr />
+<h2>Subeler</h2>
 
 <div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Satis</button>
+    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Sube</button>
 
 </div>
 <br />
 
 
-<div class="container">
-<table id="myTable" class="display" style="width:100%">
+    <table id="subeTable" class="display" style="width:100%">
     <thead>
         <tr>
             <th>Şube Adi</th>
             <th>Firma Adi</th>
-            <th>Telefon</th>
-           
-            
+            <th>Telefon</th>       
             <th></th>
         </tr>
     </thead>
-    <tfoot>
-        <tr>
-            <th>Firma Adi</th>
-            <th>Şube Adi</th>
-            <th></th>
-        </tr>
-    </tfoot>
+   
 </table>
 </div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Sube Güncelle</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissBUton"></button>
+    </div>
+    <div class="offcanvas-body">
+        <label type="text" id="subeId" value="" hidden></label>
+
+        <br />
+        <div class="form-group">
+            <label for="subeAdi" class="form-label">Sube Adı</label>
+            <input type="text" id="subeAdi" class="form-control" value="">
+        </div>
+        <div class="form-group">
+            <label for="subeTel" class="form-label">Telefon</label>
+            <input type="text" id="subeTel" class="form-control" value="">
+        </div>
+
+
+        <label for="firmaSelectDrawer" class="form-label">Firma</label> <select id="firmaSelectDrawer" class="select2" placeholder='select item'></select>
+
+
+        <br />
+        <div style="display: flex;justify-content: flex-end;">
+            <button onclick=updateUrun() class="btn btn-secondary">Güncelle</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+@* select2 kullanımı *@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+
 <script type="text/javascript">
-    $(document).ready(function () {
-        new DataTable('#myTable', {
+    let table;
+
+
+    //datatable
+    $(document).ready(function loadTable() {
+        table = $('#subeTable').DataTable({
             "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
-           
-            "ajax": '/fakeData/subeler.json',
+            "ajax":
+            {
+                "url": "https://localhost/api/Sube/GetSubelerWithFirma"
+            },
 
             "columns": [
-                { "data": 'firma_adi' },
-                { "data": 'sube_adi' },
-                { "data": 'sube_adi' },
+                { "data": 'subeAdi' },
+                { "data": 'firma.firmaAdi' },
+                { "data": 'subeTel' },
                 
-                {
-                    "data": "id", "render": function (data) {
-                        return `
-                                <div class="w-75 btn-group" role="group">
-                                    <a onClick=getUrunInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
-                                    <a onClick=Delete("${data}") class="btn btn-danger mx-2">Delete</a>
-                                </div>`
-                    }, "width": "25%"
-                },
-            ],
 
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return `
+                                              <div class="w-75 btn-group" role="group">
+                                                      <a onClick=getUrunInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                                  <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                              </div>`
+                    },
+                    "width": "20%"
+                },
+            ]
         });
     });
 
-  
+    function getUrunInfo(data) {
+        getCategoriesUpdate();
+        $.ajax({
+            url: 'https://localhost/api/Sube/GetSubeWithFirma',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            },
+            data: {
+                'id': data
+            }
+        }).done(function (response) {
+            if (response != null) {
+                //console.log(response)
+                // getirilen verilerin gerekli yerlere atanması
+                $("#subeAdi").val(response.data.subeAdi);
+                $("#subeId").val(response.data.id);
+                $("#firmaSelectDrawer").val(response.data.firma.id).trigger('change');
+                $("#subeTel").val(response.data.subeTel);
 
-   
+
+            }
+        })
+    }
+
+    function updateUrun() {
+        let yeniSubeAdi = $("#subeAdi").val();
+        let yeniSubeTel = $("#subeTel").val();
+        let yeniFirmaId = $("#firmaSelectDrawer").val();
+        let id = $("#subeId").val();
+
+        $.ajax({
+            url: 'https://localhost/api/Sube?subeId='+id,
+            crossDomain: true,
+            method: 'put',
+            headers: {
+                'accept': 'text/plain'
+            },
+            contentType: 'application/json',
+            data: JSON.stringify({
+                'id': id,
+                'firmaId': yeniFirmaId,
+                'subeAdi': yeniSubeAdi,
+                'subeTel': yeniSubeTel
+            })
+        }).done(function (response) {
+
+            $("#dismissBUton").click()
+            //Reload/redraw the table with new data
+            table.ajax.reload();
+
+            Swal.fire({
+                title: "Urun Güncellendi",
+                icon: "success"
+            });
+
+
+        });
+    }
+
+    function Delete(data) {
+        Swal.fire({
+            title: 'Emin Misiniz?',
+            text: "Silindikten Sonra Geri Alamazsınız!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: "Geri",
+            confirmButtonText: 'Evet Sil'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(data);
+
+                $.ajax({
+                    url: 'https://localhost/api/Urun?id=' + data,
+                    crossDomain: true,
+                    method: 'delete',
+                    headers: {
+                        'accept': 'text/plain'
+                    }
+                }).done(function (response) {
+                    console.log(response);
+                    if (response != null || data != null) {
+
+                        table.ajax.reload();
+
+                        Swal.fire({
+                            title: "Urun Silindi",
+                            icon: "success"
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Urun Silinirken Bir Sorun Oluştu",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        })
+    }
+
+    function Save() {
+
+        swal.fire({
+            title: 'Urun Ekle',
+            html:
+                `<label for="subeAdiEkle" class="form-label">Sube Adı</label> <input type="text" id="subeAdiEkle" class= "form-control" value="" required>
+                     <label for= "subeTel" class= "form-label">Telefon</label> <input type="phone" id = "subeTel" class= "form-control" value = "" required>                <br/>
+                     <label for="firmaSelectSave" class= "form-label">Firma</label> <select id="firmaSelectSave" class="select2" placeholder='select item'></select>
+                `,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+
+                    resolve([
+                        $('#subeAdiEkle').val(),
+                        $('#firmaSelectSave').val(),
+                        $('#subeTel').val()
+                    ])
+                })
+            },
+            onOpen: function () {
+                $('#swal-input1').focus()
+            },
+            didOpen: getFirmalar(),
+        }).then((result) => {
+            console.log(result);
+            let subeAdi = $('#subeAdiEkle').val();
+            let firmaId = $('#firmaSelectSave').val();
+            let subeTel = $('#subeTel').val();
+            if (result.isConfirmed) {
+                console.log($('#firmaSelectSave').val());
+                $.ajax({
+                    url: 'https://localhost/api/Sube',
+                    crossDomain: true,
+                    method: 'post',
+                    headers: {
+                        'accept': 'text/plain'
+                    },
+                    contentType: 'application/json',
+                    // data: '{\n  "id": "string",\n  "firmaId": "string",\n  "subeAdi": "string",\n  "subeTel": "string"\n}',
+                    data: JSON.stringify({
+                        'id': '',
+                        'firmaId': firmaId,
+                        'subeAdi': subeAdi,
+                        'subeTel': subeTel
+                    })
+                }).done(function (response) {
+                    if (response != null) {
+                        //Reload/redraw the table with new data
+                        table.ajax.reload();
+
+                        //table = loadTable(); // Yeni tablo oluştur
+                        Swal.fire({
+                            title: "Urun Eklendi",
+                            icon: "success"
+                        });
+                    }
+                });
+
+            }
+        });
+    }
+
+    function getFirmalar() {
+        // firmaSelectSave
+        $.ajax({
+            url: 'https://localhost/api/firma/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            }
+        }).done(function (response) {
+            result = $.map(response.data, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            console.log(result);
+            $("#firmaSelectSave").select2({
+                placeholder: "Firma Seçin",
+                data: result,
+                dropdownParent: $('.swal2-container'), // dropdownParent olarak SweetAlert2 konteynerini belirtin
+                width: 200,
+
+            });
+        });
+    }
+
+    function getCategoriesUpdate() {
+        // firmaSelectDrawer
+        $.ajax({
+            url: 'https://localhost/api/firma/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            }
+        }).done(function (response) {
+            result = $.map(response.data, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            
+            $("#firmaSelectDrawer").select2({
+                placeholder: "Firma Seçin",
+                data: result,
+                dropdownParent: $('.swal2-container'), // dropdownParent olarak SweetAlert2 konteynerini belirtin
+                width: 200,
+
+            });
+        });
+    }
+
+
+
+
+
 </script>
