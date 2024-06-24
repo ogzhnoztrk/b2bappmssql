@@ -1,32 +1,59 @@
 ﻿@{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h2>Firmalar</h2>
-<hr />
+<div class="container">
 
-<div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Firma</button>
+    <h2>Firmalar</h2>
+    <hr />
+
+    <div class="" style="display: flex;justify-content: flex-end;">
+        <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Firma</button>
+
+    </div>
+    <br />
+
+
+    <table id="firmaTable" class="display" style="width:100%"> 
+        <thead>
+            <tr>
+                <th>Firma Adi</th>
+                <th>Telefon</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+  
+
 
 </div>
-<br />
+
+@* right drawer *@
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Firma Güncelle</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissBUton"></button>
+    </div>
+    <div class="offcanvas-body">
+        <label type="text" id="firmaId" value="" hidden></label>
+
+        <br />
+        <label for="firmaIsim" class="form-label">Firma</label>
+        <input type="text" id="firmaIsim" class="form-control" value=""> 
+       
+        <label for="firmaTelUpdate" class="form-label">Telefon</label>
+        <input type="text" id="firmaTelUpdate" class="form-control" value="">
+
+        <br />
+        <div style="display: flex;justify-content: flex-end;">
+            <button onclick=updateFirma() class="btn btn-secondary">Güncelle</button>
+        </div>
+    </div>
+</div>
 
 
-
-<table id="myTable" class="display" style="width:100%">
-    <thead>
-        <tr>
-            <th>Firma Adi</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th>Firma Adi</th>
-            <th></th>
-        </tr>
-    </tfoot>
-</table>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -34,63 +61,225 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
 <script type="text/javascript">
-    $(document).ready(function () {
-        new DataTable('#myTable', {
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+    let table;
+
+    $(document).ready(function loadTable() {
+        table = $('#firmaTable').DataTable({
+            "ajax":
+            {
+                "url": "https://localhost/api/firma/all"
             },
-            "ajax": '/fakeData/firmalar.json',
 
             "columns": [
-                { "data": 'firma_adi' },
+                { "data": 'firmaAdi' },
+                { "data": 'firmaTel' },
                 {
-                    "data": "id", "render": function (data) {
+                    "data": "id",
+                    "render": function (data) {
                         return `
-                                <div class="w-75 btn-group" role="group">
-                                    <a onClick=Save('/Admin/Product/Upsert?id=${data}')
-                                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                                    <a onClick=Delete('/Admin/Product/Delete/${data}')
-                                        class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                </div>`
-                    }, "width": "25%"
+                                      <div class="w-75 btn-group" role="group">
+                                              <a onClick=getFirmaInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                          <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                      </div>`
+                    },
+                    "width": "20%"
                 },
-            ],
-
+            ]
         });
     });
 
-    function Delete(url) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    success: function (data) {
-                        if (data.success) {
-                            Swal.fire({
-                                title: "Firma Silindi",
-                                icon: "success"
-                            });
-                        }
-                        else {
-                            Swal.fire({
-                                title: "Firma Silinirken Bir Sorun Oluştu",
-                                icon: "error"
-                            });
-                        }
-                    }
-                })
+
+    function getFirmaInfo(data) {
+
+        $.ajax({
+            url: 'https://localhost/api/Firma',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            },
+            data: {
+                'id': data
+            }
+        }).done(function (response) {
+            if (response != null) {
+                // getirilen verilerin gerekli yerlere atanması
+                $("#firmaIsim").val(response.data.firmaAdi);
+                $("#firmaTelUpdate").val(response.data.firmaTel);
+                $("#firmaId").val(response.data.id);
+
             }
         })
     }
 
-    
+    function updateFirma() {
+        let yeniFirmaAdi = $("#firmaIsim").val();
+        let yeniFirmaTel = $("#firmaTelUpdate").val();
+        let id = $("#firmaId").val();
+
+        $.ajax({
+            url: 'https://localhost/api/Firma?firmaId=' + id,
+            crossDomain: true,
+            method: 'put',
+            headers: {
+                'accept': 'text/plain'
+            },
+            contentType: 'application/json',
+            // data: '{\n  "id": "6673db08b965b70719edb1fb",\n  "firmaAdi": "string"\n}',
+            data: JSON.stringify({
+                'id': id,
+                'firmaAdi': yeniFirmaAdi,
+                'firmaTel': yeniFirmaTel
+            })
+        }).done(function (response) {
+
+            $("#dismissBUton").click()
+            //Reload/redraw the table with new data
+            table.ajax.reload();
+
+            Swal.fire({
+                title: "Firma Güncellendi",
+                icon: "success"
+            });
+
+
+        });
+    }
+
+    function Delete(data) {
+        Swal.fire({
+            title: 'Emin Misiniz?',
+            text: "Silindikten Sonra Geri Alamazsınız!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: "Geri",
+            confirmButtonText: 'Evet Sil'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(data);
+
+                $.ajax({
+                    url: 'https://localhost/api/Firma?id=' + data,
+                    crossDomain: true,
+                    method: 'delete',
+                    headers: {
+                        'accept': 'text/plain'
+                    }
+                }).done(function (response) {
+                    console.log(response);
+                    if (response != null || data != null) {
+
+                        table.ajax.reload();
+
+                        Swal.fire({
+                            title: "Firma Silindi",
+                            icon: "success"
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Firma Silinirken Bir Sorun Oluştu",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        })
+    }
+
+    function Save() {
+        swal.fire({
+            title: 'Multiple inputs',
+            html:
+                '<label for="firmaIsimEkle" class="form-label">Firma Adı</label> <input type="text" id="firmaIsimEkle" class= "form-control" value="">' +
+                '<label for="firmaTel" class="form-label">Telefon</label> <input type="text" id="firmaTel" class= "form-control" value="">',
+
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    
+                    resolve([
+                        $('#firmaIsimEkle').val(),
+                        $('#firmaTel').val()
+                    ])
+                })
+            },
+            onOpen: function () {
+                $('#swal-input1').focus()
+            }
+        }).then((result) => {
+            console.log(result);
+
+
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'https://localhost/api/Firma',
+                    crossDomain: true,
+                    method: 'post',
+                    headers: {
+                        'accept': 'text/plain'
+                    },
+                    contentType: 'application/json',
+                    // data: '{\n  "id": "",\n  "firmaAdi": "Firma-1",\n  "firmaTel": "5312854868"\n}',
+                    data: JSON.stringify({
+                        'id': '',
+                        'firmaAdi': $('#firmaIsimEkle').val(),
+                        'firmaTel': $('#firmaTel').val(),
+                    })
+                }).done(function (response) {
+                    if (response != null) {
+                        //Reload/redraw the table with new data
+                        table.ajax.reload();
+
+                        //table = loadTable(); // Yeni tablo oluştur
+                        Swal.fire({
+                            title: "Firma Eklendi",
+                            icon: "success"
+                        });
+                    }
+                });
+
+
+
+                // $.ajax({
+                //     url: 'https://localhost/api/Firma',
+                //     crossDomain: true,
+                //     method: 'post',
+                //     headers: {
+                //         'accept': 'text/plain'
+                //     },
+                //     contentType: 'application/json',
+                //     // data: '{"firmaAdi": "Firma-12"\n}',
+                //     data: JSON.stringify({
+                //         'firmaAdi': result.value,
+                //         'id': ''
+                //     })
+
+                // }).done(function (response) {
+                    // if (response != null) {
+                    //     //Reload/redraw the table with new data
+                    //     table.ajax.reload();
+
+                    //     table = loadTable(); // Yeni tablo oluştur
+                    //     Swal.fire({
+                    //         title: "Firma Eklendi",
+                    //         icon: "success"
+                    //     });
+                    // }
+                // });
+
+
+
+
+
+
+            }
+        });
+    }
+
+
+
+
+
+
 </script>
