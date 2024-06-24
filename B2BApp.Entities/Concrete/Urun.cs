@@ -1,4 +1,5 @@
-﻿using B2BApp.Entities.Abstract;
+﻿
+using B2BApp.Entities.Abstract;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace B2BApp.Entities.Concrete
 {
     public class Urun : BaseModel
     {
-        public ObjectId KategoriId{ get; set; }
+        public string KategoriId{ get; set; }
         public string UrunAdi { get; set; }
         public double Fiyat { get; set; }
     }

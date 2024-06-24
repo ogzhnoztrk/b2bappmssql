@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        public Result<Urun> PostCompany(Urun urun)
+        public Result<Urun> PostUrun(Urun urun)
         {
 
             _urunService.addUrun(urun);
@@ -34,14 +34,30 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
-        public Result<Urun> GetCompany(string id)
+        public Result<Urun> GetUrun(string id)
         {
 
             var urun = _urunService.getUrunById(ObjectId.Parse(id));
             return urun;
         }
+
+        [HttpGet("GetUrunlerWithKategori")]
+        public Result<ICollection<UrunDto>> GetUrunWithKategori()
+        {
+            return _urunService.getAllWithKategoriAdi();
+                
+        
+        }
+        [HttpGet("GetUrunWithKategori")]
+        public Result<UrunDto> GetUrunWithKategori(string id) 
+        {
+            return _urunService.getUrunWithKategori(ObjectId.Parse(id));
+        }
+
+
+
         [HttpGet("all")]
-        public Result<ICollection<Urun>> GetCompany()
+        public Result<ICollection<Urun>> GetUrun()
         {
             var urunlar = _urunService.getAll();
             return urunlar;
@@ -49,18 +65,8 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Urun> UpdateCompany(Urun urun, string urunId)
+        public Result<Urun> UpdateUrun(Urun urun, string urunId)
         {
-
-            //Urun urun = new Urun
-            //{
-            //    Id = ObjectId.Parse(urunDto.BaseObjectId.ToString()),
-            //    KategoriId = ObjectId.Parse(urunDto.KategoriId.ToString()),
-            //    Fiyat = urunDto.Fiyat,
-            //    UrunAdi = urunDto.UrunAdi,
-            //};
-
-
             _urunService.updateUrun(urun, urunId);
             return new Result<Urun>
             {
@@ -71,7 +77,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        public Result<Urun> DeleteCompany(string id)
+        public Result<Urun> DeleteUrun(string id)
         {
             _urunService.deleteUrun(ObjectId.Parse(id));
 
@@ -81,6 +87,9 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+
+
+
 
     }
 }

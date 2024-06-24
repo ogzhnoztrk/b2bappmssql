@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using B2BApp.Entities.Concrete;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,17 @@ namespace B2BApp.DTOs
 {
     public class UrunDto
     {
-        public BaseObjectId BaseObjectId { get; set; }
-        public BaseObjectId KategoriId { get; set; }
+
+        public string Id { get; set; }
         public string UrunAdi { get; set; }
         public double Fiyat { get; set; }
+        public Kategori Kategori { get; set; }
+
+
+
+
+        //public Urun Urun { get; set; }
+        //public Kategori Kategori{ get; set; }
+    
     }
 }

@@ -1,4 +1,5 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DTOs;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
 using System;
@@ -16,9 +17,10 @@ namespace B2BApp.Business.Abstract
         void updateUrun(Urun urunler, string urunId);
         void deleteUrun(ObjectId objectId);
         Result<ICollection<Urun>> getAll();
+        Result<ICollection<UrunDto>> getAllWithKategoriAdi();
+        Result<UrunDto> getUrunWithKategori(ObjectId objectId);
+
         Result<Urun> getUrunById(ObjectId objectId);
-
-
 
     }
 }
