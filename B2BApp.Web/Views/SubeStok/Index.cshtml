@@ -1,68 +1,96 @@
 ﻿@{
     ViewData["Title"] = "Index";
+
 }
 
-<h2>Sube Stoklar</h2>
-<hr />
+<div class="container">
+    <h2>Sube Stoklar</h2>
+    <hr />
 
-<div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni SubeStok</button>
+    <div class="" style="display: flex;justify-content: flex-end;">
+        <button class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
 
+    </div>
+    <br />
+
+
+
+    <table id="subeStokTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Şube Adi</th>
+                <th>Ürün</th>
+                <th>Stok</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+        </tfoot>
+    </table>
 </div>
-<br />
+
+@* Ekleme *@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        Ekle
+    </div>
+</div>
+@* Ekleme *@
+
+@* Guncelleme *@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        Guncelle
+    </div>
+</div>
+@* Guncelleme *@
 
 
-
-<table id="myTable" class="display" style="width:100%">
-    <thead>
-        <tr>
-            <th>Şube Adi</th>
-            <th>Ürün</th>
-            <th>Stok</th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th>Şube Adi</th>
-            <th>Ürün</th>
-            <th>Stok</th>
-            <th></th>
-        </tr>
-    </tfoot>
-</table>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
-<script type="text/javascript"> 
-    $(document).ready(function () {
-        new DataTable('#myTable', {
+<script type="text/javascript">
+    let table;
+    //datatable
+    $(document).ready(function loadTable() {
+        table = $('#subeStokTable').DataTable({
             "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
-            "ajax": '/fakeData/subeStoklar.json',
+            "ajax":
+            {
+                "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrun"
+            },
 
             "columns": [
-                { "data": 'sube_adi' },
-                { "data": 'urun_adi' },
+                { "data": 'sube.subeAdi' },
+                { "data": 'urun.urunAdi' },
                 { "data": 'stok' },
-                {
-                    "data": "id", "render": function (data) {
-                        return `
-                                <div class="w-75 btn-group" role="group">
-                                    <a onClick=Save('/Admin/Product/Upsert?id=${data}')
-                                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                                    <a onClick=Delete('/Admin/Product/Delete/${data}')
-                                        class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                </div>`
-                    }, "width": "25%"
-                },
-            ],
 
+
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return `
+                                                      <div class="w-75 btn-group" role="group">
+                                                                  <a onClick=getUrunInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
+                                                          <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                                      </div>`
+                    },
+                    "width": "20%"
+                },
+            ]
         });
     });
 
@@ -99,5 +127,5 @@
         })
     }
 
-   
+
 </script>

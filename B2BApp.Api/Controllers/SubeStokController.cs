@@ -46,18 +46,21 @@ namespace B2BApp.Api.Controllers
             return subeStoklar;
         }
 
+        [HttpGet("GetWithSubeAndUrun")]
+        public Result<SubeStokDto> GetWithSubeAndUrun(string id)
+        {
+            return _subeStokService.getWithSubeAndUrun(ObjectId.Parse(id));
+        }
+        [HttpGet("GetAllWithSubeAndUrun")]
+        public Result<ICollection<SubeStokDto>> GetAllWithSubeAndUrun()
+        {
+            return _subeStokService.getAllWithSubeAndUrun();
+        }
+
 
         [HttpPut]
         public Result<SubeStok> UpdateCompany(SubeStok subeStok, string subeStokId)
         {
-            //SubeStok subeStok = new SubeStok
-            //{
-            //    Id = ObjectId.Parse(subeStokDto.ObjectId.ToString()),
-            //    SubeId = ObjectId.Parse(subeStokDto.SubeId.ToString()),
-            //    UrunId = ObjectId.Parse(subeStokDto.UrunId.ToString()),
-            //    Stok = subeStokDto.Stok
-            //};
-
 
             _subeStokService.updateSubeStok(subeStok,subeStokId);
             return new Result<SubeStok>

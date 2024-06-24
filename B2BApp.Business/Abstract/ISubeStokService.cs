@@ -1,4 +1,5 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DTOs;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
 using System;
@@ -15,6 +16,8 @@ namespace B2BApp.Business.Abstract
         void updateSubeStok(SubeStok subeStok, string subeStokId);
         void deleteSubeStok(ObjectId objectId);
         Result<ICollection<SubeStok>> getAll();
+        Result<ICollection<SubeStokDto>> getAllWithSubeAndUrun();
+        Result<SubeStokDto> getWithSubeAndUrun(ObjectId objectId);
         Result<SubeStok> getSubeStokById(ObjectId objectId);
     }
 }

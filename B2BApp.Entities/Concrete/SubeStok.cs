@@ -10,8 +10,8 @@ namespace B2BApp.Entities.Concrete
 {
     public class SubeStok : BaseModel
     {
-        public ObjectId SubeId{ get; set; }
-        public ObjectId UrunId { get; set; }
+        public string SubeId{ get; set; }
+        public string UrunId { get; set; }
         public double Stok { get; set; }
     }
 }
