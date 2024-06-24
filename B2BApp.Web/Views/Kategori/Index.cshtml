@@ -72,6 +72,10 @@
     let table;
     $(document).ready(function loadTable() {
         table = $('#myTable').DataTable({
+            "language": {
+                url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+            },
+
             "ajax":
             {
                 "url": "https://localhost/api/kategori/all"

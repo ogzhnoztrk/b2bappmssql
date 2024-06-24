@@ -65,6 +65,10 @@
 
     $(document).ready(function loadTable() {
         table = $('#firmaTable').DataTable({
+            "language": {
+                url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+            },
+
             "ajax":
             {
                 "url": "https://localhost/api/firma/all"
