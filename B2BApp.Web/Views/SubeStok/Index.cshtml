@@ -128,7 +128,7 @@
 
 <script type="text/javascript">
     let table;
-    //datatable
+
     $(document).ready(function loadTable() {
         table = $('#subeStokTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json'},
@@ -199,7 +199,6 @@
         });
     }
 
-
     function save() {
         let subeId = $("#subeSelect").val();
         let urunId = $("#urunSelect").val();
@@ -237,8 +236,8 @@
             }
         });
     }
+  
     function Delete(data) {
-
         Swal.fire({
             title: 'Emin Misiniz?',
             text: "Silindikten Sonra Geri Alamazsınız!",
@@ -391,7 +390,5 @@
         });
 
     }
-
-
 
 </script>
