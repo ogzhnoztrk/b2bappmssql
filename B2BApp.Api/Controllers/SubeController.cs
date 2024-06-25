@@ -41,9 +41,9 @@ namespace B2BApp.Api.Controllers
             return sube;
         }
         [HttpGet("all")]
-        public Result<ICollection<Sube>> GetSube()
+        public Result<ICollection<Sube>> GetAllSube(string? firmaId)
         {
-            var subelar = _subeService.getAll();
+            var subelar = _subeService.getAll(firmaId);
             return subelar;
         }
 
@@ -63,16 +63,6 @@ namespace B2BApp.Api.Controllers
         [HttpPut]
         public Result<Sube> UpdateSube(Sube sube, string subeId)
         {
-
-            //Sube sube = new Sube
-            //{
-            //    Id = ObjectId.Parse(subeDto.ObjectId.ToString()),
-            //    FirmaId = ObjectId.Parse(subeDto.FirmaId.ToString()),
-            //    SubeAdi = subeDto.SubeAdi,
-            //    SubeTel = subeDto.SubeTel,
-                
-            //};
-
 
             _subeService.updateSube(sube, subeId);
             return new Result<Sube>

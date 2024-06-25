@@ -46,11 +46,21 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<ICollection<Sube>> getAll()
+        public Result<ICollection<Sube>> getAll(string? firmaId)
         {
             try
             {
-                return _unitOfWork.Sube.GetAll();
+                if (firmaId == null)
+                {
+                    return _unitOfWork.Sube.GetAll();
+                }
+                else
+                {
+                    return _unitOfWork.Sube.FilterBy(x => x.FirmaId == firmaId);
+                }
+
+
+
             }
             catch (Exception)
             {
