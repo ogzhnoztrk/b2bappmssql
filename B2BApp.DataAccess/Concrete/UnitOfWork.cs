@@ -24,6 +24,7 @@ namespace B2BApp.DataAccess.Concrete
             Sube = new SubeRepository(_settings);
             SubeStok = new SubeStokRepository(_settings);
             Urun = new UrunRepository(_settings);
+            Tedarikci = new TedarikciRepository(_settings);
         }
 
         public IFirmaRepository Firma {get; private set;}
@@ -32,5 +33,6 @@ namespace B2BApp.DataAccess.Concrete
         public ISubeRepository Sube {get; private set;}
         public ISubeStokRepository SubeStok {get; private set;}
         public IUrunRepository Urun {get; private set;}
+        public ITedarikciRepository Tedarikci {get; private set;}
     }
 }

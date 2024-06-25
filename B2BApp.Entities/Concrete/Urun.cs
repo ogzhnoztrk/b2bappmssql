@@ -14,6 +14,7 @@ namespace B2BApp.Entities.Concrete
     {
         public string KategoriId{ get; set; }
         public string UrunAdi { get; set; }
+        public string TedarikciId { get; set; }
         public double Fiyat { get; set; }
     }
 }

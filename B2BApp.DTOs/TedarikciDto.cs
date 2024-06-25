@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace B2BApp.Entities
+namespace B2BApp.DTOs
 {
-    public class Tedarikci
+    public class TedarikciDto
     {
-        public string TedarikciAdi { get; set; }
     }
 }

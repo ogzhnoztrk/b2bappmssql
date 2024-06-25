@@ -14,5 +14,6 @@ namespace B2BApp.DataAccess.Abstract
         public ISubeRepository Sube { get; }
         public ISubeStokRepository SubeStok { get; }
         public IUrunRepository Urun { get; }
+        public ITedarikciRepository Tedarikci { get; }
     }
 }

@@ -15,6 +15,7 @@ builder.Services.AddSingleton<ISatisService, SatisService>();
 builder.Services.AddSingleton<ISubeService, SubeService>();
 builder.Services.AddSingleton<IUrunService, UrunService>();
 builder.Services.AddSingleton<ISubeStokService, SubeStokService>();
+builder.Services.AddSingleton<ITedarikciService, TedarikciService>();
 
 
 // Tüm originlere izin verin (Sadece geliþtirme için)
