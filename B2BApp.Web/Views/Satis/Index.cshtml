@@ -1,108 +1,441 @@
 ﻿@{
     ViewData["Title"] = "Index";
+
 }
 
-<h2>Satislar</h2>
-<hr />
+<div class="container">
+    <h2>Satışlar</h2>
+    <hr />
 
-<div class="" style="display: flex;justify-content: flex-end;">
-    <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Satis</button>
+    <div class="" style="display: flex;justify-content: flex-end;">
+        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
 
+    </div>
+    <br />
+
+
+
+    <table id="satislarTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Şube Adi</th>
+                <th>Ürün</th>
+                <th>Satış Miktarı</th>
+                <th>Toplam</th>
+                <th>Tarih</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+        </tfoot>
+    </table>
 </div>
-<br />
+
+@* Ekleme *@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="container">
+
+
+            <br />
+
+            <div class="input-group">
+                <label for="subeSelect" class="form-label" style="margin-right: 10px;">Sube: </label> <select id="subeSelect" placeholder='select item'></select>
+            </div>
+            <br />
+
+            <div class="input-group">
+                <label for="urunSelect" class="form-label" style="margin-right: 10px;">Urun: </label> <select class="select2" id="urunSelect" placeholder='select item'></select>
+            </div>
+            <br />
+
+            <div class="input-group">
+                <label for="satisMiktari" class="form-label" style="margin-right: 10px;">Satış:</label>
+                <input type="number" id="satisMiktari" class="form-control" value="">
+            </div>
+            <br />
+            <div class="input-group">
+                <label for="satisTarihi" class="form-label" style="margin-right: 10px;">Tarih:</label>
+                <input type="datetime-local" id="satisTarihi" class="form-control" value="">
+            </div>
+            <br />
+
+
+            <div style="display: flex;justify-content: flex-end;">
+                <button onclick=save() class="btn btn-secondary">Kaydet</button>
+            </div>
+
+        </div>
 
 
 
-<table id="myTable" class="display" style="width:100%">
-    <thead>
-        <tr>
-            <th>Şube Adi</th>
-            <th>Ürün Adi</th>
-            <th>Satış Miktarı</th>
-            <th>Satış Tarihi</th>
-            <th>Toplam</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th>Şube Adi</th>
-            <th>Ürün Adi</th>
-            <th>Satış Miktarı</th>
-            <th>Satış Tarihi</th>
-            <th>Toplam</th>
-            <th></th>
-        </tr>
-    </tfoot>
-</table>
+
+    </div>
+</div>
+@* Ekleme *@
+
+@* Guncelleme *@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissButton"></button>
+    </div>
+    <div class="offcanvas-body">
+
+
+       <div class="container">
+
+                       <label type="text" id="satisId" value="" hidden></label>
+
+            <br />
+
+            <div class="input-group">
+                <label for="subeSelectUpdate" class="form-label" style="margin-right: 10px;">Sube: </label> <select id="subeSelectUpdate" placeholder='select item'></select>
+            </div>
+            <br />
+
+            <div class="input-group">
+                <label for="urunSelectUpdate" class="form-label" style="margin-right: 10px;">Urun: </label> <select class="select2" id="urunSelectUpdate" placeholder='select item'></select>
+            </div>
+            <br />
+
+            <div class="input-group">
+                <label for="satisMiktariUpdate" class="form-label" style="margin-right: 10px;">Satış:</label>
+                <input type="number" id="satisMiktariUpdate" class="form-control" value="">
+            </div>
+            <br />
+            <div class="input-group">
+                <label for="satisTarihiUpdate" class="form-label" style="margin-right: 10px;">Tarih:</label>
+                <input type="datetime-local" id="satisTarihiUpdate" class="form-control" value="">
+            </div>
+            <br />
+
+
+            <div style="display: flex;justify-content: flex-end;">
+                <button onclick=update() class="btn btn-secondary">Kaydet</button>
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+@* Guncelleme *@
+
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+@* select2 kullanımı *@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
 <script type="text/javascript">
-    $(document).ready(function () {
-        new DataTable('#myTable', {
-            "language": {
-                url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
-            },
-            "ajax": '/fakeData/satis.json',
+    let table;
 
+    $(document).ready(function loadTable() {
+        table = $('#satislarTable').DataTable({
+            "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+            "ajax": { "url": "https://localhost/api/Satis/getAllWithUrunAndSube" },
             "columns": [
-                { "data": 'subeAdi' },
-                { "data": 'urunAdi' },
+                { "data": 'sube.subeAdi' },
+                { "data": 'urun.urunAdi' },
                 { "data": 'satisMiktari' },
-                { "data": 'satisTarihi' },
-                { "data": 'toplamFiyati' },
-                {
-                    "data": "id", "render": function (data) {
-                        return `
-                                <div class="w-75 btn-group" role="group">
-                                    <a onClick=Save('/Admin/Product/Upsert?id=${data}')
-                                        class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                                    <a onClick=Delete('/Admin/Product/Delete/${data}')
-                                        class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                </div>`
-                    }, "width": "25%"
-                },
-            ],
+                { "data": 'toplam' },
+                { "data": 'satisTarihi',
+                    "render" : function(data){
+                        // JavaScript Date objesine dönüştürme
+                        var tarih = new Date(data);
 
+                        // Tarih bilgilerini alıyoruz
+                        var yil = tarih.getFullYear();
+                        var ay = ('0' + (tarih.getMonth() + 1)).slice(-2); // Ayı 2 basamaklı olarak almak için
+                        var gun = ('0' + tarih.getDate()).slice(-2); // Günü 2 basamaklı olarak almak için
+                        var saat = ('0' + tarih.getHours()).slice(-2); // Saati 2 basamaklı olarak almak için
+                        var dakika = ('0' + tarih.getMinutes()).slice(-2); // Dakikayı 2 basamaklı olarak almak için
+                      
+
+                        // Yıl/ay/gün - saat formatında birleştirme
+                        var formatliTarih = yil + '/' + ay + '/' + gun + ' - ' + saat + ':' + dakika;
+
+                        //console.log(formatliTarih); // Örneğin: "2024/06/25 - 06:05:00"
+                        return formatliTarih;
+                    }
+                },
+                { "data": "id",
+                    "render": function (data) {
+                        return `
+                         <div class="w-75 btn-group" role="group">
+                               <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
+                               <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                         </div>`
+                    },
+                    "width": "20%"
+                },
+            ]
         });
     });
 
-    function Delete(url) {
+    function loadData() {
+
+        $("#satisTarihi").val(new Date().toISOString().slice(0, 16));
+
+        $.ajax({
+            url: 'https://localhost/api/Sube/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            }
+        }).done(function (response) {
+            result = $.map(response.data, function (data) {
+                return {
+                    id: data.id,
+                    text: data.subeAdi
+                };
+            });
+
+            $("#subeSelect").select2({
+                placeholder: "Şubeler",
+                data: result,
+                width: 200,
+
+            });
+
+        });
+        $.ajax({
+            url: 'https://localhost/api/urun/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            }
+        }).done(function (response) {
+            result = $.map(response.data, function (data) {
+                return {
+                    id: data.id,
+                    text: data.urunAdi
+                };
+            });
+
+            $("#urunSelect").select2({
+                placeholder: "Urunler",
+                data: result,
+                width: 200,
+
+            });
+
+        });
+    }
+
+    function save() {
+        let subeId = $("#subeSelect").val();
+        let urunId = $("#urunSelect").val();
+        let satisMiktari = $("#satisMiktari").val();
+        let satisTarihi = $("#satisTarihi").val();
+
+
+        $.ajax({
+          url: 'https://localhost/api/Satis',
+          crossDomain: true,
+          method: 'post',
+          headers: {
+            'accept': 'text/plain'
+          },
+          contentType: 'application/json',
+          // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "satisMiktari": 0,\n  "satisTarihi": "2024-06-25T08:55:04.216Z",\n  "toplam": 0\n}',
+          data: JSON.stringify({
+            'id': '',
+            'subeId': subeId,
+            'urunId': urunId,
+            'satisMiktari': satisMiktari,
+            'satisTarihi': satisTarihi,
+            'toplam': 0
+          })
+        }).done(function (response) {
+            if (response != null) {
+                //Reload/redraw the table with new data
+                table.ajax.reload();
+
+                Swal.fire({
+                    title: "Urun Eklendi",
+                    icon: "success"
+                });
+            } else {
+                Swal.fire({
+                    title: "Urun Eklenirken Bir Sorun Oluştu",
+                    icon: "error"
+                });
+            }
+        });
+    }
+
+    function Delete(data) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'Emin Misiniz?',
+            text: "Silindikten Sonra Geri Alamazsınız!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            cancelButtonText: "Geri",
+            confirmButtonText: 'Evet Sil'
         }).then((result) => {
             if (result.isConfirmed) {
+
                 $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    success: function (data) {
-                        if (data.success) {
-                            Swal.fire({
-                                title: "Satis Silindi",
-                                icon: "success"
-                            });
-                        }
-                        else {
-                            Swal.fire({
-                                title: "Satis Silinirken Bir Sorun Oluştu",
-                                icon: "error"
-                            });
-                        }
+                    url: 'https://localhost/api/SubeStok?id=' + data,
+                    crossDomain: true,
+                    method: 'delete',
+                    headers: {
+                        'accept': 'text/plain'
                     }
-                })
+                }).done(function (response) {
+                    console.log(response);
+                    if (response != null || data != null) {
+
+                        table.ajax.reload();
+
+                        Swal.fire({
+                            title: "Urun Silindi",
+                            icon: "success"
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Urun Silinirken Bir Sorun Oluştu",
+                            icon: "error"
+                        });
+                    }
+                });
             }
         })
     }
 
-   
+    function loadForUpdate(data) {
+        $.ajax({
+            url: 'https://localhost/api/satis/GetWithUrunAndSube',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain'
+            },
+            data: {
+                'id': data
+            }
+        }).done(function (response) {
+            //Subeler ve Urunler
+            // Subeler
+            $.ajax({
+                url: 'https://localhost/api/Sube/all',
+                crossDomain: true,
+                headers: {
+                    'accept': 'text/plain'
+                }
+            }).done(function (response) {
+                result = $.map(response.data, function (data) {
+                    return {
+                        id: data.id,
+                        text: data.subeAdi
+                    };
+                });
+
+                $("#subeSelectUpdate").select2({
+                    placeholder: "Şubeler",
+                    data: result,
+                    width: 200,
+
+                });
+
+            });
+
+            //urunler
+            $.ajax({
+                url: 'https://localhost/api/urun/all',
+                crossDomain: true,
+                headers: {
+                    'accept': 'text/plain'
+                }
+            }).done(function (response) {
+                result = $.map(response.data, function (data) {
+                    return {
+                        id: data.id,
+                        text: data.urunAdi
+                    };
+                });
+
+                $("#urunSelectUpdate").select2({
+                    placeholder: "Urunler",
+                    data: result,
+                    width: 200,
+
+                });
+
+            });
+
+            //burada guncel verileri atayacağız
+            $("#subeSelectUpdate").val(response.data.sube.id).trigger('change');
+            $("#urunSelectUpdate").val(response.data.urun.id).trigger('change');
+            $("#satisMiktariUpdate").val(response.data.satisMiktari);
+            $("#satisTarihiUpdate").val( new Date(response.data.satisTarihi).toISOString().slice(0, 16));
+            $("#satisId").val(response.data.id);
+
+
+
+
+        });
+
+
+
+
+
+    }
+
+    function update() {
+        //burada guncel verileri alacağız
+        var subeSelectId = $("#subeSelectUpdate").val();
+        var urunSelectId = $("#urunSelectUpdate").val();
+        var satisMiktari = $("#satisMiktariUpdate").val();
+        var satisTarihi = $("#satisTarihiUpdate").val();
+        var Id = $("#satisId").val();
+        
+
+        $.ajax({
+          url: 'https://localhost/api/Satis?satisId=' +Id,
+          crossDomain: true,
+          method: 'put',
+          headers: {
+            'accept': 'text/plain'
+          },
+          contentType: 'application/json',
+          data: JSON.stringify({
+            'id': Id,
+            'subeId': subeSelectId,
+            'urunId': urunSelectId,
+            'satisMiktari': satisMiktari,
+            'satisTarihi': satisTarihi,
+            'toplam': 0
+          })
+        }).done(function (response) {
+
+            $("#dismissButton").click()
+            //Reload/redraw the table with new data
+            table.ajax.reload();
+
+            Swal.fire({
+                title: "Satış Güncellendi",
+                icon: "success"
+            });
+
+
+        });
+
+    }
+
 </script>

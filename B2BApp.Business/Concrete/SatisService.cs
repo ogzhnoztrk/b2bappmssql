@@ -1,4 +1,5 @@
 ﻿using B2BApp.DataAccess.Abstract;
+using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
-    public class SatisService :ISatisService
+    public class SatisService : ISatisService
     {
         private readonly IUnitOfWork _unitOfWork;
         public SatisService(IUnitOfWork unitOfWork)
@@ -19,11 +20,26 @@ namespace B2BApp.Business.Abstract
         }
 
 
-        public void addSatis(Satis Satis)
+        public void addSatis(Satis satis)
         {
             try
             {
-                _unitOfWork.Satis.InsertOne(Satis);
+                var urun = _unitOfWork.Urun.GetById(satis.UrunId).Data;
+
+                var toplam = urun.Fiyat * satis.SatisMiktari;
+
+                var satisSon = new Satis
+                {
+                    SatisMiktari = satis.SatisMiktari,
+                    SatisTarihi = satis.SatisTarihi,
+                    SubeId = satis.SubeId,
+                    Toplam = toplam,
+                    UrunId = satis.UrunId,
+                    Id = satis.Id
+                     
+                };
+
+                _unitOfWork.Satis.InsertOne(satisSon);
             }
             catch (Exception)
             {
@@ -58,6 +74,32 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+        public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
+        {
+            var satislar = _unitOfWork.Satis.GetAll().Data;
+
+            var satisDTOs = new List<SatisDto>();
+
+            foreach (var satis in satislar)
+            {
+                var satisDto = new SatisDto
+                {
+                    Id = satis.Id,
+                    SatisMiktari = satis.SatisMiktari,
+                    SatisTarihi = satis.SatisTarihi,
+                    Toplam= satis.Toplam,
+                    Sube = _unitOfWork.Sube.GetById(satis.SubeId).Data,
+                    Urun = _unitOfWork.Urun.GetById(satis.UrunId).Data,
+                    
+                };
+                satisDTOs.Add(satisDto);
+            }
+
+            var result = new Result<ICollection<SatisDto>> {Data = satisDTOs, Message = "Satışlar getirildi", StatusCode=200,Time=DateTime.Now };
+
+            return result;
+        }
+
         public Result<Satis> getSatisById(ObjectId objectId)
         {
             try
@@ -72,11 +114,44 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public void updateSatis(Satis Satis, string satisId)
+        public Result<SatisDto> getWithUrunAndSube(ObjectId objectId)
+        {
+            var satis = _unitOfWork.Satis.GetById(objectId.ToString()).Data;
+            var sube = _unitOfWork.Sube.GetById(satis.SubeId).Data;
+            var urun = _unitOfWork.Urun.GetById(satis.UrunId).Data;
+
+            var result = new Result<SatisDto> { 
+                Data = new SatisDto { Id = satis.Id, Urun = urun, Sube =sube, SatisMiktari=satis.SatisMiktari, SatisTarihi = satis.SatisTarihi, Toplam=satis.Toplam },
+                Message = "Satis bilgileri getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now,
+            };
+
+
+            return result;
+        }
+
+        public void updateSatis(Satis satis, string satisId)
         {
             try
             {
-                _unitOfWork.Satis.ReplaceOne(Satis, Satis.Id.ToString());
+                var urun = _unitOfWork.Urun.GetById(satis.UrunId).Data;
+
+                var toplam = urun.Fiyat * satis.SatisMiktari;
+
+                var satisSon = new Satis
+                {
+                    SatisMiktari = satis.SatisMiktari,
+                    SatisTarihi = satis.SatisTarihi,
+                    SubeId = satis.SubeId,
+                    Toplam = toplam,
+                    UrunId = satis.UrunId,
+                    Id = satis.Id
+
+                };
+
+
+                _unitOfWork.Satis.ReplaceOne(satisSon, satis.Id.ToString());
             }
             catch (Exception)
             {

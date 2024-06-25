@@ -39,6 +39,7 @@ namespace B2BApp.Api.Controllers
             var satis = _satisService.getSatisById(ObjectId.Parse(id));
             return satis;
         }
+
         [HttpGet("all")]
         public Result<ICollection<Satis>> GetCompany()
         {
@@ -46,24 +47,23 @@ namespace B2BApp.Api.Controllers
             return satislar;
         }
 
+        [HttpGet("getWithUrunAndSube")]
 
+        public Result<SatisDto> getWithUrunAndSube(string id)
+        {
+            return _satisService.getWithUrunAndSube(ObjectId.Parse(id));
+        }
+
+        [HttpGet("getAllWithUrunAndSube")]
+
+        public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
+        {
+            return _satisService.getAllWithUrunAndSube();
+        }
 
         [HttpPut]
         public Result<Satis> UpdateCompany(Satis satis,  string satisId)
         {
-            //Satis satis = new Satis 
-            //{
-            //    Id = ObjectId.Parse(satisDto.ObjectId.ToString()) ,
-            //    SubeId = ObjectId.Parse(satisDto.SubeId.ToString()),
-            //    UrunId = ObjectId.Parse(satisDto.UrunId.ToString()),
-            //    SatisMiktari = satisDto.SatisMiktari,
-            //    SatisTarihi = satisDto.SatisTarihi,
-            //    Toplam = satisDto.Toplam,
-                
-            //};
-
-
-
             _satisService.updateSatis(satis, satisId);
             return new Result<Satis>
             {

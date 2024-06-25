@@ -1,4 +1,5 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DTOs;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
 using System;
@@ -15,6 +16,8 @@ namespace B2BApp.Business.Abstract
         void updateSatis(Satis satis, string satisId);
         void deleteSatis(ObjectId objectId);
         Result<ICollection<Satis>> getAll();
+        Result<ICollection<SatisDto>> getAllWithUrunAndSube();
+        Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
         Result<Satis> getSatisById(ObjectId objectId);
     }
 }
