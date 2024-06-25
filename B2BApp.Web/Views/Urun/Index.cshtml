@@ -35,7 +35,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" >
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Urun Güncelle</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissBUton"></button>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissButton"></button>
     </div>
     <div class="offcanvas-body">
         <label type="text" id="urunId" value="" hidden></label>
@@ -142,7 +142,7 @@
         let yeniUrunFiyat = $("#urunFiyat").val();
         let yeniKategoriId = $("#categorySelectDrawer").val();
         let id = $("#urunId").val();
-        debugger;
+        
 
         $.ajax({
             url: 'https://localhost/api/Urun?urunId=' + id,
@@ -160,7 +160,7 @@
             })
         }).done(function (response) {
 
-            $("#dismissBUton").click()
+            $("#dismissButton").click()
             //Reload/redraw the table with new data
             table.ajax.reload();
 
