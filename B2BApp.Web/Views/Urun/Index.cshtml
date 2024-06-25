@@ -1,5 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@{    
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
@@ -81,12 +80,15 @@
     //datatable
     $(document).ready(function loadTable() {
         
-        table = $('#urunTable').DataTable({
-            layout: {
-        topStart: {
-            buttons: ['excel', 'pdf', 'print']
-        }
-    },
+            table = $('#urunTable').DataTable({
+            "language": {
+                url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+            },
+            "layout": {
+                topStart: {
+                    buttons: ['excel', 'pdf', 'print']
+                }
+            },
 
             "ajax":
             {
