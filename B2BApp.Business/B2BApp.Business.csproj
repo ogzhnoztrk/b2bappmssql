@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\B2BApp.DataAccess\B2BApp.DataAccess.csproj" />
     <ProjectReference Include="..\B2BApp.DTOs\B2BApp.DTOs.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using B2BApp.DataAccess.Abstract;
+using B2BApp.Entities;
 using Core.Models.Concrete.DbSettingsModel;
 using DataAccess.Context;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,7 @@ namespace B2BApp.DataAccess.Concrete
             SubeStok = new SubeStokRepository(_settings);
             Urun = new UrunRepository(_settings);
             Tedarikci = new TedarikciRepository(_settings);
+            Kullanici = new UserRepository(_settings);
         }
 
         public IFirmaRepository Firma {get; private set;}
@@ -34,5 +36,6 @@ namespace B2BApp.DataAccess.Concrete
         public ISubeStokRepository SubeStok {get; private set;}
         public IUrunRepository Urun {get; private set;}
         public ITedarikciRepository Tedarikci {get; private set;}
+        public IUserRepository Kullanici { get; private set;}
     }
 }

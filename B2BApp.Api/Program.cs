@@ -1,8 +1,12 @@
 using B2BApp.Business.Abstract;
+using B2BApp.Business.Concrete;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,10 @@ builder.Services.AddSingleton<ISubeStokService, SubeStokService>();
 builder.Services.AddSingleton<ITedarikciService, TedarikciService>();
 
 
+builder.Services.AddSingleton<IKullaniciService, KullaniciService>();
+builder.Services.AddSingleton<IAuthService, AuthService>();
+
+
 // Tüm originlere izin verin (Sadece geliþtirme için)
 builder.Services.AddCors(options =>
 {
@@ -31,6 +39,29 @@ builder.Services.AddCors(options =>
                    ;
         });
 });
+
+//JwtBearer token ile ilgili ayarlar
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+        (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+    };
+});
+
+
 
 
 
