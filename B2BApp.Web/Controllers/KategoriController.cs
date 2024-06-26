@@ -10,6 +10,7 @@ namespace B2BApp.Web.Controllers
         // GET: KategoriController
         public ActionResult Index()
         {
+
             return View();
         }
 

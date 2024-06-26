@@ -17,8 +17,8 @@ namespace B2BApp.Business.Abstract
         void updateUrun(Urun urunler, string urunId);
         void deleteUrun(ObjectId objectId);
         Result<ICollection<Urun>> getAll();
-        Result<ICollection<UrunDto>> getAllWithKategoriAdi();
-        Result<UrunDto> getUrunWithKategori(ObjectId objectId);
+        Result<ICollection<UrunDto>> getAllWithKategoriAdiAndTedarikci();
+        Result<UrunDto> getUrunWithKategoriAndTedarikci(ObjectId objectId);
 
         Result<Urun> getUrunById(ObjectId objectId);
 

@@ -72,7 +72,7 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public Result<ICollection<UrunDto>> getAllWithKategoriAdi()
+        public Result<ICollection<UrunDto>> getAllWithKategoriAdiAndTedarikci()
         {
             try
             {
@@ -85,20 +85,19 @@ namespace B2BApp.Business.Abstract
                     {
 
                         var kategori = _unitOfWork.Kategori.GetById(urun.KategoriId).Data;
+                        var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
                         var urunDto = new UrunDto
                         {
-                        Kategori = kategori,
-                        Fiyat = urun.Fiyat,
-                        Id = urun.Id,
-                        UrunAdi = urun.UrunAdi
+                            Kategori = kategori,
+                            Fiyat = urun.Fiyat,
+                            Id = urun.Id,
+                            UrunAdi = urun.UrunAdi,
+                            Tedarikci = tedarikci
+                            
                         };
                         urunDtos.Add(urunDto);
                     }
                 }
-
-
-            
-
                 var result = new Result<ICollection<UrunDto>>
                 {
                     Data = urunDtos,
@@ -131,19 +130,31 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<UrunDto> getUrunWithKategori(ObjectId objectId)
+        public Result<UrunDto> getUrunWithKategoriAndTedarikci(ObjectId objectId)
         {
             try
             {
                 var urun = _unitOfWork.Urun.GetById(objectId.ToString()).Data;
                 var kategori = _unitOfWork.Kategori.GetById(urun.KategoriId.ToString()).Data;
+                var tedarikci = new Tedarikci();
+                if (urun.TedarikciId !=null)
+                {
+                    tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId.ToString()).Data;
+
+                }
+                else
+                {
+                    tedarikci = new() { Id = ObjectId.GenerateNewId().ToString(), TedarikciAdi = "AA" , TedarikciTel = "00"};
+                        
+
+                }
 
 
 
 
                 var result = new Result<UrunDto>
                 {
-                    Data = new UrunDto { Id = urun.Id, Fiyat= urun.Fiyat, UrunAdi= urun.UrunAdi, Kategori = kategori},
+                    Data = new UrunDto { Id = urun.Id, Fiyat= urun.Fiyat, UrunAdi= urun.UrunAdi, Kategori = kategori,Tedarikci = tedarikci},
                     Message = "Ürün Kategori Bilgileri İle Getirildi",
                     StatusCode = 200,
                     Time = DateTime.Now,

@@ -15,12 +15,12 @@ namespace B2BApp.DTOs
         public string UrunAdi { get; set; }
         public double Fiyat { get; set; }
         public Kategori Kategori { get; set; }
-
+        public Tedarikci Tedarikci { get; set; }
 
 
 
         //public Urun Urun { get; set; }
         //public Kategori Kategori{ get; set; }
-    
+
     }
 }

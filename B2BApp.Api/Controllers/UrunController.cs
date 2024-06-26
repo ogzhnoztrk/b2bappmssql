@@ -44,14 +44,14 @@ namespace B2BApp.Api.Controllers
         [HttpGet("GetUrunlerWithKategori")]
         public Result<ICollection<UrunDto>> GetUrunWithKategori()
         {
-            return _urunService.getAllWithKategoriAdi();
+            return _urunService.getAllWithKategoriAdiAndTedarikci();
                 
         
         }
         [HttpGet("GetUrunWithKategori")]
         public Result<UrunDto> GetUrunWithKategori(string id) 
         {
-            return _urunService.getUrunWithKategori(ObjectId.Parse(id));
+            return _urunService.getUrunWithKategoriAndTedarikci(ObjectId.Parse(id));
         }
 
 

@@ -8,6 +8,7 @@ namespace B2BApp.Web.Controllers
         // GET: UrunController
         public ActionResult Index()
         {
+
             return View();
         }
 
