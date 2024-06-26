@@ -1,9 +1,11 @@
 ﻿using B2BApp.Business.Abstract;
 using B2BApp.DTOs;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
+using System.Net;
 
 namespace B2BApp.Api.Controllers
 {
@@ -24,9 +26,20 @@ namespace B2BApp.Api.Controllers
         }      
         
         [HttpPost("login")]
-        public Result<KullaniciGirisDto> login(KullaniciGirisDto kullaniciGirisDto)
+        public Result<string> login(KullaniciGirisDto kullaniciGirisDto)
         {
-            return _authService.Login(kullaniciGirisDto);
+            var login = _authService.Login(kullaniciGirisDto);
+
+            if (login.StatusCode == 400) 
+            {
+                return new Result<string>(200,"Giriş Yapılamadı","Giriş Yapılırken Bir Sorun Oluştu",DateTime.Now);
+            }
+
+            //burada token oluşturulacak ve token döndürülecek
+
+
+
+            return _authService.GenerateToken(login.Data);
         }
 
     }

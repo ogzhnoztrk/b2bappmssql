@@ -1,5 +1,6 @@
 using B2BApp.Business.Abstract;
 using B2BApp.Business.Concrete;
+using B2BApp.Core.Utilities.Helpers.Security;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
@@ -40,6 +41,18 @@ builder.Services.AddCors(options =>
         });
 });
 
+
+
+
+
+//jwt ile ilgili ayarlar
+builder.Services.Configure<JwtModel>(o =>
+{
+    o.Issuer = builder.Configuration["Jwt:Issuer"];
+    o.Audience = builder.Configuration["Jwt:Audience"];
+    o.Key = builder.Configuration["Jwt:Key"];
+});
+
 //JwtBearer token ile ilgili ayarlar
 builder.Services.AddAuthentication(options =>
 {
@@ -49,7 +62,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(o =>
 {
     o.TokenValidationParameters = new TokenValidationParameters
-    {
+    {   
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey
