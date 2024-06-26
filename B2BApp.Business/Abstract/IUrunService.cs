@@ -19,6 +19,7 @@ namespace B2BApp.Business.Abstract
         Result<ICollection<Urun>> getAll();
         Result<ICollection<UrunDto>> getAllWithKategoriAdiAndTedarikci();
         Result<UrunDto> getUrunWithKategoriAndTedarikci(ObjectId objectId);
+        Result<ICollection<UrunDto>> getUrunlerWithDetailsByTedarikciId(string tedarikciId);
 
         Result<Urun> getUrunById(ObjectId objectId);
 

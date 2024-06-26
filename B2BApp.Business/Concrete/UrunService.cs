@@ -170,5 +170,50 @@ namespace B2BApp.Business.Abstract
                 throw;
             }
         }
+
+        public Result<ICollection<UrunDto>> getUrunlerWithDetailsByTedarikciId(string tedarikciId)
+        {
+            try
+            {
+                var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+                var urunDtos = new List<UrunDto>();
+
+                if (urunler != null)
+                {
+                    foreach (var urun in urunler)
+                    {
+
+                        var kategori = _unitOfWork.Kategori.GetById(urun.KategoriId).Data;
+                        var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+                        var urunDto = new UrunDto
+                        {
+                            Kategori = kategori,
+                            Fiyat = urun.Fiyat,
+                            Id = urun.Id,
+                            UrunAdi = urun.UrunAdi,
+                            Tedarikci = tedarikci
+
+                        };
+                        urunDtos.Add(urunDto);
+                    }
+                }
+                var result = new Result<ICollection<UrunDto>>
+                {
+                    Data = urunDtos,
+                    Message = "Ürün Kategori  Bilgileri İle Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+
+
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

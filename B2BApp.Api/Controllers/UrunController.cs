@@ -48,6 +48,15 @@ namespace B2BApp.Api.Controllers
                 
         
         }
+                [HttpGet("GetUrunlerWithDetailsByTedarikciId")]
+        public Result<ICollection<UrunDto>> GetUrunlerWithDetailsByTedarikciId(string tedarikciId)
+        {
+            return _urunService.getUrunlerWithDetailsByTedarikciId(tedarikciId);
+                
+        
+        }
+
+
         [HttpGet("GetUrunWithKategori")]
         public Result<UrunDto> GetUrunWithKategori(string id) 
         {
