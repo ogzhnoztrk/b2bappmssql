@@ -86,6 +86,36 @@ namespace B2BApp.Business.Abstract
             return result;
         }
 
+        public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId(string tedarikciId)
+        {
+            var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+            var sube = _unitOfWork.Sube.GetAll().Data;
+            var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
+
+            var subeStokDTOs = (from urun in urunler
+                        join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
+                        where urun.TedarikciId == tedarikciId
+                        join sub in sube on subeStok.SubeId equals sub.Id
+                        select new SubeStokDto
+                        {
+                            id = tedarikciId,
+                            Stok = subeStok.Stok,
+                            Sube = sub,
+                            Urun = urun,
+
+                        }).ToList();
+
+            var result = new Result<ICollection<SubeStokDto>>
+            {
+                Data = subeStokDTOs,
+                Message = "Şubelerin Stokları Detayları İle Getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now,
+            };
+            return result;
+
+        }
+
         public Result<SubeStok> getSubeStokById(ObjectId objectId)
         {
             try

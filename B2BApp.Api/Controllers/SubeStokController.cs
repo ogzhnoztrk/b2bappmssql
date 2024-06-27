@@ -51,6 +51,14 @@ namespace B2BApp.Api.Controllers
         {
             return _subeStokService.getWithSubeAndUrun(ObjectId.Parse(id));
         }
+        [HttpGet("GetAllWithSubeAndUrunByTedarikciId")]
+
+        public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId(string tedarikciId) 
+        { 
+            return _subeStokService.getAllWithSubeAndUrunByTedarikciId(tedarikciId); 
+        }
+
+
         [HttpGet("GetAllWithSubeAndUrun")]
         public Result<ICollection<SubeStokDto>> GetAllWithSubeAndUrun()
         {
