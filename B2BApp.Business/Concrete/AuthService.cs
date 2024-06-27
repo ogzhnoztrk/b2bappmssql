@@ -88,7 +88,7 @@ namespace B2BApp.Business.Concrete
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, kullaniciAdi),
-                new Claim("edarikci_id", tedarikciId),
+                new Claim(ClaimTypes.Role, tedarikciId),
             };
 
             // JWT'nin oluşturulması
