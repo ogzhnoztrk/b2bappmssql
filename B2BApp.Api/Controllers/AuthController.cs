@@ -32,7 +32,7 @@ namespace B2BApp.Api.Controllers
 
             if (login.StatusCode == 400) 
             {
-                return new Result<string>(200,"Giriş Yapılamadı","Giriş Yapılırken Bir Sorun Oluştu",DateTime.Now);
+                return new Result<string>(400,"Giriş Yapılamadı","Giriş Yapılırken Bir Sorun Oluştu",DateTime.Now);
             }
 
             //burada token oluşturulacak ve token döndürülecek

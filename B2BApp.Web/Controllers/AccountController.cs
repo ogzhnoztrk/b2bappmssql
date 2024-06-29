@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using System.IdentityModel.Tokens.Jwt;
 
 
 
@@ -15,7 +16,21 @@ namespace B2BApp.Web.Controllers
     {
         public IActionResult Login()
         {
-
+            //çerezler içerisinde jwt var mı kontrol et
+            if (Request.Cookies["jwt"] != null)
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = (handler.ReadToken(Request.Cookies["jwt"]) as JwtSecurityToken);
+                var exp = jsonToken.Claims.First(q => q.Type.Equals("exp")).Value;
+                var ticks = long.Parse(exp);
+                var tokenDate = DateTimeOffset.FromUnixTimeSeconds(ticks).UtcDateTime;
+                var now = DateTime.Now.ToUniversalTime();
+                // JWT'yi çözme eğer jwt suresi dolmamış ise direk yonlendir
+                if ((tokenDate >= now))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
 
 
@@ -41,20 +56,28 @@ namespace B2BApp.Web.Controllers
 
             // JSON string'ini ayrıştır
             var jsonObject = JObject.Parse(responseBody);
+            
+            
 
-            // "data" alanını al
-            string data = jsonObject["data"].ToString();
-
-            Response.Cookies.Append("jwt", data, new CookieOptions
+            if (jsonObject["statusCode"].ToString() != "400")
             {
-                HttpOnly = true, // Cookie'ye JavaScript erişimini engeller
-                Secure = true,   // Sadece HTTPS üzerinden iletilir
-                SameSite = SameSiteMode.Strict, // CSRF saldırılarını önlemek için güçlendirilmiş güvenlik
-                Expires = DateTime.UtcNow.AddDays(1) // Cookie'nin son kullanma tarihi 
-            });
+                // "data" alanını al
+                string data = jsonObject["data"].ToString();
 
+                Response.Cookies.Append("jwt", data, new CookieOptions
+                {
+                    HttpOnly = true, // Cookie'ye JavaScript erişimini engeller
+                    Secure = true,   // Sadece HTTPS üzerinden iletilir
+                    SameSite = SameSiteMode.Strict, // CSRF saldırılarını önlemek için güçlendirilmiş güvenlik
+                    Expires = DateTime.UtcNow.AddDays(1) // Cookie'nin son kullanma tarihi 
 
-            return Ok();
+                });
+                return RedirectToAction("login");
+
+            }
+
+            return RedirectToAction("login");
+
         }
 
 
