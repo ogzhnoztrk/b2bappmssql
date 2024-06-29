@@ -2,6 +2,7 @@
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -10,6 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles = "")]
     public class UrunController : ControllerBase
     {
 
@@ -22,6 +24,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
+
         public Result<Urun> PostUrun(Urun urun)
         {
 
@@ -34,6 +37,7 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
+
         public Result<Urun> GetUrun(string id)
         {
 
@@ -42,13 +46,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetUrunlerWithKategori")]
+
         public Result<ICollection<UrunDto>> GetUrunWithKategori()
         {
             return _urunService.getAllWithKategoriAdiAndTedarikci();
                 
         
         }
-                [HttpGet("GetUrunlerWithDetailsByTedarikciId")]
+       [HttpGet("GetUrunlerWithDetailsByTedarikciId")]
         public Result<ICollection<UrunDto>> GetUrunlerWithDetailsByTedarikciId(string tedarikciId)
         {
             return _urunService.getUrunlerWithDetailsByTedarikciId(tedarikciId);
@@ -66,6 +71,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpGet("all")]
+
         public Result<ICollection<Urun>> GetUrun()
         {
             var urunlar = _urunService.getAll();
@@ -74,6 +80,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
+
         public Result<Urun> UpdateUrun(Urun urun, string urunId)
         {
             _urunService.updateUrun(urun, urunId);
@@ -85,7 +92,7 @@ namespace B2BApp.Api.Controllers
             };
         }
 
-        [HttpDelete]
+        [HttpDelete][Authorize(Roles = "667acd84d84200e1b93b9449")]
         public Result<Urun> DeleteUrun(string id)
         {
             _urunService.deleteUrun(ObjectId.Parse(id));
