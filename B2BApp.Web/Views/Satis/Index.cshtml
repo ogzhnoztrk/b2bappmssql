@@ -8,7 +8,7 @@
     <h2>Satışlar</h2>
 
     <div class="" style="display: flex;justify-content: flex-end;">
-        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
+        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Satış</button>
 
     </div>
     <br />
@@ -34,8 +34,8 @@
 @* Ekleme *@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <h5 id="offcanvasRightLabel">Satış Ekle</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="eklemeClose"></button>
     </div>
     <div class="offcanvas-body">
 
@@ -83,7 +83,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissButton"></button>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="guncelleClose"></button>
     </div>
     <div class="offcanvas-body">
 
@@ -260,6 +260,7 @@
           })
         }).done(function (response) {
             if (response != null) {
+                $("#eklemeClose").click()
                 //Reload/redraw the table with new data
                 table.ajax.reload();
 
@@ -423,7 +424,8 @@
           })
         }).done(function (response) {
 
-            $("#dismissButton").click()
+            $("#guncelleClose").click()
+
             //Reload/redraw the table with new data
             table.ajax.reload();
 

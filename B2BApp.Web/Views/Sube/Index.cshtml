@@ -222,19 +222,19 @@
             title: 'Urun Ekle',
             html:
                 `<label for="subeAdiEkle" class="form-label">Sube Adı</label> <input type="text" id="subeAdiEkle" class= "form-control" value="" required>
-                     <label for= "subeTel" class= "form-label">Telefon</label> <input type="phone" id = "subeTel" class= "form-control" value = "" required>                <br/>
+                     <label for= "subeTel" class= "form-label">Telefon</label> <input type="phone" id="subeTel" class= "form-control" value = "" required>                <br/>
                      <label for="firmaSelectSave" class= "form-label">Firma</label> <select id="firmaSelectSave" class="select2" placeholder='select item'></select>
                 `,
-            preConfirm: function () {
-                return new Promise(function (resolve) {
+            // preConfirm: function () {
+            //     return new Promise(function (resolve) {
 
-                    resolve([
-                        $('#subeAdiEkle').val(),
-                        $('#firmaSelectSave').val(),
-                        $('#subeTel').val()
-                    ])
-                })
-            },
+            //         // resolve([
+            //         //     $('#subeAdiEkle').val(),
+            //         //     $('#firmaSelectSave').val(),
+            //         //     $('#subeTel').val()
+            //         // ])
+            //     })
+            // },
             onOpen: function () {
                 $('#swal-input1').focus()
             },

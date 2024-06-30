@@ -5,20 +5,20 @@
 
 <div class="container">
 
-    <h2>Firmalar</h2>
+    <h2>Tedarikciler</h2>
     <hr />
 
     <div class="" style="display: flex;justify-content: flex-end;">
-        <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Firma</button>
+        <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Tedarikci</button>
 
     </div>
     <br />
 
 
-    <table id="firmaTable" class="display" style="width:100%"> 
+    <table id="tedarikciTable" class="display" style="width:100%"> 
         <thead>
             <tr>
-                <th>Firma Adi</th>
+                <th>Tedarikci Adi</th>
                 <th>Telefon</th>
                 <th></th>
             </tr>
@@ -33,22 +33,22 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Firma Güncelle</h5>
+        <h5 id="offcanvasRightLabel">Tedarikci Güncelle</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissBUton"></button>
     </div>
     <div class="offcanvas-body">
-        <label type="text" id="firmaId" value="" hidden></label>
+        <label type="text" id="tedarikciId" value="" hidden></label>
 
         <br />
-        <label for="firmaIsim" class="form-label">Firma</label>
-        <input type="text" id="firmaIsim" class="form-control" value=""> 
+        <label for="tedarikciIsim" class="form-label">Tedarikci</label>
+        <input type="text" id="tedarikciIsim" class="form-control" value=""> 
        
-        <label for="firmaTelUpdate" class="form-label">Telefon</label>
-        <input type="text" id="firmaTelUpdate" class="form-control" value="">
+        <label for="tedarikciTelUpdate" class="form-label">Telefon</label>
+        <input type="text" id="tedarikciTelUpdate" class="form-control" value="">
 
         <br />
         <div style="display: flex;justify-content: flex-end;">
-            <button onclick=updateFirma() class="btn btn-secondary">Güncelle</button>
+            <button onclick=updateTedarikci() class="btn btn-secondary">Güncelle</button>
         </div>
     </div>
 </div>
@@ -58,29 +58,30 @@
 
 
 
+<link rel="stylesheet" href="" />
 <script type="text/javascript">
     let table;
 
     $(document).ready(function loadTable() {
-        table = $('#firmaTable').DataTable({
+        table = $('#tedarikciTable').DataTable({
             "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
 
             "ajax":
             {
-                "url": "https://localhost/api/firma/all"
+                "url": "https://localhost/api/Tedarikci/all"
             },
 
             "columns": [
-                { "data": 'firmaAdi' },
-                { "data": 'firmaTel' },
+                { "data": 'tedarikciAdi' },
+                { "data": 'tedarikciTel' },
                 {
                     "data": "id",
                     "render": function (data) {
                         return `
                                       <div class="w-75 btn-group" role="group">
-                                              <a onClick=getFirmaInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                          <a onClick=getTedarikciInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
                                           <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
                                       </div>`
                     },
@@ -91,10 +92,10 @@
     });
 
 
-    function getFirmaInfo(data) {
+    function getTedarikciInfo(data) {
 
         $.ajax({
-            url: 'https://localhost/api/Firma',
+            url: 'https://localhost/api/Tedarikci',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain'
@@ -105,32 +106,32 @@
         }).done(function (response) {
             if (response != null) {
                 // getirilen verilerin gerekli yerlere atanması
-                $("#firmaIsim").val(response.data.firmaAdi);
-                $("#firmaTelUpdate").val(response.data.firmaTel);
-                $("#firmaId").val(response.data.id);
+                $("#tedarikciIsim").val(response.data.tedarikciAdi);
+                $("#tedarikciTelUpdate").val(response.data.tedarikciTel);
+                $("#tedarikciId").val(response.data.id);
 
             }
         })
     }
 
-    function updateFirma() {
-        let yeniFirmaAdi = $("#firmaIsim").val();
-        let yeniFirmaTel = $("#firmaTelUpdate").val();
-        let id = $("#firmaId").val();
+    function updateTedarikci() {
+        let yeniTedarikciAdi = $("#tedarikciIsim").val();
+        let yeniTedarikciTel = $("#tedarikciTelUpdate").val();
+        let id = $("#tedarikciId").val();
 
         $.ajax({
-            url: 'https://localhost/api/Firma?firmaId=' + id,
+            url: 'https://localhost/api/Tedarikci?tedarikciId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain'
             },
             contentType: 'application/json',
-            // data: '{\n  "id": "6673db08b965b70719edb1fb",\n  "firmaAdi": "string"\n}',
+            // data: '{\n  "id": "6673db08b965b70719edb1fb",\n  "tedarikciAdi": "string"\n}',
             data: JSON.stringify({
                 'id': id,
-                'firmaAdi': yeniFirmaAdi,
-                'firmaTel': yeniFirmaTel
+                'tedarikciAdi': yeniTedarikciAdi,
+                'tedarikciTel': yeniTedarikciTel
             })
         }).done(function (response) {
 
@@ -139,7 +140,7 @@
             table.ajax.reload();
 
             Swal.fire({
-                title: "Firma Güncellendi",
+                title: "Tedarikci Güncellendi",
                 icon: "success"
             });
 
@@ -162,7 +163,7 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://localhost/api/Firma?id=' + data,
+                    url: 'https://localhost/api/Tedarikci?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -175,13 +176,13 @@
                         table.ajax.reload();
 
                         Swal.fire({
-                            title: "Firma Silindi",
+                            title: "Tedarikci Silindi",
                             icon: "success"
                         });
                     }
                     else {
                         Swal.fire({
-                            title: "Firma Silinirken Bir Sorun Oluştu",
+                            title: "Tedarikci Silinirken Bir Sorun Oluştu",
                             icon: "error"
                         });
                     }
@@ -192,53 +193,85 @@
 
     function Save() {
         swal.fire({
-            title: 'Multiple inputs',
+            title: 'Ekle',
             html:
-                '<label for="firmaIsimEkle" class="form-label">Firma Adı</label> <input type="text" id="firmaIsimEkle" class= "form-control" value="">' +
-                '<label for="firmaTel" class="form-label">Telefon</label> <input type="text" id="firmaTel" class= "form-control" value="">',
+                '<label for="tedarikciIsimEkle" class="form-label">Tedarikci Adı</label> <input type="text" id="tedarikciIsimEkle" class= "form-control" value="">' +
+                '<label for="tedarikciTel" class="form-label">Telefon</label> <input type="text" id="tedarikciTel" class= "form-control" value="">',
 
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     
                     resolve([
-                        $('#firmaIsimEkle').val(),
-                        $('#firmaTel').val()
+                        $('#tedarikciIsimEkle').val(),
+                        $('#tedarikciTel').val()
                     ])
                 })
             },
-            onOpen: function () {
-                $('#swal-input1').focus()
-            }
+
         }).then((result) => {
             console.log(result);
 
 
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://localhost/api/Firma',
+                    url: 'https://localhost/api/Tedarikci',
                     crossDomain: true,
                     method: 'post',
                     headers: {
                         'accept': 'text/plain'
                     },
                     contentType: 'application/json',
+                    // data: '{\n  "id": "",\n  "tedarikciAdi": "Tedarikci-1",\n  "tedarikciTel": "5312854868"\n}',
                     data: JSON.stringify({
                         'id': '',
-                        'firmaAdi': $('#firmaIsimEkle').val(),
-                        'firmaTel': $('#firmaTel').val(),
+                        'tedarikciAdi': $('#tedarikciIsimEkle').val(),
+                        'tedarikciTel': $('#tedarikciTel').val(),
                     })
                 }).done(function (response) {
                     if (response != null) {
                         //Reload/redraw the table with new data
                         table.ajax.reload();
-
+                        debugger;
                         //table = loadTable(); // Yeni tablo oluştur
                         Swal.fire({
-                            title: "Firma Eklendi",
+                            title: "Tedarikci Eklendi",
                             icon: "success"
                         });
                     }
                 });
+
+
+
+                // $.ajax({
+                //     url: 'https://localhost/api/Tedarikci',
+                //     crossDomain: true,
+                //     method: 'post',
+                //     headers: {
+                //         'accept': 'text/plain'
+                //     },
+                //     contentType: 'application/json',
+                //     // data: '{"tedarikciAdi": "Tedarikci-12"\n}',
+                //     data: JSON.stringify({
+                //         'tedarikciAdi': result.value,
+                //         'id': ''
+                //     })
+
+                // }).done(function (response) {
+                    // if (response != null) {
+                    //     //Reload/redraw the table with new data
+                    //     table.ajax.reload();
+
+                    //     table = loadTable(); // Yeni tablo oluştur
+                    //     Swal.fire({
+                    //         title: "Tedarikci Eklendi",
+                    //         icon: "success"
+                    //     });
+                    // }
+                // });
+
+
+
+
 
 
             }
