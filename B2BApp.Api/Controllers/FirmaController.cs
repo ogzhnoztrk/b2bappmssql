@@ -21,7 +21,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        public Result<Firma> PostCompany(Firma firma)
+        public Result<Firma> PostFirma(Firma firma)
         {
 
             _firmaService.addFirma(firma);
@@ -33,14 +33,14 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
-        public Result<Firma> GetCompany(string id)
+        public Result<Firma> GetFirma(string id)
         {
             
             var firma = _firmaService.getFirmaById(ObjectId.Parse(id));
             return firma;
         }
         [HttpGet("all")]
-        public Result<ICollection<Firma>> GetCompany()
+        public Result<ICollection<Firma>> GetFirma()
         {
             var firmalar = _firmaService.getAll();
             return firmalar;
@@ -48,7 +48,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Firma> UpdateCompany(Firma firma,string firmaId)
+        public Result<Firma> UpdateFirma(Firma firma,string firmaId)
         {
             //Firma firma = new Firma
             //{
@@ -67,7 +67,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        public Result<Firma> DeleteCompany(string id)
+        public Result<Firma> DeleteFirma(string id)
         {
             _firmaService.deleteFirma(ObjectId.Parse(id));
 

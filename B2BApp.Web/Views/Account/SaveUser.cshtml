@@ -9,19 +9,19 @@
     <hr />
 
     <div class="" style="display: flex;justify-content: flex-end;">
-        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
+        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Kullanıcı</button>
 
     </div>
     <br />
 
 
 
-    <table id="subeStokTable" class="display" style="width:100%">
+    <table id="kullanicilarTable" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Şube Adi</th>
-                <th>Ürün</th>
-                <th>Stok</th>
+                <th>Kullanıcı Adı</th>
+                <th>Tedarikci Adi</th>
+                <th>Tedarikci Tel</th>
                 <th></th>
             </tr>
         </thead>
@@ -33,7 +33,7 @@
 @* Ekleme *@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <h5 id="offcanvasRightLabel">Kullanici Ekle</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="eklemeClose"></button>
     </div>
     <div class="offcanvas-body">
@@ -44,21 +44,23 @@
             <br />
 
             <div class="input-group">
-                <label for="subeSelect" class="form-label" style="margin-right: 10px;">Sube: </label> <select id="subeSelect" placeholder='select item'></select>
+                <label for="kullaniciAdi" class="form-label" style="margin-right: 10px;">k_Adı:</label>
+                <input type="text" id="kullaniciAdi" class="form-control" value="">
             </div>
+          
             <br />
 
             <div class="input-group">
-                <label for="urunSelect" class="form-label" style="margin-right: 10px;">Urun: </label> <select class="select2" id="urunSelect" placeholder='select item'></select>
+                <label for="sifre" class="form-label" style="margin-right: 10px;">Şifre:</label>
+                <input type="text" id="sifre" class="form-control" value="">
             </div>
             <br />
+
 
             <div class="input-group">
-                <label for="stok" class="form-label" style="margin-right: 10px;">Stok:</label>
-                <input type="number" id="stok" class="form-control" value="">
+                <label for="tedarikciSelect" class="form-label" style="margin-right: 10px;">Sube: </label>
+                <select id="tedarikciSelect" placeholder='select item'></select>
             </div>
-            <br />
-
             <div style="display: flex;justify-content: flex-end;">
                 <button onclick=save() class="btn btn-secondary">Kaydet</button>
             </div>
@@ -72,66 +74,22 @@
 </div>
 @* Ekleme *@
 
-@* Guncelleme *@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="updateClose"></button>
-    </div>
-    <div class="offcanvas-body">
-
-
-        <div class="container">
-
-            <label type="text" id="subeStokId" value="" hidden></label>
-            <br />
-
-            <div class="input-group">
-                <label for="subeSelectUpdate" class="form-label" style="margin-right: 10px;">Sube: </label> <select id="subeSelectUpdate" placeholder='select item'></select>
-            </div>
-            <br />
-
-            <div class="input-group">
-                <label for="urunSelectUpdate" class="form-label" style="margin-right: 10px;">Urun: </label> <select class="select2" id="urunSelectUpdate" placeholder='select item'></select>
-            </div>
-            <br />
-
-            <div class="input-group">
-                <label for="stokUpdate" class="form-label" style="margin-right: 10px;">Stok:</label>
-                <input type="number" id="stokUpdate" class="form-control" value="">
-            </div>
-            <br />
-
-            <div style="display: flex;justify-content: flex-end;">
-                <button onclick=update() class="btn btn-secondary">Kaydet</button>
-            </div>
-
-        </div>
-
-
-
-
-    </div>
-</div>
-@* Guncelleme *@
-
 <script type="text/javascript">
     let table;
 
     $(document).ready(function loadTable() {
-        table = $('#subeStokTable').DataTable({
+        table = $('#kullanicilarTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
-            "ajax": { "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId?tedarikciId=668154f4eb1408f3839b7f35" },
+            "ajax": { "url": "https://localhost/api/Kullanici/getAllWithTedarikci" },
             "columns": [
-                { "data": 'sube.subeAdi' },
-                { "data": 'urun.urunAdi' },
-                { "data": 'stok' },
+                { "data": 'kullaniciAdi' },
+                { "data": 'tedarikci.tedarikciAdi' },
+                { "data": 'tedarikci.tedarikciTel' },
                 {
                     "data": "id",
                     "render": function (data) {
                         return `
                                                               <div class="w-75 btn-group" role="group">
-                                                                 <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
                                                                   <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
                                                               </div>`
                     },
@@ -142,8 +100,9 @@
     });
 
     function loadData() {
+        //tedarkci
         $.ajax({
-            url: 'https://localhost/api/Sube/all',
+            url: 'https://localhost/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain'
@@ -152,11 +111,11 @@
             result = $.map(response.data, function (data) {
                 return {
                     id: data.id,
-                    text: data.subeAdi
+                    text: data.tedarikciAdi
                 };
             });
 
-            $("#subeSelect").select2({
+            $("#tedarikciSelect").select2({
                 placeholder: "Şubeler",
                 data: result,
                 width: 200,
@@ -164,50 +123,29 @@
             });
 
         });
-        $.ajax({
-            url: 'https://localhost/api/urun/all',
-            crossDomain: true,
-            headers: {
-                'accept': 'text/plain'
-            }
-        }).done(function (response) {
-            result = $.map(response.data, function (data) {
-                return {
-                    id: data.id,
-                    text: data.urunAdi
-                };
-            });
-
-            $("#urunSelect").select2({
-                placeholder: "Urunler",
-                data: result,
-                width: 200,
-
-            });
-
-        });
+        
     }
 
     function save() {
-        let subeId = $("#subeSelect").val();
-        let urunId = $("#urunSelect").val();
-        let stok = $("#stok").val();
+        let tedarikciId = $("#tedarikciSelect").val();
+        let sifre= $("#sifre").val();
+        let kullaniciAdi = $("#kullaniciAdi").val();
+        debugger;
 
         $.ajax({
-            url: 'https://localhost/api/SubeStok',
-            crossDomain: true,
-            method: 'post',
-            headers: {
-                'accept': 'text/plain'
-            },
-            contentType: 'application/json',
-            // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "stok": 0\n}',
-            data: JSON.stringify({
-                'id': '',
-                'subeId': subeId,
-                'urunId': urunId,
-                'stok': stok
-            })
+          url: 'https://localhost/api/Auth',
+          crossDomain: true,
+          method: 'post',
+          headers: {
+            'accept': 'text/plain'
+          },
+          contentType: 'application/json',
+          // data: '{\n  "kullaniciAdi": "string",\n  "sifre": "string",\n  "tedarikciId": "string"\n}',
+          data: JSON.stringify({
+            'kullaniciAdi': kullaniciAdi,
+            'sifre': sifre,
+            'tedarikciId': tedarikciId
+          })
         }).done(function (response) {
             if (response != null) {
                 $("eklemeClose").click();
@@ -215,12 +153,12 @@
                 table.ajax.reload();
 
                 Swal.fire({
-                    title: "Urun Eklendi",
+                    title: "Kullanici Eklendi",
                     icon: "success"
                 });
             } else {
                 Swal.fire({
-                    title: "Urun Eklenirken Bir Sorun Oluştu",
+                    title: "Kullanici Eklenirken Bir Sorun Oluştu",
                     icon: "error"
                 });
             }
@@ -241,7 +179,7 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://localhost/api/SubeStok?id=' + data,
+                    url: 'https://localhost/api/Kullanici?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -254,13 +192,13 @@
                         table.ajax.reload();
 
                         Swal.fire({
-                            title: "Urun Silindi",
+                            title: "Kullanici Silindi",
                             icon: "success"
                         });
                     }
                     else {
                         Swal.fire({
-                            title: "Urun Silinirken Bir Sorun Oluştu",
+                            title: "Kullanici Silinirken Bir Sorun Oluştu",
                             icon: "error"
                         });
                     }
@@ -269,116 +207,5 @@
         })
     }
 
-    function loadForUpdate(data) {
-        $.ajax({
-            url: 'https://localhost/api/SubeStok/GetWithSubeAndUrun',
-            crossDomain: true,
-            headers: {
-                'accept': 'text/plain'
-            },
-            data: {
-                'id': data
-            }
-        }).done(function (response) {
-            $.ajax({
-                url: 'https://localhost/api/Sube/all',
-                crossDomain: true,
-                headers: {
-                    'accept': 'text/plain'
-                }
-            }).done(function (response) {
-                result = $.map(response.data, function (data) {
-                    return {
-                        id: data.id,
-                        text: data.subeAdi
-                    };
-                });
-
-                $("#subeSelectUpdate").select2({
-                    placeholder: "Şubeler",
-                    data: result,
-                    width: 200,
-
-                });
-
-            });
-            $.ajax({
-                url: 'https://localhost/api/urun/all',
-                crossDomain: true,
-                headers: {
-                    'accept': 'text/plain'
-                }
-            }).done(function (response) {
-                result = $.map(response.data, function (data) {
-                    return {
-                        id: data.id,
-                        text: data.urunAdi
-                    };
-                });
-
-                $("#urunSelectUpdate").select2({
-                    placeholder: "Urunler",
-                    data: result,
-                    width: 200,
-
-                });
-
-            });
-
-            //burada guncel verileri atayacağız
-            $("#subeSelectUpdate").val(response.data.sube.id).trigger('change');
-            $("#urunSelectUpdate").val(response.data.urun.id).trigger('change');
-            $("#stokUpdate").val(response.data.stok);
-            $("#subeStokId").val(response.data.id);
-
-
-
-
-
-        });
-
-
-
-
-
-    }
-
-    function update() {
-        //burada guncel verileri alacağız
-        let subeId = $("#subeSelectUpdate").val();
-        let urunId = $("#urunSelectUpdate").val();
-        let stok = $("#stokUpdate").val();
-        let id = $("#subeStokId").val();
-
-        $.ajax({
-            url: 'https://localhost/api/SubeStok?subeStokId=' + id,
-            crossDomain: true,
-            method: 'put',
-            headers: {
-                'accept': 'text/plain'
-            },
-            contentType: 'application/json',
-            // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "stok": 0\n}',
-            data: JSON.stringify({
-                'id': id,
-                'subeId': subeId,
-                'urunId': urunId,
-                'stok': stok
-            })
-        }).done(function (response) {
-
-            $("#updateClose").click()
-            //Reload/redraw the table with new data
-            table.ajax.reload();
-
-            Swal.fire({
-                title: "Urun Güncellendi",
-                icon: "success"
-            });
-
-
-        });
-
-    }
 
 </script>

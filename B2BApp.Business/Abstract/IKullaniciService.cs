@@ -1,4 +1,5 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.Business.Concrete;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
 using System;
@@ -16,6 +17,7 @@ namespace B2BApp.Business.Abstract
         void updateKullanici(Kullanici kullanici, string kullaniciId);
         void deleteKullanici(ObjectId objectId);
         Result<ICollection<Kullanici>> getAll();
+        Result<ICollection<KullaniciDto>> getAllWithTedarikci();
         Result<Kullanici> getKullaniciById(ObjectId objectId);
 
     }
