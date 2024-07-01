@@ -100,6 +100,34 @@ namespace B2BApp.Business.Abstract
             return result;
         }
 
+        public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId)
+        {
+            var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+            var satislar = _unitOfWork.Satis.GetAll().Data;
+            var subeler = _unitOfWork.Sube.GetAll().Data;
+            var satislarDto = (
+                from urun in urunler
+                join satis in satislar on urun.Id equals satis.UrunId
+                join sube in subeler on satis.SubeId equals sube.Id
+                select new SatisDto { Id=satis.Id, SatisMiktari=satis.SatisMiktari,
+                  SatisTarihi=satis.SatisTarihi,
+                  Sube=sube,
+                  Toplam = satis.Toplam,
+                  Urun = urun
+                
+                }).ToList();
+
+            var result = new Result<ICollection<SatisDto>>
+            {
+                Data = satislarDto,
+                Message = "ürün satışı detayları ile getirldi",
+                StatusCode = 200,
+                Time = DateTime.Now
+
+            };
+            return result;
+        }
+
         public Result<Satis> getSatisById(ObjectId objectId)
         {
             try

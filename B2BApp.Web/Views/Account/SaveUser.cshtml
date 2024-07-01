@@ -9,7 +9,7 @@
     <hr />
 
     <div class="" style="display: flex;justify-content: flex-end;">
-        <button onClick ="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
+        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
 
     </div>
     <br />
@@ -31,7 +31,7 @@
 </div>
 
 @* Ekleme *@
-<div  class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="eklemeClose"></button>
@@ -40,7 +40,7 @@
 
         <div class="container">
 
-            
+
             <br />
 
             <div class="input-group">
@@ -73,7 +73,7 @@
 @* Ekleme *@
 
 @* Guncelleme *@
- <div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="updateClose"></button>
@@ -112,27 +112,16 @@
 
 
     </div>
-</div> 
+</div>
 @* Guncelleme *@
-
-
-
-
-
-
-<link rel="stylesheet" href="" />
-@* select2 kullanımı *@
-
-
 
 <script type="text/javascript">
     let table;
 
     $(document).ready(function loadTable() {
         table = $('#subeStokTable').DataTable({
-            "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json'},
-            "ajax": {
-                "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrun" },
+            "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+            "ajax": { "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId?tedarikciId=668154f4eb1408f3839b7f35" },
             "columns": [
                 { "data": 'sube.subeAdi' },
                 { "data": 'urun.urunAdi' },
@@ -141,10 +130,10 @@
                     "data": "id",
                     "render": function (data) {
                         return `
-                                                          <div class="w-75 btn-group" role="group">
-                                                             <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
-                                                              <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                                          </div>`
+                                                              <div class="w-75 btn-group" role="group">
+                                                                 <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
+                                                                  <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                                              </div>`
                     },
                     "width": "20%"
                 },
@@ -237,7 +226,7 @@
             }
         });
     }
-  
+
     function Delete(data) {
         Swal.fire({
             title: 'Emin Misiniz?',
@@ -279,7 +268,7 @@
             }
         })
     }
-    
+
     function loadForUpdate(data) {
         $.ajax({
             url: 'https://localhost/api/SubeStok/GetWithSubeAndUrun',
@@ -343,7 +332,7 @@
             $("#subeStokId").val(response.data.id);
 
 
-           
+
 
 
         });
@@ -351,13 +340,13 @@
 
 
 
-       
+
     }
 
-    function update(){
+    function update() {
         //burada guncel verileri alacağız
         let subeId = $("#subeSelectUpdate").val();
-        let urunId= $("#urunSelectUpdate").val();
+        let urunId = $("#urunSelectUpdate").val();
         let stok = $("#stokUpdate").val();
         let id = $("#subeStokId").val();
 

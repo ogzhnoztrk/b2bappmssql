@@ -37,10 +37,9 @@
             'accept': 'text/plain'
         },
         data: {
-            'tedarikciId': '668154f4eb1408f3839b7f35'
+            'tedarikciId': '@ViewBag.FirmaId'
         }
     }).done(function (response) {
-        console.log(response);
         table = $('#urunTable').DataTable({
             "data":response.data,
            
@@ -83,11 +82,6 @@
         });
     });
 
-    //datatable
-    $(document).ready(function loadTable() {
-
-      
-    });
 
 
 

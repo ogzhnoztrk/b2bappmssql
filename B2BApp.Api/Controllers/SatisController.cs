@@ -48,18 +48,23 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("getWithUrunAndSube")]
-
         public Result<SatisDto> getWithUrunAndSube(string id)
         {
             return _satisService.getWithUrunAndSube(ObjectId.Parse(id));
         }
 
         [HttpGet("getAllWithUrunAndSube")]
-
         public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
         {
             return _satisService.getAllWithUrunAndSube();
         }
+
+        [HttpGet("GetAllWithUrunAndSubeByTedarikciId")]
+        public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId)
+        {
+            return _satisService.getAllWithUrunAndSubeByTedarikciId(tedarikciId);
+        }
+
 
         [HttpPut]
         public Result<Satis> UpdateCompany(Satis satis,  string satisId)

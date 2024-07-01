@@ -53,6 +53,7 @@
     var ctxPie = document.getElementById('pieChart');
     ctxPie.width = 618;
     ctxPie.height = 309;
+    let table;
 
     $.ajax({
         url: 'https://localhost/api/UrunSatisRapor',
@@ -64,8 +65,8 @@
             'tedarikciId': "@ViewBag.FirmaId"
         }
     }).done(function (response) {
-        console.log(response.data)
-        table = $('#raporTable').DataTable({
+     
+         table = $('#raporTable').DataTable({
             "data": response.data.urunler,
 
             "language": {

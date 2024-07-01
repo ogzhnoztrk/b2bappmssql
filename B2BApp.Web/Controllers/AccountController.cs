@@ -80,7 +80,10 @@ namespace B2BApp.Web.Controllers
 
         }
 
-
+        public IActionResult SaveUser()
+        {
+            return View();
+        }
 
         public IActionResult LogoutAsync()
         {

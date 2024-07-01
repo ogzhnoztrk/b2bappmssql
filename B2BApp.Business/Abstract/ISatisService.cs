@@ -17,6 +17,7 @@ namespace B2BApp.Business.Abstract
         void deleteSatis(ObjectId objectId);
         Result<ICollection<Satis>> getAll();
         Result<ICollection<SatisDto>> getAllWithUrunAndSube();
+        Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId);
         Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
         Result<Satis> getSatisById(ObjectId objectId);
     }

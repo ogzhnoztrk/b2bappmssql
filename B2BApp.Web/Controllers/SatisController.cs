@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace B2BApp.Web.Controllers
 {
@@ -11,75 +13,26 @@ namespace B2BApp.Web.Controllers
             return View();
         }
 
-        // GET: SatisController/Details/5
-        public ActionResult Details(int id)
+           // GET: SatisController
+        public ActionResult SatisRapor()
         {
+            // JWT'yi çözme
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(Request.Cookies["jwt"]) as JwtSecurityToken;
+
+            // Claims (iddialar) JSON olarak okuma
+            var claimsJson = new JObject();
+            foreach (var claim in jsonToken.Claims)
+            {
+                claimsJson.Add(claim.Type, claim.Value);
+            }
+            ViewBag.FirmaId = claimsJson["role"].ToString();
+
             return View();
         }
 
-        // GET: SatisController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: SatisController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SatisController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: SatisController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SatisController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: SatisController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+       
 
 
 
