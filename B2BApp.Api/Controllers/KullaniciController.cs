@@ -2,6 +2,7 @@
 using B2BApp.Business.Concrete;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -10,6 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KullaniciController : ControllerBase
     {
         private readonly IKullaniciService _kullaniciService;

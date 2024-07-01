@@ -76,11 +76,18 @@
 
 <script type="text/javascript">
     let table;
-
+    console.log("@ViewBag.JwtCookie");
     $(document).ready(function loadTable() {
         table = $('#kullanicilarTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
-            "ajax": { "url": "https://localhost/api/Kullanici/getAllWithTedarikci" },
+            "ajax": 
+            {
+                'url': "https://localhost/api/Kullanici/getAllWithTedarikci",
+                'type': 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
+                }
+            },
             "columns": [
                 { "data": 'kullaniciAdi' },
                 { "data": 'tedarikci.tedarikciAdi' },
@@ -105,7 +112,8 @@
             url: 'https://localhost/api/tedarikci/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -137,7 +145,8 @@
           crossDomain: true,
           method: 'post',
           headers: {
-            'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
           },
           contentType: 'application/json',
           // data: '{\n  "kullaniciAdi": "string",\n  "sifre": "string",\n  "tedarikciId": "string"\n}',
@@ -183,7 +192,8 @@
                     crossDomain: true,
                     method: 'delete',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);

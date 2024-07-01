@@ -12,6 +12,8 @@ namespace B2BApp.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles = "")]
+    [Authorize]
+
     public class UrunController : ControllerBase
     {
 
