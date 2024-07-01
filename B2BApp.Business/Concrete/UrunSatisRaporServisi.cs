@@ -46,6 +46,18 @@ namespace B2BApp.Business.Concrete
 				group satis by satis.SatisTarihi.ToString("MMMM") into g
 				select new { AyAdi = g.Key, Toplam = g.Sum(x => x.Toplam) }
 			).ToDictionary(x => x.AyAdi, x => x.Toplam);
+
+
+			var toplamUrunSatis = (
+				from urun in urunler
+				where urun.TedarikciId == tedarikciId
+                join satis in satislar on urun.Id equals satis.UrunId 
+				into g
+				select new { urunAdi = urun.UrunAdi, toplam = g.Sum(x => x.SatisMiktari) }
+				
+
+
+                ).ToDictionary(x=>x.urunAdi, x=>x.toplam);
 				
 
 			var urunDtos = new List<UrunDto>();
@@ -76,7 +88,8 @@ namespace B2BApp.Business.Concrete
 				Data = new UrunlerVeAylikSatislarDto
 				{
 					Urunler = urunDtos,
-					ToplamAySatislar = aylikSatislarByAyAdi
+					ToplamAySatislar = aylikSatislarByAyAdi,
+					ToplamUrunSatis = toplamUrunSatis
 				},
 				Message = "Ürünler ve Aylık Satışlar Getirildi",
 				StatusCode = 200,

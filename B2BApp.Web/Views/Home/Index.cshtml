@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -8,130 +9,151 @@
     <div class="row" style="--bs-gutter-x: 0rem;">
         <div class="col-md-6">
             <div>
-                <canvas id="barChart"></canvas>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="barChart"></canvas>
+                </div>
             </div>
-        </div> 
+        </div>
         <div class="col-md-6">
             <div>
-				<canvas id="pieChart" style="width: 375px;height: 375px;" width="375" height="375"></canvas>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="pieChart" width="618" height="309"></canvas>
+                </div>
             </div>
         </div>
     </div>
-	<br />
-	<br />
+    <br />
+    <br />
     <div class="row" style="--bs-gutter-x: 0rem;">
         <div class="col-md-12">
-            <div class="p-3 border bg-light">Column 3</div>
+            <div class="p-3 border bg-light">
+                <table id="raporTable" class="display nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Urun</th>
+                            <th>Fiyat</th>
+                            <th>Tedarikci</th>
+                            <th>Tedarikci Telefon</th>
+                            <th>Kategori</th> 
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
-    
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script type="text/javascript">
-	const ctxBar = document.getElementById('barChart');
-	const ctxPie = document.getElementById('pieChart');
-	ctxPie.width = 300;
-	ctxPie.height = 300;
+    var ctxBar = document.getElementById('barChart');
+    var ctxPie = document.getElementById('pieChart');
+    ctxPie.width = 618;
+    ctxPie.height = 309;
+
+    $.ajax({
+        url: 'https://localhost/api/UrunSatisRapor',
+        crossDomain: true,
+        headers: {
+            'accept': 'text/plain'
+        },
+        data: {
+            'tedarikciId': "@ViewBag.FirmaId"
+        }
+    }).done(function (response) {
+        console.log(response.data)
+        table = $('#raporTable').DataTable({
+            "data": response.data.urunler,
+
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+            },
+            "layout": {
+                "topStart": {
+                    "buttons": [
+
+                        {
+                            "extend": 'excelHtml5',
+                            "exportOptions": {
+                                "columns": [0, 1, 2, 3],
+                                "title": "bura başlık"
+
+                            }
+                        },
+                        {
+                            "extend": 'pdfHtml5',
+                            "exportOptions": {
+                                "columns": [0, 1, 2, 3],
+                                "title": "Bura Başlık",
+                                "text": "asdasdasd"
+                            }
+                        },
+                        'colvis'
+                    ]
+                }
+
+            },
+
+            "columns": [
+                { "data": 'urunAdi' },
+                { "data": 'fiyat' },
+                { "data": 'tedarikci.tedarikciAdi' },
+                { "data": 'tedarikci.tedarikciTel' },
+                { "data": 'kategori.kategoriAdi' },
 
 
-	new Chart(ctxBar, {
-		type: 'bar',
-		data: {
-			labels: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
-			datasets: [{
-				label: 'Toplam Satış',
-				data: [1000, 1200, 1500, 1100, 1300, 1700, 1400, 1600, 1800, 1900, 2000, 2200],
-				borderWidth: 2,
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-				],
-			}]
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true
-				}
-			}
-		}
-	});
+            ]
+        });
 
-	new Chart(ctxPie, {
-		type: 'doughnut',
-		data: {
-			labels: ["Ürün1", "Ürün2", "Ürün3", "Ürün4",],
-			datasets: [{
-				label: 'Toplam Satış',
-				data: [800, 10000, 750, 100],
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
+        barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(response.data.toplamAySatislar),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(response.data.toplamAySatislar),
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
+        pieChart = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(response.data.toplamUrunSatis),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(response.data.toplamUrunSatis),                
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
 
-				],
-				borderWidth: 2
-			}]
-		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    
+                }
+            }
+        });
 
-			plugins: {
-				legend: {
-					position: 'top',
-				},
-				tooltip: {
-					callbacks: {
-						label: function (context) {
-							let label = context.label || '';
-							if (label) {
-								label += ': ';
-							}
-							if (context.parsed !== null) {
-								label += new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(context.parsed);
-							}
-							return label;
-						}
-					}
-				}
-			}
-		}
-	});
+
+    });
+
+
 
 
 </script>

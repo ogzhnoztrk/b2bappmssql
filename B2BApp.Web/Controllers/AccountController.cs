@@ -82,5 +82,15 @@ namespace B2BApp.Web.Controllers
 
 
 
+        public IActionResult LogoutAsync()
+        {
+            Response.Cookies.Delete("jwt");
+
+            //_logger.LogInformation("user signout");
+
+            return RedirectToAction("Login");
+        }
+
+
     }
 }

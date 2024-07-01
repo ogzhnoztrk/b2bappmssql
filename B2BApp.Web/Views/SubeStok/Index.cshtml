@@ -131,7 +131,7 @@
     $(document).ready(function loadTable() {
         table = $('#subeStokTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json'},
-            "ajax":{"url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrun"},
+            "ajax": { "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId?tedarikciId=668154f4eb1408f3839b7f35" },
             "columns": [
                 { "data": 'sube.subeAdi' },
                 { "data": 'urun.urunAdi' },

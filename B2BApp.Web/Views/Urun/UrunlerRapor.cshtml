@@ -1,0 +1,94 @@
+﻿@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container">
+
+    <h2>Urunler</h2>
+
+    
+    <br />
+
+
+    <table id="urunTable" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Urun</th>
+                <th>Tedarikci</th>
+
+                <th>Kategori</th>
+                <th>Fiyat</th>
+            </tr>
+        </thead>
+    </table>
+
+
+
+</div>
+
+
+
+<script type="text/javascript">
+    let table;
+    $.ajax({
+        url: 'https://localhost/api/Urun/GetUrunlerWithDetailsByTedarikciId',
+        crossDomain: true,
+        headers: {
+            'accept': 'text/plain'
+        },
+        data: {
+            'tedarikciId': '668154f4eb1408f3839b7f35'
+        }
+    }).done(function (response) {
+        console.log(response);
+        table = $('#urunTable').DataTable({
+            "data":response.data,
+           
+
+            "language": {
+                url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+            },
+            "layout": {
+                "topStart": {
+                    "buttons": [
+
+                        {
+                            "extend": 'excelHtml5',
+                            "exportOptions": {
+                                "columns": [0, 1, 2, 3],
+                                "title": "bura başlık"
+
+                            }
+                        },
+                        {
+                            "extend": 'pdfHtml5',
+                            "exportOptions": {
+                                "columns": [0, 1, 2, 3],
+                                "title": "Bura Başlık",
+                                "text": "asdasdasd"
+                            }
+                        },
+                        'colvis'
+                    ]
+                }
+
+            },
+
+            "columns": [
+                { "data": 'urunAdi' },
+                { "data": 'tedarikci.tedarikciAdi' },
+                { "data": 'kategori.kategoriAdi' },
+                { "data": 'fiyat' },
+            ]
+        });
+    });
+
+    //datatable
+    $(document).ready(function loadTable() {
+
+      
+    });
+
+
+
+</script>
