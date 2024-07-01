@@ -50,7 +50,8 @@
             url: 'https://localhost/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'tedarikciId': '@ViewBag.FirmaId'

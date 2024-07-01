@@ -77,7 +77,12 @@
 
             "ajax":
             {
-                "url": "https://localhost/api/kategori/all"
+                'url': "https://localhost/api/kategori/all",
+                'type': 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
+                }
+
             },
 
             "columns": [
@@ -104,7 +109,8 @@
             url: 'https://localhost/api/Kategori',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -128,7 +134,8 @@
             crossDomain: true,
             method: 'put',
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "id": "6673db08b965b70719edb1fb",\n  "kategoriAdi": "string"\n}',
@@ -170,7 +177,8 @@
                     crossDomain: true,
                     method: 'delete',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -215,7 +223,8 @@
                     crossDomain: true,
                     method: 'post',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     // data: '{"kategoriAdi": "Kategori-12"\n}',

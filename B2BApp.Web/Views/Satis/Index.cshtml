@@ -131,20 +131,21 @@
 
 
 
-
-
-<link rel="stylesheet" href="" />
-@* select2 kullanımı *@
-
-
-
 <script type="text/javascript">
     let table;
 
     $(document).ready(function loadTable() {
         table = $('#satislarTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
-            "ajax": { "url": "https://localhost/api/Satis/getAllWithUrunAndSube" },
+            "ajax": 
+            {
+                "url": "https://localhost/api/Satis/getAllWithUrunAndSube",
+                    
+                'type': 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
+                }
+            },
             "columns": [
                 { "data": 'sube.subeAdi' },
                 { "data": 'urun.urunAdi' },
@@ -192,7 +193,8 @@
             url: 'https://localhost/api/Sube/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -214,7 +216,8 @@
             url: 'https://localhost/api/urun/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -246,7 +249,8 @@
           crossDomain: true,
           method: 'post',
           headers: {
-            'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
           },
           contentType: 'application/json',
           // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "satisMiktari": 0,\n  "satisTarihi": "2024-06-25T08:55:04.216Z",\n  "toplam": 0\n}',
@@ -295,7 +299,8 @@
                     crossDomain: true,
                     method: 'delete',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -324,7 +329,8 @@
             url: 'https://localhost/api/satis/GetWithUrunAndSube',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -336,7 +342,8 @@
                 url: 'https://localhost/api/Sube/all',
                 crossDomain: true,
                 headers: {
-                    'accept': 'text/plain'
+                    'accept': 'text/plain',
+                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                 }
             }).done(function (response) {
                 result = $.map(response.data, function (data) {
@@ -360,7 +367,9 @@
                 url: 'https://localhost/api/urun/all',
                 crossDomain: true,
                 headers: {
-                    'accept': 'text/plain'
+                    'accept': 'text/plain',
+                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+
                 }
             }).done(function (response) {
                 result = $.map(response.data, function (data) {
@@ -411,7 +420,8 @@
           crossDomain: true,
           method: 'put',
           headers: {
-            'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
           },
           contentType: 'application/json',
           data: JSON.stringify({

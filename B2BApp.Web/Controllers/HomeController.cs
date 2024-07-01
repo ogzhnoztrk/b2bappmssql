@@ -29,7 +29,7 @@ namespace B2BApp.Web.Controllers
                 claimsJson.Add(claim.Type, claim.Value);
             }
             ViewBag.FirmaId = claimsJson["role"].ToString();
-
+            ViewBag.JwtCookie = Request.Cookies["jwt"];
             return View();
         }
 

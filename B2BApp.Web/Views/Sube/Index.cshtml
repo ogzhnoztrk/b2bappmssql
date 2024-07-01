@@ -59,24 +59,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="" />
-@* select2 kullanımı *@
-
-
-
-
 <script type="text/javascript">
     let table;
 
@@ -89,7 +71,11 @@
             },
             "ajax":
             {
-                "url": "https://localhost/api/Sube/GetSubelerWithFirma"
+                "url": "https://localhost/api/Sube/GetSubelerWithFirma",
+                'type': 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
+                }
             },
 
             "columns": [
@@ -119,7 +105,8 @@
             url: 'https://localhost/api/Sube/GetSubeWithFirma',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -149,7 +136,8 @@
             crossDomain: true,
             method: 'put',
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({
@@ -192,7 +180,8 @@
                     crossDomain: true,
                     method: 'delete',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -251,7 +240,8 @@
                     crossDomain: true,
                     method: 'post',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     // data: '{\n  "id": "string",\n  "firmaId": "string",\n  "subeAdi": "string",\n  "subeTel": "string"\n}',
@@ -284,7 +274,8 @@
             url: 'https://localhost/api/firma/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -310,7 +301,8 @@
             url: 'https://localhost/api/firma/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {

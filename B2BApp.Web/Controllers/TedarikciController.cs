@@ -8,6 +8,9 @@ namespace B2BApp.Web.Controllers
         // GET: KategoriController
         public ActionResult Index()
         {
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+            ViewBag.JwtCookie = Request.Cookies["jwt"];
+
             return View();
         }
 

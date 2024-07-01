@@ -8,78 +8,14 @@ namespace B2BApp.Web.Controllers
         // GET: KategoriController
         public ActionResult Index()
         {
+            // JWT'yi çözme
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+            ViewBag.JwtCookie = Request.Cookies["jwt"];
+
             return View();
         }
 
-        // GET: KategoriController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: KategoriController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: KategoriController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: KategoriController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: KategoriController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: KategoriController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: KategoriController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+        
 
 
 

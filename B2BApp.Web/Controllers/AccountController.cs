@@ -83,9 +83,9 @@ namespace B2BApp.Web.Controllers
         public IActionResult SaveUser()
         {
             // JWT'yi çözme
-            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");            
             ViewBag.JwtCookie = Request.Cookies["jwt"];
+
             return View();
         }
 

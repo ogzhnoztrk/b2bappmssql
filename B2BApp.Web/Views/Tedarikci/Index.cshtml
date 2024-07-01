@@ -70,7 +70,11 @@
 
             "ajax":
             {
-                "url": "https://localhost/api/Tedarikci/all"
+                "url": "https://localhost/api/Tedarikci/all",
+                'type': 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
+                }
             },
 
             "columns": [
@@ -98,7 +102,8 @@
             url: 'https://localhost/api/Tedarikci',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data

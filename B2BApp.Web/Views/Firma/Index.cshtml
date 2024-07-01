@@ -70,6 +70,11 @@
             "ajax":
             {
                 "url": "https://localhost/api/firma/all",
+                crossDomain: true,
+                headers: {
+                    'accept': 'text/plain',
+                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                }
                 
             },
 
@@ -98,7 +103,8 @@
             url: 'https://localhost/api/Firma',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -124,7 +130,8 @@
             crossDomain: true,
             method: 'put',
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "id": "6673db08b965b70719edb1fb",\n  "firmaAdi": "string"\n}',
@@ -167,7 +174,8 @@
                     crossDomain: true,
                     method: 'delete',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -220,7 +228,8 @@
                     crossDomain: true,
                     method: 'post',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     data: JSON.stringify({

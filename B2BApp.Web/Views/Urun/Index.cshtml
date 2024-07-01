@@ -79,7 +79,11 @@
         table = $('#urunTable').DataTable({
             "ajax":
             {
-                "url": "https://localhost/api/Urun/GetUrunlerWithKategori"
+                "url": "https://localhost/api/Urun/GetUrunlerWithKategori",
+                'type': 'GET',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
+                }
             },
 
             "language": {
@@ -139,7 +143,8 @@
             url: 'https://localhost/api/Urun/GetUrunWithKategori',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -171,7 +176,8 @@
             crossDomain: true,
             method: 'put',
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({
@@ -215,7 +221,8 @@
                     crossDomain: true,
                     method: 'delete',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -269,7 +276,8 @@
                     crossDomain: true,
                     method: 'post',
                     headers: {
-                        'accept': 'text/plain'
+                        'accept': 'text/plain',
+                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     // data: '{\n  "id": "",\n  "urunAdi": "Urun-1",\n  "urunTel": "5312854868"\n}',
@@ -303,7 +311,8 @@
             url: 'https://localhost/api/Kategori/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -326,7 +335,8 @@
             url: 'https://localhost/api/tedarikci/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -352,7 +362,8 @@
             url: 'https://localhost/api/Kategori/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -377,7 +388,8 @@
             url: 'https://localhost/api/tedarikci/all',
             crossDomain: true,
             headers: {
-                'accept': 'text/plain'
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
