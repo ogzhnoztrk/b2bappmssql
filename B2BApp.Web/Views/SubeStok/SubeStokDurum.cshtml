@@ -15,26 +15,28 @@
     <br />
 
 
+    <div class="p-3 border bg-light">
 
-    <table id="subeStokTable" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Şube Adi</th>
-                <th>Ürün</th>
-                <th>Stok</th>
-                
-            </tr>
-        </thead>
-        <tfoot>
-        </tfoot>
-    </table>
+        <table id="subeStokTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Şube Adi</th>
+                    <th>Ürün</th>
+                    <th>Stok</th>
+
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
 </div>
 
 
 
 
 
-
+ 
 <link rel="stylesheet" href="" />
 @* select2 kullanımı *@
 
@@ -58,12 +60,31 @@
             }
         }).done(function (response) {
             table = $('#subeStokTable').DataTable({
-                "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
                 "data": response.data,
+                "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+
+                "layout": {
+                    "bottomStart": {
+                        "buttons": [
+                            {
+                                "extend": 'pdfHtml5',
+                                "exportOptions": {
+                                    "columns": [0, 1, 2],
+                                   
+                                },
+                                "className": "btn btn-success"
+                            },
+                            
+                        ]
+                    }
+
+                },
+               
+                
                 "columns": [
                     { "data": 'sube.subeAdi' },
                     { "data": 'urun.urunAdi' },
-                    { "data": 'stok' },
+                    { "data": 'stok', className: 'text-start' },
 
                 ]
             });

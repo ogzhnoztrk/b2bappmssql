@@ -15,19 +15,21 @@
     <br />
 
 
+    <div class="p-3 border bg-light">
 
-    <table id="kullanicilarTable" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Kullanıcı Adı</th>
-                <th>Tedarikci Adi</th>
-                <th>Tedarikci Tel</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tfoot>
-        </tfoot>
-    </table>
+        <table id="kullanicilarTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Kullanıcı Adı</th>
+                    <th>Tedarikci Adi</th>
+                    <th>Tedarikci Tel</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
 </div>
 
 @* Ekleme *@
@@ -47,7 +49,7 @@
                 <label for="kullaniciAdi" class="form-label" style="margin-right: 10px;">k_Adı:</label>
                 <input type="text" id="kullaniciAdi" class="form-control" value="">
             </div>
-          
+
             <br />
 
             <div class="input-group">
@@ -80,7 +82,7 @@
     $(document).ready(function loadTable() {
         table = $('#kullanicilarTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
-            "ajax": 
+            "ajax":
             {
                 'url': "https://localhost/api/Kullanici/getAllWithTedarikci",
                 'type': 'GET',
@@ -88,17 +90,35 @@
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
                 }
             },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Kullanıcılar',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
             "columns": [
                 { "data": 'kullaniciAdi' },
                 { "data": 'tedarikci.tedarikciAdi' },
-                { "data": 'tedarikci.tedarikciTel' },
+                { "data": 'tedarikci.tedarikciTel', className: 'text-start' },
                 {
                     "data": "id",
                     "render": function (data) {
                         return `
-                                                              <div class="w-75 btn-group" role="group">
-                                                                  <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                                              </div>`
+                                                                  <div class="w-75 btn-group" role="group">
+                                                                      <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                                                  </div>`
                     },
                     "width": "20%"
                 },
@@ -131,30 +151,30 @@
             });
 
         });
-        
+
     }
 
     function save() {
         let tedarikciId = $("#tedarikciSelect").val();
-        let sifre= $("#sifre").val();
+        let sifre = $("#sifre").val();
         let kullaniciAdi = $("#kullaniciAdi").val();
         debugger;
 
         $.ajax({
-          url: 'https://localhost/api/Auth',
-          crossDomain: true,
-          method: 'post',
-          headers: {
+            url: 'https://localhost/api/Auth',
+            crossDomain: true,
+            method: 'post',
+            headers: {
                 'accept': 'text/plain',
                 'Authorization': "Bearer " + "@ViewBag.JwtCookie"
-          },
-          contentType: 'application/json',
-          // data: '{\n  "kullaniciAdi": "string",\n  "sifre": "string",\n  "tedarikciId": "string"\n}',
-          data: JSON.stringify({
-            'kullaniciAdi': kullaniciAdi,
-            'sifre': sifre,
-            'tedarikciId': tedarikciId
-          })
+            },
+            contentType: 'application/json',
+            // data: '{\n  "kullaniciAdi": "string",\n  "sifre": "string",\n  "tedarikciId": "string"\n}',
+            data: JSON.stringify({
+                'kullaniciAdi': kullaniciAdi,
+                'sifre': sifre,
+                'tedarikciId': tedarikciId
+            })
         }).done(function (response) {
             if (response != null) {
                 $("eklemeClose").click();

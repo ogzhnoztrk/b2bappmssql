@@ -9,21 +9,23 @@
     
     <br />
 
+    <div class="p-3 border bg-light">
 
-    <table id="urunTable" class="display nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>Urun</th>
-                <th>Tedarikci</th>
+        <table id="urunTable" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Ürün</th>
+                    <th>Tedarikçi</th>
 
-                <th>Kategori</th>
-                <th>Fiyat</th>
-            </tr>
-        </thead>
-    </table>
+                    <th>Kategori</th>
+                    <th>Fiyat</th>
+                </tr>
+            </thead>
+        </table>
 
 
 
+    </div>
 </div>
 
 
@@ -49,27 +51,21 @@
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
             "layout": {
-                "topStart": {
-                    "buttons": [
-
+                "bottomStart": {
+                    buttons: [
                         {
-                            "extend": 'excelHtml5',
-                            "exportOptions": {
-                                "columns": [0, 1, 2, 3],
-                                "title": "bura başlık"
 
-                            }
-                        },
-                        {
-                            "extend": 'pdfHtml5',
-                            "exportOptions": {
-                                "columns": [0, 1, 2, 3],
-                                "title": "Bura Başlık",
-                                "text": "asdasdasd"
-                            }
-                        },
-                        'colvis'
-                    ]
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'FirmaUrunler',
+                            className: 'btn btn-success',
+                        }
+                    ],
                 }
 
             },
@@ -78,7 +74,7 @@
                 { "data": 'urunAdi' },
                 { "data": 'tedarikci.tedarikciAdi' },
                 { "data": 'kategori.kategoriAdi' },
-                { "data": 'fiyat' },
+                { "data": 'fiyat', className: 'text-start' },
             ]
         });
     });

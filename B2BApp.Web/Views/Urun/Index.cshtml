@@ -11,23 +11,25 @@
 
     </div>
     <br />
+    <div class="p-3 border bg-light">
 
 
-    <table id="urunTable" class="display nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>Urun</th>
-                <th>Tedarikci</th>
+        <table id="urunTable" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Urun</th>
+                    <th>Tedarikci</th>
 
-                <th>Kategori</th>
-                <th>Fiyat</th>
-                <th class=""></th>
-            </tr>
-        </thead>
-    </table>
+                    <th>Kategori</th>
+                    <th>Fiyat</th>
+                    <th class=""></th>
+                </tr>
+            </thead>
+        </table>
 
 
 
+    </div>
 </div>
 
 @* right drawer *@
@@ -90,45 +92,39 @@
                 url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
             "layout": {
-                "topStart": {
-                    "buttons": [
-
+                "bottomStart": {
+                    buttons: [
                         {
-                            "extend": 'excelHtml5',
-                            "exportOptions": {
-                                "columns": [0, 1, 2, 3],
-                                "title": "bura başlık"
 
-                            }
-                        },
-                        {
-                            "extend": 'pdfHtml5',
-                            "exportOptions": {
-                                "columns": [0, 1, 2, 3],
-                                "title": "Bura Başlık",
-                                "text": "asdasdasd"
-                            }
-                        },
-                        'colvis'
-                    ]
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Ürünler',
+                            className: 'btn btn-success',
+                        }
+                    ],
                 }
-
             },
+           
 
             "columns": [
                 { "data": 'urunAdi' },
                 { "data": 'tedarikci.tedarikciAdi' },
                 { "data": 'kategori.kategoriAdi' },
-                { "data": 'fiyat' },
+                { "data": 'fiyat', className: 'text-start' },
                 {
                     "data": "id",
                     "className": "noExport",
                     "render": function (data) {
                         return `
-                                                  <div class="w-75 btn-group" role="group">
-                                                          <a onClick=getUrunInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
-                                                      <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                                  </div>`
+                                                      <div class="w-75 btn-group" role="group">
+                                                              <a onClick=getUrunInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                                          <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                                      </div>`
                     },
                     "width": "20%"
                 },
@@ -252,14 +248,14 @@
             title: 'Uun Ekle',
             html:
                 `<label for="urunIsimEkle" class="form-label">Urun</label> <input type="text" id="urunIsimEkle" class= "form-control" value="" required>
-                     <label for= "urunFiyatEkle" class= "form-label">Fiyat</label> <input type="number" id = "urunFiyatEkle" class= "form-control" value = "" required>
-                     <br/>
-                     <label for="categorySelectSave" class= "form-label">Kategori</label> <select id="categorySelectSave" class="select2" placeholder='select item'></select>
-                     <br/>
-                     <br/>
-                     <label for="tedarikciSelectSave" class= "form-label">Tedarikci</label> <select id="tedarikciSelectSave" class="select2" placeholder='select item'></select>
+                         <label for= "urunFiyatEkle" class= "form-label">Fiyat</label> <input type="number" id = "urunFiyatEkle" class= "form-control" value = "" required>
+                         <br/>
+                         <label for="categorySelectSave" class= "form-label">Kategori</label> <select id="categorySelectSave" class="select2" placeholder='select item'></select>
+                         <br/>
+                         <br/>
+                         <label for="tedarikciSelectSave" class= "form-label">Tedarikci</label> <select id="tedarikciSelectSave" class="select2" placeholder='select item'></select>
 
-                     `,
+                         `,
 
 
             onOpen: function () {

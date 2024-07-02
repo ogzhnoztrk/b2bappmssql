@@ -8,89 +8,107 @@
     <h2>Satışlar</h2>
 
     <div class="" style="display: flex;justify-content: flex-end;">
-
     </div>
     <br />
 
+    <div class="p-3 border bg-light">
 
 
-    <table id="satislarTable" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Şube Adi</th>
-                <th>Ürün</th>
-                <th>Satış Miktarı</th>
-                <th>Toplam</th>
-                <th>Tarih</th>
-            </tr>
-        </thead>
-        <tfoot>
-        </tfoot>
-    </table>
-</div>
-
-
-
-
+        <table id="satislarTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Şube Adi</th>
+                    <th>Ürün</th>
+                    <th>Satış Miktarı</th>
+                    <th>Toplam</th>
+                    <th>Tarih</th>
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
 
 
 
-<script type="text/javascript">
-    let table;
-
-    $(document).ready(function loadTable() {
-
-        $.ajax({
-            url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
-            crossDomain: true,
-            headers: {
-                'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
-            },
-            data: {
-                'tedarikciId': '@ViewBag.FirmaId'
-            }
-        }).done(function (response) {
-            table = $('#satislarTable').DataTable({
-                "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
-                "data": response.data,
-                "columns": [
-                    { "data": 'sube.subeAdi' },
-                    { "data": 'urun.urunAdi' },
-                    { "data": 'satisMiktari' },
-                    { "data": 'toplam' },
-                    {
-                        "data": 'satisTarihi',
-                        "render": function (data) {
-                            // JavaScript Date objesine dönüştürme
-                            var tarih = new Date(data);
-
-                            // Tarih bilgilerini alıyoruz
-                            var yil = tarih.getFullYear();
-                            var ay = ('0' + (tarih.getMonth() + 1)).slice(-2); // Ayı 2 basamaklı olarak almak için
-                            var gun = ('0' + tarih.getDate()).slice(-2); // Günü 2 basamaklı olarak almak için
-                            var saat = ('0' + tarih.getHours()).slice(-2); // Saati 2 basamaklı olarak almak için
-                            var dakika = ('0' + tarih.getMinutes()).slice(-2); // Dakikayı 2 basamaklı olarak almak için
 
 
-                            // Yıl/ay/gün - saat formatında birleştirme
-                            var formatliTarih = yil + '/' + ay + '/' + gun + ' - ' + saat + ':' + dakika;
 
-                            //console.log(formatliTarih); // Örneğin: "2024/06/25 - 06:05:00"
-                            return formatliTarih;
+
+    <script type="text/javascript">
+        let table;
+
+        $(document).ready(function loadTable() {
+
+            $.ajax({
+                url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
+                crossDomain: true,
+                headers: {
+                    'accept': 'text/plain',
+                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                },
+                data: {
+                    'tedarikciId': '@ViewBag.FirmaId'
+                }
+            }).done(function (response) {
+                table = $('#satislarTable').DataTable({
+                    "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+                    "data": response.data,
+                    "layout": {
+                        "bottomStart": {
+                            buttons: [
+                                {
+
+                                    extend: 'pdf',
+                                    text: 'Pdf',
+                                    exportOptions: {
+                                        modifier: {
+                                            page: 'current'
+                                        }
+                                    },
+                                    title: 'FirmaSatışlar',
+                                    className: 'btn btn-success',
+                                }
+                            ],
                         }
                     },
-                    
-                ]
+                    "columns": [
+                        { "data": 'sube.subeAdi' },
+                        { "data": 'urun.urunAdi' },
+                        { "data": 'satisMiktari', className: 'text-start' },
+                        { "data": 'toplam', className: 'text-start' },
+                        {
+                            "data": 'satisTarihi',
+                            "render": function (data) {
+                                // JavaScript Date objesine dönüştürme
+                                var tarih = new Date(data);
+
+                                // Tarih bilgilerini alıyoruz
+                                var yil = tarih.getFullYear();
+                                var ay = ('0' + (tarih.getMonth() + 1)).slice(-2); // Ayı 2 basamaklı olarak almak için
+                                var gun = ('0' + tarih.getDate()).slice(-2); // Günü 2 basamaklı olarak almak için
+                                var saat = ('0' + tarih.getHours()).slice(-2); // Saati 2 basamaklı olarak almak için
+                                var dakika = ('0' + tarih.getMinutes()).slice(-2); // Dakikayı 2 basamaklı olarak almak için
+
+
+                                // Yıl/ay/gün - saat formatında birleştirme
+                                var formatliTarih = yil + '/' + ay + '/' + gun + ' - ' + saat + ':' + dakika;
+
+                                //console.log(formatliTarih); // Örneğin: "2024/06/25 - 06:05:00"
+                                return formatliTarih;
+                            }
+                        },
+
+                    ]
+                });
             });
         });
-        });
 
 
 
 
 
 
-       
 
-</script>
+
+    </script>

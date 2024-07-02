@@ -14,6 +14,7 @@
     </div>
     <br />
 
+    <div class="p-3 border bg-light">
 
     <table id="myTable" class="display" style="width:100%">
         <style>
@@ -28,15 +29,9 @@
         </thead>
 
     </table>
-            <br />
-    <br />
-        <br />
-    <br />        <br />
-    <br />
-        <br />
-    <br />
 
 
+</div>
 </div>
 
 @* right drawer *@
@@ -83,6 +78,24 @@
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
                 }
 
+            },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Kategoriler',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
             },
 
             "columns": [

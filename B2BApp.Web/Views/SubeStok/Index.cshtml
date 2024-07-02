@@ -9,29 +9,31 @@
     <hr />
 
     <div class="" style="display: flex;justify-content: flex-end;">
-        <button onClick ="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
+        <button onClick="loadData()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekleme" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Sube Stok</button>
 
     </div>
     <br />
 
 
+    <div class="p-3 border bg-light">
 
-    <table id="subeStokTable" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Şube Adi</th>
-                <th>Ürün</th>
-                <th>Stok</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tfoot>
-        </tfoot>
-    </table>
+        <table id="subeStokTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Şube Adi</th>
+                    <th>Ürün</th>
+                    <th>Stok</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
 </div>
 
 @* Ekleme *@
-<div  class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Ekleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="eklemeClose"></button>
@@ -40,7 +42,7 @@
 
         <div class="container">
 
-            
+
             <br />
 
             <div class="input-group">
@@ -73,7 +75,7 @@
 @* Ekleme *@
 
 @* Guncelleme *@
- <div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelleme" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="updateClose"></button>
@@ -112,7 +114,7 @@
 
 
     </div>
-</div> 
+</div>
 @* Guncelleme *@
 
 
@@ -130,7 +132,7 @@
 
     $(document).ready(function loadTable() {
         table = $('#subeStokTable').DataTable({
-            "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json'},
+            "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax": {
                 "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrun",
                 'type': 'GET',
@@ -138,18 +140,36 @@
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
                 }
             },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'ŞubeStok',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
             "columns": [
                 { "data": 'sube.subeAdi' },
                 { "data": 'urun.urunAdi' },
-                { "data": 'stok' },
+                { "data": 'stok', className: 'text-start' },
                 {
                     "data": "id",
                     "render": function (data) {
                         return `
-                                                          <div class="w-75 btn-group" role="group">
-                                                             <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
-                                                              <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                                          </div>`
+                                                              <div class="w-75 btn-group" role="group">
+                                                                 <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelleme" aria-controls="Guncelleme"></i>Edit</a>
+                                                                  <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                                              </div>`
                     },
                     "width": "20%"
                 },
@@ -245,7 +265,7 @@
             }
         });
     }
-  
+
     function Delete(data) {
         Swal.fire({
             title: 'Emin Misiniz?',
@@ -288,7 +308,7 @@
             }
         })
     }
-    
+
     function loadForUpdate(data) {
         $.ajax({
             url: 'https://localhost/api/SubeStok/GetWithSubeAndUrun',
@@ -355,7 +375,7 @@
             $("#subeStokId").val(response.data.id);
 
 
-           
+
 
 
         });
@@ -363,13 +383,13 @@
 
 
 
-       
+
     }
 
-    function update(){
+    function update() {
         //burada guncel verileri alacağız
         let subeId = $("#subeSelectUpdate").val();
-        let urunId= $("#urunSelectUpdate").val();
+        let urunId = $("#urunSelectUpdate").val();
         let stok = $("#stokUpdate").val();
         let id = $("#subeStokId").val();
 

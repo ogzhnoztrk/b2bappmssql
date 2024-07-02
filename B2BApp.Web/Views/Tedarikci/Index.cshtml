@@ -14,19 +14,21 @@
     </div>
     <br />
 
+    <div class="p-3 border bg-light">
 
-    <table id="tedarikciTable" class="display" style="width:100%"> 
-        <thead>
-            <tr>
-                <th>Tedarikci Adi</th>
-                <th>Telefon</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
-  
+        <table id="tedarikciTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Tedarikci Adi</th>
+                    <th>Telefon</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
 
 
+
+    </div>
 </div>
 
 @* right drawer *@
@@ -41,8 +43,8 @@
 
         <br />
         <label for="tedarikciIsim" class="form-label">Tedarikci</label>
-        <input type="text" id="tedarikciIsim" class="form-control" value=""> 
-       
+        <input type="text" id="tedarikciIsim" class="form-control" value="">
+
         <label for="tedarikciTelUpdate" class="form-label">Telefon</label>
         <input type="text" id="tedarikciTelUpdate" class="form-control" value="">
 
@@ -76,18 +78,36 @@
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
                 }
             },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Tedarikçiler',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
 
             "columns": [
                 { "data": 'tedarikciAdi' },
-                { "data": 'tedarikciTel' },
+                { "data": 'tedarikciTel', className: 'text-start' },
                 {
                     "data": "id",
                     "render": function (data) {
                         return `
-                                      <div class="w-75 btn-group" role="group">
-                                          <a onClick=getTedarikciInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
-                                          <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                      </div>`
+                                          <div class="w-75 btn-group" role="group">
+                                              <a onClick=getTedarikciInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                              <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                          </div>`
                     },
                     "width": "20%"
                 },
@@ -205,7 +225,7 @@
 
             preConfirm: function () {
                 return new Promise(function (resolve) {
-                    
+
                     resolve([
                         $('#tedarikciIsimEkle').val(),
                         $('#tedarikciTel').val()
@@ -262,16 +282,16 @@
                 //     })
 
                 // }).done(function (response) {
-                    // if (response != null) {
-                    //     //Reload/redraw the table with new data
-                    //     table.ajax.reload();
+                // if (response != null) {
+                //     //Reload/redraw the table with new data
+                //     table.ajax.reload();
 
-                    //     table = loadTable(); // Yeni tablo oluştur
-                    //     Swal.fire({
-                    //         title: "Tedarikci Eklendi",
-                    //         icon: "success"
-                    //     });
-                    // }
+                //     table = loadTable(); // Yeni tablo oluştur
+                //     Swal.fire({
+                //         title: "Tedarikci Eklendi",
+                //         icon: "success"
+                //     });
+                // }
                 // });
 
 

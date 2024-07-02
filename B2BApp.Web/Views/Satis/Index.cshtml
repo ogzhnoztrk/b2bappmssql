@@ -14,6 +14,7 @@
     <br />
 
 
+    <div class="p-3 border bg-light">
 
     <table id="satislarTable" class="display" style="width:100%">
         <thead>
@@ -29,6 +30,7 @@
         <tfoot>
         </tfoot>
     </table>
+</div>
 </div>
 
 @* Ekleme *@
@@ -146,11 +148,29 @@
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
                 }
             },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Satışlar',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
             "columns": [
                 { "data": 'sube.subeAdi' },
                 { "data": 'urun.urunAdi' },
-                { "data": 'satisMiktari' },
-                { "data": 'toplam' },
+                { "data": 'satisMiktari', className: 'text-start' },
+                { "data": 'toplam', className: 'text-start' },
                 { "data": 'satisTarihi',
                     "render" : function(data){
                         // JavaScript Date objesine dönüştürme

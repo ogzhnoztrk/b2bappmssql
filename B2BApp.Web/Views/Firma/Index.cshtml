@@ -14,19 +14,21 @@
     </div>
     <br />
 
+    <div class="p-3 border bg-light">
 
-    <table id="firmaTable" class="display" style="width:100%"> 
-        <thead>
-            <tr>
-                <th>Firma Adi</th>
-                <th>Telefon</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
-  
+        <table id="firmaTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Firma Adi</th>
+                    <th>Telefon</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
 
 
+
+    </div>
 </div>
 
 @* right drawer *@
@@ -41,8 +43,8 @@
 
         <br />
         <label for="firmaIsim" class="form-label">Firma</label>
-        <input type="text" id="firmaIsim" class="form-control" value=""> 
-       
+        <input type="text" id="firmaIsim" class="form-control" value="">
+
         <label for="firmaTelUpdate" class="form-label">Telefon</label>
         <input type="text" id="firmaTelUpdate" class="form-control" value="">
 
@@ -75,20 +77,37 @@
                     'accept': 'text/plain',
                     'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                 }
-                
-            },
 
+            },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Firmlar',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
             "columns": [
                 { "data": 'firmaAdi' },
-                { "data": 'firmaTel' },
+                { "data": 'firmaTel', className: 'text-start' },
                 {
                     "data": "id",
                     "render": function (data) {
                         return `
-                                      <div class="w-75 btn-group" role="group">
-                                              <a onClick=getFirmaInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
-                                          <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                      </div>`
+                                          <div class="w-75 btn-group" role="group">
+                                                  <a onClick=getFirmaInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                              <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                          </div>`
                     },
                     "width": "20%"
                 },
@@ -208,7 +227,7 @@
 
             preConfirm: function () {
                 return new Promise(function (resolve) {
-                    
+
                     resolve([
                         $('#firmaIsimEkle').val(),
                         $('#firmaTel').val()

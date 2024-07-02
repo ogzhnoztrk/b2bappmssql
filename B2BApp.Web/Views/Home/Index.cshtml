@@ -46,7 +46,7 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 <script type="text/javascript">
     var ctxBar = document.getElementById('barChart');
@@ -74,34 +74,27 @@
                 "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
             "layout": {
-                "topStart": {
-                    "buttons": [
-
+                "bottomStart": {
+                    buttons: [
                         {
-                            "extend": 'excelHtml5',
-                            "exportOptions": {
-                                "columns": [0, 1, 2, 3, 4],
-                                "title": "bura başlık"
-
-                            }
-                        },
-                        {
-                            "extend": 'pdfHtml5',
-                            "exportOptions": {
-                                "columns": [0, 1, 2, 3, 4],
-                                "title": "Bura Başlık",
-                                "text": "asdasdasd"
-                            }
-                        },
-                        'colvis'
-                    ]
+                           
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Ürünler',
+                            className: 'btn btn-success',
+                        }
+                    ],
                 }
-
             },
 
             "columns": [
                 { "data": 'urunAdi' },
-                { "data": 'fiyat' },
+                { "data": 'fiyat', className: 'text-start' },
                 { "data": 'tedarikci.tedarikciAdi' },
                 { "data": 'tedarikci.tedarikciTel' },
                 { "data": 'kategori.kategoriAdi' },

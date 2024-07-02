@@ -13,6 +13,7 @@
 </div>
 <br />
 
+    <div class="p-3 border bg-light">
 
     <table id="subeTable" class="display" style="width:100%">
     <thead>
@@ -25,6 +26,7 @@
     </thead>
    
 </table>
+</div>
 </div>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -77,11 +79,28 @@
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
                 }
             },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
 
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Şubeler',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
             "columns": [
                 { "data": 'subeAdi' },
                 { "data": 'firma.firmaAdi' },
-                { "data": 'subeTel' },
+                { "data": 'subeTel', className: 'text-start' },
                 
 
                 {

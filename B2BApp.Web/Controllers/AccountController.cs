@@ -6,13 +6,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using B2BApp.Web.Core.Controllers;
 
 
 
 
 namespace B2BApp.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         public IActionResult Login()
         {
@@ -84,7 +85,6 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");            
-            ViewBag.JwtCookie = Request.Cookies["jwt"];
 
             return View();
         }
