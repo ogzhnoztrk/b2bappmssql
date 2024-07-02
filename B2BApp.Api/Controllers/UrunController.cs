@@ -26,7 +26,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> PostUrun(Urun urun)
         {
 
@@ -38,8 +38,9 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+       
         [HttpGet]
-
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> GetUrun(string id)
         {
 
@@ -48,14 +49,15 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetUrunlerWithKategori")]
-
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<UrunDto>> GetUrunWithKategori()
         {
             return _urunService.getAllWithKategoriAdiAndTedarikci();
                 
         
         }
-       [HttpGet("GetUrunlerWithDetailsByTedarikciId")]
+       
+        [HttpGet("GetUrunlerWithDetailsByTedarikciId")] //Kullanıcı ulaşabilir
         public Result<ICollection<UrunDto>> GetUrunlerWithDetailsByTedarikciId(string tedarikciId)
         {
             return _urunService.getUrunlerWithDetailsByTedarikciId(tedarikciId);
@@ -63,26 +65,23 @@ namespace B2BApp.Api.Controllers
         
         }
 
-
         [HttpGet("GetUrunWithKategori")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<UrunDto> GetUrunWithKategori(string id) 
         {
             return _urunService.getUrunWithKategoriAndTedarikci(ObjectId.Parse(id));
         }
 
-
-
         [HttpGet("all")]
-
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Urun>> GetUrun()
         {
             var urunlar = _urunService.getAll();
             return urunlar;
         }
 
-
         [HttpPut]
-
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> UpdateUrun(Urun urun, string urunId)
         {
             _urunService.updateUrun(urun, urunId);

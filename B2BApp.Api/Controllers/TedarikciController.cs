@@ -24,6 +24,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> PostCompany(Tedarikci tedarikci)
         {
 
@@ -35,14 +36,18 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+      
         [HttpGet]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> GetCompany(string id)
         {
             
             var tedarikci = _tedarikciService.getTedarikciById(ObjectId.Parse(id));
             return tedarikci;
         }
+      
         [HttpGet("all")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Tedarikci>> GetCompany()
         {
             var tedarikcilar = _tedarikciService.getAll();
@@ -51,6 +56,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> UpdateCompany(Tedarikci tedarikci,string tedarikciId)
         {
             _tedarikciService.updateTedarikci(tedarikci, tedarikciId);
@@ -63,6 +69,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> DeleteCompany(string id)
         {
             _tedarikciService.deleteTedarikci(ObjectId.Parse(id));

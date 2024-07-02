@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "6682972f420b0208d3d620a7")]
     public class KullaniciController : ControllerBase
     {
         private readonly IKullaniciService _kullaniciService;

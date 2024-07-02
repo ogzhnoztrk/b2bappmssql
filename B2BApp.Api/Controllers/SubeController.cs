@@ -25,6 +25,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> PostSube(Sube sube)
         {
 
@@ -37,6 +38,7 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> GetSube(string id)
         {
 
@@ -44,6 +46,7 @@ namespace B2BApp.Api.Controllers
             return sube;
         }
         [HttpGet("all")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Sube>> GetAllSube(string? firmaId)
         {
             var subelar = _subeService.getAll(firmaId);
@@ -51,12 +54,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetSubelerWithFirma")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeDto>> GetSubelerWithFirma()
         {
             return _subeService.getSubelerWithFirma();
         }
 
         [HttpGet("GetSubeWithFirma")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeDto> GetSubeWithFirma(string id)
         {
             return _subeService.getSubeWithFirma(ObjectId.Parse(id));
@@ -64,6 +69,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> UpdateSube(Sube sube, string subeId)
         {
 
@@ -77,6 +83,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> DeleteSube(string id)
         {
             _subeService.deleteSube(ObjectId.Parse(id));

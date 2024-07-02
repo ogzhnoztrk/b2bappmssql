@@ -24,7 +24,8 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        public Result<Satis> PostCompany(Satis satis)
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<Satis> PostSatis(Satis satis)
         {
 
             _satisService.addSatis(satis);
@@ -35,8 +36,10 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+       
         [HttpGet]
-        public Result<Satis> GetCompany(string id)
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<Satis> GetSatis(string id)
         {
 
             var satis = _satisService.getSatisById(ObjectId.Parse(id));
@@ -44,25 +47,28 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("all")]
-        public Result<ICollection<Satis>> GetCompany()
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<ICollection<Satis>> GetSatis()
         {
             var satislar = _satisService.getAll();
             return satislar;
         }
 
         [HttpGet("getWithUrunAndSube")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SatisDto> getWithUrunAndSube(string id)
         {
             return _satisService.getWithUrunAndSube(ObjectId.Parse(id));
         }
 
         [HttpGet("getAllWithUrunAndSube")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
         {
             return _satisService.getAllWithUrunAndSube();
         }
 
-        [HttpGet("GetAllWithUrunAndSubeByTedarikciId")]
+        [HttpGet("GetAllWithUrunAndSubeByTedarikciId")] //Kullanıcı ulaşabilir
         public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId)
         {
             return _satisService.getAllWithUrunAndSubeByTedarikciId(tedarikciId);
@@ -70,7 +76,9 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        public Result<Satis> UpdateCompany(Satis satis,  string satisId)
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+
+        public Result<Satis> UpdateSatis(Satis satis,  string satisId)
         {
             _satisService.updateSatis(satis, satisId);
             return new Result<Satis>
@@ -82,7 +90,8 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        public Result<Satis> DeleteCompany(string id)
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<Satis> DeleteSatis(string id)
         {
             _satisService.deleteSatis(ObjectId.Parse(id));
 

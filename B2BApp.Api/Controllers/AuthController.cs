@@ -22,12 +22,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+
         public Result<KullaniciKayitDto> Register(KullaniciKayitDto kullaniciKayitDto)
         {
             return _authService.Register(kullaniciKayitDto);
         }      
         
-        [HttpPost("login")]
+        [HttpPost("login")]//kullanıcılar ulaşabilir
         public Result<string> login(KullaniciGirisDto kullaniciGirisDto)
         {
             var login = _authService.Login(kullaniciGirisDto);

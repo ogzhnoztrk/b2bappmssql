@@ -24,6 +24,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> PostCompany(SubeStok subeStok)
         {
 
@@ -35,14 +36,18 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+     
         [HttpGet]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> GetCompany(string id)
         {
 
             var subeStok = _subeStokService.getSubeStokById(ObjectId.Parse(id));
             return subeStok;
         }
+      
         [HttpGet("all")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeStok>> GetCompany()
         {
             var subeStoklar = _subeStokService.getAll();
@@ -50,19 +55,20 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetWithSubeAndUrun")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStokDto> GetWithSubeAndUrun(string id)
         {
             return _subeStokService.getWithSubeAndUrun(ObjectId.Parse(id));
         }
-        [HttpGet("GetAllWithSubeAndUrunByTedarikciId")]
-
+       
+        [HttpGet("GetAllWithSubeAndUrunByTedarikciId")] //kullanıcılar ulaşabilir
         public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId(string tedarikciId) 
         { 
             return _subeStokService.getAllWithSubeAndUrunByTedarikciId(tedarikciId); 
         }
 
-
         [HttpGet("GetAllWithSubeAndUrun")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeStokDto>> GetAllWithSubeAndUrun()
         {
             return _subeStokService.getAllWithSubeAndUrun();
@@ -70,6 +76,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> UpdateCompany(SubeStok subeStok, string subeStokId)
         {
 
@@ -83,6 +90,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> DeleteCompany(string id)
         {
             _subeStokService.deleteSubeStok(ObjectId.Parse(id));

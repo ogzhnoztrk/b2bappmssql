@@ -18,7 +18,8 @@ namespace B2BApp.Api.Controllers
         {
                 _urunSatisRaporServisi = urunSatisRaporServisi;
         }
-		[HttpGet]
+	
+		[HttpGet]//kullanıcıar ulaşabilir
 		public Result<UrunlerVeAylikSatislarDto> getUrunlerVeAylikSatislarByTedarikciId(string tedarikciId)
 		{
 			return _urunSatisRaporServisi.getUrunlerVeAylikSatislarByTedarikciId(tedarikciId);

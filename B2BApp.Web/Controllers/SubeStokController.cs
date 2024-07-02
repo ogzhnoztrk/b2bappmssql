@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using B2BApp.Web.Core.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace B2BApp.Web.Controllers
 {
-    public class SubeStokController : Controller
+    public class SubeStokController : BaseController
     {
         // GET: SubeStokController
         public ActionResult Index()
         {
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            ViewBag.JwtCookie = Request.Cookies["jwt"];
+            
 
             return View();
         }
