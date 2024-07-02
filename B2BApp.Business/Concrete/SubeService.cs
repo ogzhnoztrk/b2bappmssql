@@ -69,6 +69,19 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+        public Result<ICollection<Sube>> getSubeByFirmaId(string subeId)
+        {
+            try
+            {
+                return _unitOfWork.Sube.FilterBy(x => x.FirmaId == subeId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public Result<Sube> getSubeById(ObjectId objectId)
         {
             try

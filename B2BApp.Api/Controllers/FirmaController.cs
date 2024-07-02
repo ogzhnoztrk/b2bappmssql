@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "6682972f420b0208d3d620a7")]
+    [Authorize]
     public class FirmaController : ControllerBase
     {
         private readonly IFirmaService _firmaService;
@@ -23,6 +23,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Firma> PostFirma(Firma firma)
         {
 
@@ -35,6 +36,7 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Firma> GetFirma(string id)
         {
             
@@ -51,6 +53,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Firma> UpdateFirma(Firma firma,string firmaId)
         {
             //Firma firma = new Firma
@@ -70,6 +73,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Firma> DeleteFirma(string id)
         {
             _firmaService.deleteFirma(ObjectId.Parse(id));

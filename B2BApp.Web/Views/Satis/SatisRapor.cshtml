@@ -1,19 +1,59 @@
 ﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-
 }
 
 <div class="container">
     <h2>Satışlar</h2>
 
-    <div class="" style="display: flex;justify-content: flex-end;">
-    </div>
-    <br />
+
+
+    <!--Filtre Start-->
 
     <div class="p-3 border bg-light">
+        <!-- Existing code -->
+        <div class="row">
+            <div class="col">
+                <label for="tarih1">Tarih1:</label>
+                <input type="date" id="tarih1" class="form-control">
+            </div>
+            <div class="col">
+                <label for="tarih2">Tarih2:</label>
+                <input type="date" id="tarih2" class="form-control">
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col">
+                <label for="firma">Firma:</label>
+                <select id="firma" class="form-control">
 
+                </select>
+            </div>
+            <div class="col">
+                <label for="sube">Şube:</label>
+                <select id="sube" class="form-control">
+                </select>
+            </div>
+            <div class="col">
+                <label for="kategori">Kategori:</label>
+                <select id="kategori" class="form-control">
+
+                </select>
+            </div>
+
+        </div>
+        <br />
+
+        <br />
+        <div class="" style="display: flex;justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="applyFilter()">Filtreyi Uygula</button>
+        </div>
+    </div>
+    <br />
+    <!--Filtre End-->
+    <!--Tablo Start-->
+    <div class="p-3 border bg-light">
         <table id="satislarTable" class="display" style="width:100%">
             <thead>
                 <tr>
@@ -28,87 +68,142 @@
             </tfoot>
         </table>
     </div>
+    <!--Tablo End-->
+</div>
 
 
-
-
-
-
-
-    <script type="text/javascript">
-        let table;
-
-        $(document).ready(function loadTable() {
-
-            $.ajax({
-                url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
-                crossDomain: true,
-                headers: {
-                    'accept': 'text/plain',
-                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+<script type="text/javascript">
+    let table;
+    let tarih1= null;
+    let tarih2= null;
+    function loadTable() {
+        $.ajax({
+            url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+            data: {
+                'tedarikciId': '@ViewBag.FirmaId',
+                'ilkTarih': tarih1,
+                'ikinciTarih': tarih2
+            }
+        }).done(function (response) {
+            // console.log(response);
+            // debugger;
+            table = $('#satislarTable').DataTable({
+                "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+                "data": response.data,
+                "layout": {
+                    "bottomStart": {
+                        buttons: [
+                            {
+                                extend: 'pdf',
+                                text: 'Pdf',
+                                exportOptions: {
+                                    modifier: {
+                                        page: 'current'
+                                    }
+                                },
+                                title: 'FirmaSatışlar',
+                                className: 'btn btn-success',
+                            }
+                        ],
+                    }
                 },
-                data: {
-                    'tedarikciId': '@ViewBag.FirmaId'
-                }
-            }).done(function (response) {
-                table = $('#satislarTable').DataTable({
-                    "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
-                    "data": response.data,
-                    "layout": {
-                        "bottomStart": {
-                            buttons: [
-                                {
+                "columns": [
+                    { "data": 'sube.subeAdi' },
+                    { "data": 'urun.urunAdi' },
+                    { "data": 'satisMiktari', className: 'text-start' },
+                    { "data": 'toplam', className: 'text-start' },
+                    {
+                        "data": 'satisTarihi',
+                        "render": function (data) {
+                            // JavaScript Date objesine dönüştürme
+                            var tarih = new Date(data);
 
-                                    extend: 'pdf',
-                                    text: 'Pdf',
-                                    exportOptions: {
-                                        modifier: {
-                                            page: 'current'
-                                        }
-                                    },
-                                    title: 'FirmaSatışlar',
-                                    className: 'btn btn-success',
-                                }
-                            ],
+                            // Tarih bilgilerini alıyoruz
+                            var yil = tarih.getFullYear();
+                            var ay = ('0' + (tarih.getMonth() + 1)).slice(-2); // Ayı 2 basamaklı olarak almak için
+                            var gun = ('0' + tarih.getDate()).slice(-2); // Günü 2 basamaklı olarak almak için
+                            var saat = ('0' + tarih.getHours()).slice(-2); // Saati 2 basamaklı olarak almak için
+                            var dakika = ('0' + tarih.getMinutes()).slice(-2); // Dakikayı 2 basamaklı olarak almak için
+
+                            // Yıl/ay/gün - saat formatında birleştirme
+                            var formatliTarih = yil + '/' + ay + '/' + gun + ' - ' + saat + ':' + dakika;
+
+                            //console.log(formatliTarih); // Örneğin: "2024/06/25 - 06:05:00"
+                            return formatliTarih;
                         }
                     },
-                    "columns": [
-                        { "data": 'sube.subeAdi' },
-                        { "data": 'urun.urunAdi' },
-                        { "data": 'satisMiktari', className: 'text-start' },
-                        { "data": 'toplam', className: 'text-start' },
-                        {
-                            "data": 'satisTarihi',
-                            "render": function (data) {
-                                // JavaScript Date objesine dönüştürme
-                                var tarih = new Date(data);
-
-                                // Tarih bilgilerini alıyoruz
-                                var yil = tarih.getFullYear();
-                                var ay = ('0' + (tarih.getMonth() + 1)).slice(-2); // Ayı 2 basamaklı olarak almak için
-                                var gun = ('0' + tarih.getDate()).slice(-2); // Günü 2 basamaklı olarak almak için
-                                var saat = ('0' + tarih.getHours()).slice(-2); // Saati 2 basamaklı olarak almak için
-                                var dakika = ('0' + tarih.getMinutes()).slice(-2); // Dakikayı 2 basamaklı olarak almak için
-
-
-                                // Yıl/ay/gün - saat formatında birleştirme
-                                var formatliTarih = yil + '/' + ay + '/' + gun + ' - ' + saat + ':' + dakika;
-
-                                //console.log(formatliTarih); // Örneğin: "2024/06/25 - 06:05:00"
-                                return formatliTarih;
-                            }
-                        },
-
-                    ]
-                });
+                ]
             });
         });
+    };
+
+    loadTable();
+
+    function applyFilter() {
+        // Get the selected filter values
+        tarih1 = $('#tarih1').val() ?? "";
+        tarih2 = $('#tarih2').val() ?? "";
+
+        var firma = $('#firma').val() ?? "";
+        var kategori = $('#kategori').val() ?? "";
+        var sube = $('#sube').val() ?? "";
+        debugger;
+        table.destroy();
+        loadTable();
+
+        // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
+        table.columns(0).search(sube).draw();
+        table.columns(1).search(kategori).draw();
+
+
+        
+
+    }
+    // console.log(@ViewBag.JwtCookie);
+    function getFirmalarForSelect() {
+        $.ajax({
+            url: 'https://localhost/api/Firma/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+
+        }).done(function (response) {
+            var result = $.map(response.data, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            var select = $("#firma").select2({
+                placeholder: "Firmalar",
+                data: result,
+                width: 200,
+        });
+        });
+    }
 
 
 
+    getFirmalarForSelect();
+</script>
+@* result = $.map(response.data, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            console.log(result);
+            debugger;
+            $("#firma").select2({
+                placeholder: "Firmalar",
+                data: result,
+                width: 200,
 
-
-
-
-
-    </script>
+            }); *@

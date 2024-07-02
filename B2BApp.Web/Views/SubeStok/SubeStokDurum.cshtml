@@ -15,6 +15,14 @@
     <br />
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('.datepicker', {
+            dateFormat: 'd-m-Y'
+        });
+    </script>
+
     <div class="p-3 border bg-light">
 
         <table id="subeStokTable" class="display" style="width:100%">
@@ -56,7 +64,12 @@
                 'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
-                'tedarikciId': '@ViewBag.FirmaId'
+                'tedarikciId': '@ViewBag.FirmaId',
+                // 'ilkTarih': '01-01-2000',
+                // 'ikinciTarih': '01-01-2000',
+                // 'subeId': 'aaa',
+                // 'kategoriId': 'aaa',
+                // 'firmaId': 'aaa'
             }
         }).done(function (response) {
             table = $('#subeStokTable').DataTable({

@@ -53,6 +53,13 @@ namespace B2BApp.Api.Controllers
             return subelar;
         }
 
+        [HttpGet("GetSubelerByFirmaId")]
+        public Result<ICollection<Sube>> getSubelerByFirmaId(string subeId)
+
+        {
+            return _subeService.getSubeByFirmaId(subeId);
+        }
+
         [HttpGet("GetSubelerWithFirma")]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeDto>> GetSubelerWithFirma()
