@@ -17,7 +17,14 @@ namespace B2BApp.Business.Abstract
         void deleteSubeStok(ObjectId objectId);
         Result<ICollection<SubeStok>> getAll();
         Result<ICollection<SubeStokDto>> getAllWithSubeAndUrun();
-        Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId(string tedarikciId);
+        Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId
+            (
+            string tedarikciId,
+            string? subeId,
+            string? firmaId,
+            string? kategoriId
+            
+            );
         Result<SubeStokDto> getWithSubeAndUrun(ObjectId objectId);
         Result<SubeStok> getSubeStokById(ObjectId objectId);
     }

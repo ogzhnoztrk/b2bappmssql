@@ -86,15 +86,32 @@ namespace B2BApp.Business.Abstract
             return result;
         }
 
-        public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId(string tedarikciId)
+        public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId
+            (
+            string tedarikciId,
+            string? subeId,
+            string? firmaId,
+            string? kategoriId
+            )
         {
+            //tedarikciId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili tedarikcinin stoklarını getir
             var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
-            var sube = _unitOfWork.Sube.GetAll().Data;
+
+            //kategoriId null ise tüm kategorilerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
+            urunler = kategoriId == null ? urunler : urunler.Where(x => x.KategoriId == kategoriId).ToList();
+
+
+            //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
+            var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x=>x.Id == subeId).Data;
+            //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
+            sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
+            
             var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
 
             var subeStokDTOs = (from urun in urunler
                         join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
                         where urun.TedarikciId == tedarikciId
+                        
                         join sub in sube on subeStok.SubeId equals sub.Id
                         select new SubeStokDto
                         {
