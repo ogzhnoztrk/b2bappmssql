@@ -3,6 +3,7 @@ using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,15 +101,37 @@ namespace B2BApp.Business.Abstract
             return result;
         }
 
-        public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId)
+        public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId
+            (
+                string tedarikciId, 
+                DateTime? ilkTarih,
+                DateTime? ikinciTarih,
+                string? subeId,
+                string? kategoriId,
+                string? firmaId
+            )
         {
-            var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+            //kategoriId null ise tüm ürünleri getirir, değilse sadece o ürünleri getirir
+            var urunler = kategoriId == null ? _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data 
+                : _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId && x.KategoriId == kategoriId).Data;
+            
             var satislar = _unitOfWork.Satis.GetAll().Data;
-            var subeler = _unitOfWork.Sube.GetAll().Data;
+            
+            //subeId null ise tüm şubeleri getirir, değilse sadece o şubeyi getirir
+            var subeler = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x=>x.Id == subeId).Data;
+            
+            //firmaId null ise tüm firmaları getirir, değilse sadece o firmayı getirir
+            subeler = firmaId ==null ? subeler : subeler.Where(x => x.FirmaId == firmaId).ToList();
+
+            //ilk ve ikinci tarih filtresi isetnmediğinde kullanılır
+            ilkTarih = ilkTarih ?? DateTime.MinValue;
+            ikinciTarih = ikinciTarih ?? DateTime.MaxValue;
+
             var satislarDto = (
                 from urun in urunler
                 join satis in satislar on urun.Id equals satis.UrunId
                 join sube in subeler on satis.SubeId equals sube.Id
+                where satis.SatisTarihi >= ilkTarih && satis.SatisTarihi <= ikinciTarih
                 select new SatisDto { Id=satis.Id, SatisMiktari=satis.SatisMiktari,
                   SatisTarihi=satis.SatisTarihi,
                   Sube=sube,

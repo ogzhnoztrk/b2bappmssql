@@ -17,7 +17,14 @@ namespace B2BApp.Business.Abstract
         void deleteSatis(ObjectId objectId);
         Result<ICollection<Satis>> getAll();
         Result<ICollection<SatisDto>> getAllWithUrunAndSube();
-        Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId);
+        Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(
+                string tedarikciId,
+                DateTime? ilkTarih,
+                DateTime? ikinciTarih,
+                string? subeId,
+                string? kategoriId,
+                string? firmaId
+            );
         Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
         Result<Satis> getSatisById(ObjectId objectId);
     }

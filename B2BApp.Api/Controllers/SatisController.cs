@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class SatisController : ControllerBase
     {
@@ -62,16 +62,39 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("getAllWithUrunAndSube")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
+        [AllowAnonymous]
         public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
         {
             return _satisService.getAllWithUrunAndSube();
         }
-
+        /// <summary>
+        /// Date time null olabilir, null ise tüm tarihler arasında getirir, tedarikciye ait olanları tarihler arasında getirir, tedarikciye ait olanları getirir,
+        /// Tarih Formati (MM/DD/YYYY)
+        /// </summary>
+        /// <param name="tedarikciId"></param>
+        /// <param name="ilkTarih">Tarih Formati (MM/DD/YYYY)</param>
+        /// <param name="ikinciTarih">(MM/DD/YYYY)</param>
+        /// <returns></returns>
         [HttpGet("GetAllWithUrunAndSubeByTedarikciId")] //Kullanıcı ulaşabilir
-        public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId)
+        public Result<ICollection<SatisDto>> GetAllWithUrunAndSubeByTedarikciId
+            (
+                string tedarikciId,
+                DateTime? ilkTarih,
+                DateTime? ikinciTarih,
+                string? subeId,
+                string? kategoriId,
+                string? firmaId
+            )
         {
-            return _satisService.getAllWithUrunAndSubeByTedarikciId(tedarikciId);
+            return _satisService.getAllWithUrunAndSubeByTedarikciId(
+                tedarikciId,
+                 ilkTarih,
+                ikinciTarih,
+                subeId,
+                kategoriId,
+                firmaId
+            );
         }
 
 
