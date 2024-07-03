@@ -24,6 +24,13 @@ namespace B2BApp.Business.Abstract
                 string? subeId,
                 string? kategoriId,
                 string? firmaId
+            );       
+        Result<ICollection<SatisDto>> getAllWithUrunAndSube(
+                DateTime? ilkTarih,
+                DateTime? ikinciTarih,
+                string? subeId,
+                string? kategoriId,
+                string? firmaId
             );
         Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
         Result<Satis> getSatisById(ObjectId objectId);

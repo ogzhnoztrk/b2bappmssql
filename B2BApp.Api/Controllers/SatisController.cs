@@ -36,7 +36,7 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
-       
+
         [HttpGet]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Satis> GetSatis(string id)
@@ -62,8 +62,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("getAllWithUrunAndSube")]
-        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-        [AllowAnonymous]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
         {
             return _satisService.getAllWithUrunAndSube();
@@ -77,31 +76,24 @@ namespace B2BApp.Api.Controllers
         /// <param name="ikinciTarih">(MM/DD/YYYY)</param>
         /// <returns></returns>
         [HttpGet("GetAllWithUrunAndSubeByTedarikciId")] //Kullanıcı ulaşabilir
-        public Result<ICollection<SatisDto>> GetAllWithUrunAndSubeByTedarikciId
-            (
-                string tedarikciId,
-                DateTime? ilkTarih,
-                DateTime? ikinciTarih,
-                string? subeId,
-                string? kategoriId,
-                string? firmaId
-            )
+        public Result<ICollection<SatisDto>> GetAllWithUrunAndSubeByTedarikciId(string tedarikciId, DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId)
         {
-            return _satisService.getAllWithUrunAndSubeByTedarikciId(
-                tedarikciId,
-                 ilkTarih,
-                ikinciTarih,
-                subeId,
-                kategoriId,
-                firmaId
-            );
+            return _satisService.getAllWithUrunAndSubeByTedarikciId(tedarikciId, ilkTarih, ikinciTarih, subeId, kategoriId, firmaId);
         }
+
+        [HttpGet("GetAllWithDetailsByFilters")]   [Authorize(Roles = "6682972f420b0208d3d620a7")]
+
+        public Result<ICollection<SatisDto>> GetAllWithUrunAndSube(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId)
+        {
+            return _satisService.getAllWithUrunAndSube(ilkTarih, ikinciTarih, subeId, kategoriId, firmaId);
+        }
+
 
 
         [HttpPut]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
 
-        public Result<Satis> UpdateSatis(Satis satis,  string satisId)
+        public Result<Satis> UpdateSatis(Satis satis, string satisId)
         {
             _satisService.updateSatis(satis, satisId);
             return new Result<Satis>
