@@ -12,7 +12,7 @@ namespace B2BApp.Web.Controllers
         public ActionResult Index()
         {
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            
+
 
             return View();
         }
@@ -29,15 +29,16 @@ namespace B2BApp.Web.Controllers
         public ActionResult StokRapor()
         {
 
-           // JWT'yi çözme
+            // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
 
             return View();
-        }}
-
-
-
-
-       
+        }
     }
+
+
+
+
+
 }
+

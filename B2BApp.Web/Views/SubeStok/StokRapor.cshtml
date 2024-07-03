@@ -1,1 +1,222 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+
+}
+
+<div class="container">
+    <h2>Sube Stoklar</h2>
+    <hr />
+
+    <!--Filtre Start-->
+
+    <div class="p-3 border bg-light">
+
+        <br />
+        <div class="row">
+            <div class="col">
+                <label for="firma">Firmalar:</label>
+                <select id="firma" class="form-control js-example-basic-single">
+                    <option></option>
+
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="sube">Şubeler:</label>
+                <select id="sube" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="kategori">Kategori:</label>
+                <select id="kategori" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+        </div>
+        <br />
+
+        <br />
+        <div class="" style="display: flex;justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="applyFilter()">Filtreyi Uygula</button>
+        </div>
+    </div>
+    <br />
+    <!--Filtre End-->
+    <br />
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('.datepicker', {
+            dateFormat: 'd-m-Y'
+        });
+    </script>
+
+    <div class="p-3 border bg-light">
+
+        <table id="subeStokTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Şube Adi</th>
+                    <th>Ürün</th>
+                    <th>Stok</th>
+
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+<link rel="stylesheet" href="" />
+@* select2 kullanımı *@
+
+
+
+<script type="text/javascript">
+
+    let table;
+    let firma = null;
+    var kategori = null;
+    var sube = null;
+
+    function initTable() {
+        $.ajax({
+            url: 'https://localhost/api/SubeStok/GetAllWithDetailsByFilters',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+            data: {
+                'subeId': sube,
+                'firmaId': firma,
+                'kategoriId': kategori
+            }
+        }).done(function (response) {
+            table = $('#subeStokTable').DataTable({
+                "data": response.data,
+                "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+
+                "layout": {
+                    "bottomStart": {
+                        "buttons": [
+                            {
+                                "extend": 'pdfHtml5',
+                                "exportOptions": {
+                                    "columns": [0, 1, 2],
+
+                                },
+                                "className": "btn btn-success"
+                            },
+
+                        ]
+                    }
+
+                },
+
+
+                "columns": [
+                    { "data": 'sube.subeAdi' },
+                    { "data": 'urun.urunAdi' },
+                    { "data": 'stok', className: 'text-start' },
+
+                ]
+            });
+
+
+        });
+    }
+    initTable();
+
+
+    function applyFilter() {
+
+        firma = $('#firma').val() ?? "";
+        kategori = $('#kategori').val() ?? "";
+        sube = $('#sube').val() ?? "";
+        //debugger;
+
+        table.destroy();
+        initTable();
+
+        // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
+        // table.columns(0).search(sube).draw();
+        // table.columns(1).search(kategori).draw();
+        // debugger;
+
+    }
+
+    function loadSelectsDatas() {
+
+        //firmalar load
+        $.ajax({
+            url: 'https://localhost/api/Filter/GetFirmaSubeKategoriAll',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+
+        }).done(function (response) {
+            var firmalar = $.map(response.data.firmalar, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            var select = $("#firma").select2({
+                placeholder: "Firmalar",
+                data: firmalar,
+                width: 350,
+                allowClear: true
+            });
+
+            var subeler = $.map(response.data.subeler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.subeAdi
+                };
+            });
+            var select = $("#sube").select2({
+                placeholder: "Subeler",
+                data: subeler,
+                width: 350,
+                allowClear: true
+
+            });
+
+            var kategoriler = $.map(response.data.kategoriler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.kategoriAdi
+                };
+            });
+            var select = $("#kategori").select2({
+                placeholder: "Kategoriler",
+                data: kategoriler,
+                width: 350,
+                allowClear: true
+
+            });
+
+
+        });
+
+
+    }
+
+    loadSelectsDatas();
+
+</script>
