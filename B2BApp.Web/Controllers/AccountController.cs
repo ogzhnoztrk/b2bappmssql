@@ -31,6 +31,10 @@ namespace B2BApp.Web.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    Response.Cookies.Delete("jwt");
+                }
             }
 
 

@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    [Authorize]
 
     public class SubeStokController : ControllerBase
     {
@@ -70,6 +70,13 @@ namespace B2BApp.Api.Controllers
             )
         { 
             return _subeStokService.getAllWithSubeAndUrunByTedarikciId(tedarikciId,subeId,firmaId,kategoriId); 
+        }
+
+        [HttpGet("GetAllWithDetailsByFilters")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<ICollection<SubeStokDto>> getAllWithDetailsByFilters(string? subeId, string? firmaId, string? kategoriId)
+        {
+            return _subeStokService.getAllWithDetailsByFilters(subeId, firmaId, kategoriId);
         }
 
         [HttpGet("GetAllWithSubeAndUrun")]

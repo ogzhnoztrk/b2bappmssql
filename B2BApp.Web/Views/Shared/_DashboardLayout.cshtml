@@ -68,8 +68,8 @@
     <!-- loader END -->
 
     <aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all ">
-        <div class="sidebar-header d-flex align-items-center justify-content-start">
-            <a href="~/HopeUi-Dashboard/dashboard/index.html" class="navbar-brand">
+        <div class="sidebar-header align-items-center justify-content-start">
+            <a asp-controller="Home" asp-action="index" class="navbar-brand">
                 <!--Logo start-->
                 <!--logo End-->
                 <!--Logo start-->
@@ -90,6 +90,7 @@
                     <h6 class="logo-title ms-3">
                         <img src="~/assets/images/login/seyhanlar_logo.png" class="img-fluid gradient-main animated-scaleX" alt="images" style="width: 150px;height: 40px;">
                     </h6>
+               
                
             </a>
             <div class="sidebar-toggle" id="sidebarbuton" data-toggle="sidebar" data-active="true">
@@ -368,7 +369,7 @@
                             </a>
 
                             <ul class="sub-nav collapse" id="AdminRaporlar" data-bs-parent="#sidebar-menu">
-                                @* Firma *@
+                                @* Kategori Satış Rapor *@
                                 <li class="nav-item">
                                     <a class="nav-link " asp-controller="Firma" asp-action="index">
                                         <i class="icon">
@@ -379,12 +380,13 @@
                                             </svg>
                                         </i>
                                         <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Firma</span>
+                                        <span class="item-name">Kategori Bazlı Satış</span>
                                     </a>
                                 </li>
-                                @* Kategori *@
+
+                                @*Tedarikci Performans Rapor*@
                                 <li class="nav-item">
-                                    <a class="nav-link " asp-controller="Kategori" asp-action="index">
+                                    <a class="nav-link " asp-controller="Firma" asp-action="index">
                                         <i class="icon">
                                             <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                                 <g>
@@ -393,12 +395,13 @@
                                             </svg>
                                         </i>
                                         <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Kategori</span>
+                                        <span class="item-name">Tedarikci Performans</span>
                                     </a>
                                 </li>
-                                @* Tedarikci *@
+                                
+                                @*Stok Rapor*@
                                 <li class="nav-item">
-                                    <a class="nav-link " asp-controller="tedarikci" asp-action="index">
+                                    <a class="nav-link " asp-controller="Firma" asp-action="index">
                                         <i class="icon">
                                             <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                                 <g>
@@ -407,12 +410,13 @@
                                             </svg>
                                         </i>
                                         <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Tedarikci</span>
+                                        <span class="item-name">Stok Rapor</span>
                                     </a>
                                 </li>
-                                @* Sube *@
+                                
+                                @*Kâr Rapor*@
                                 <li class="nav-item">
-                                    <a class="nav-link " asp-controller="Sube" asp-action="index">
+                                    <a class="nav-link " asp-controller="Firma" asp-action="index">
                                         <i class="icon">
                                             <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                                 <g>
@@ -421,51 +425,11 @@
                                             </svg>
                                         </i>
                                         <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Sube</span>
+                                        <span class="item-name">Kâr Rapor</span>
                                     </a>
                                 </li>
-                                @* Urun *@
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-controller="Urun" asp-action="index">
-                                        <i class="icon">
-                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                                <g>
-                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                                </g>
-                                            </svg>
-                                        </i>
-                                        <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Ürünler</span>
-                                    </a>
-                                </li>
-                                @* Sube Stok *@
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-controller="SubeStok" asp-action="index">
-                                        <i class="icon">
-                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                                <g>
-                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                                </g>
-                                            </svg>
-                                        </i>
-                                        <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Şube Stok</span>
-                                    </a>
-                                </li>
-                                @* Sube Satis *@
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-controller="Satis" asp-action="index">
-                                        <i class="icon">
-                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                                <g>
-                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                                </g>
-                                            </svg>
-                                        </i>
-                                        <i class="sidenav-mini-icon"> B </i>
-                                        <span class="item-name">Şube Satış</span>
-                                    </a>
-                                </li>
+                                
+
                             </ul>
 
 

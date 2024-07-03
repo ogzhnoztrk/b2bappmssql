@@ -59,6 +59,56 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+        public Result<ICollection<SubeStokDto>> getAllWithDetailsByFilters(string? subeId, string? firmaId, string? kategoriId)
+        {
+            //kategoriId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
+            var urunler = kategoriId == null ? _unitOfWork.Urun.GetAll().Data : _unitOfWork.Urun.FilterBy(x => x.KategoriId == kategoriId).Data;
+
+            //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
+            var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
+            //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
+            sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
+
+            var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
+
+            var subeStokDTOs = (from urun in urunler
+                                join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
+
+                                join sub in sube on subeStok.SubeId equals sub.Id
+                                select new SubeStokDto
+                                {
+                                    id = subeStok.Id,
+                                    Stok = subeStok.Stok,
+                                    Sube = sub,
+                                    Urun = urun,
+
+                                }).ToList();
+
+            //var subeStokDTOs = (from urun in urunler
+            //                    join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
+                                
+
+            //                    join sub in sube on subeStok.SubeId equals sub.Id
+            //                    select new SubeStokDto
+            //                    {
+            //                        id = subeStok.id,
+            //                        Stok = subeStok.Stok,
+            //                        Sube = sub,
+            //                        Urun = urun,
+
+            //                    }).ToList();
+
+            var result = new Result<ICollection<SubeStokDto>>
+            {
+                Data = subeStokDTOs,
+                Message = "Şubelerin Stokları Detayları İle Getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now,
+            };
+            return result;
+
+        }
+
         public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrun()
         {
             var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;

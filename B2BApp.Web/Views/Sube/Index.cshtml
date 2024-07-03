@@ -137,7 +137,8 @@
                 // getirilen verilerin gerekli yerlere atanması
                 $("#subeAdi").val(response.data.subeAdi);
                 $("#subeId").val(response.data.id);
-                $("#firmaSelectDrawer").val(response.data.firma.id).trigger('change');
+                // $("#firmaSelectDrawer").val(response.data.firma.id).trigger('change');
+                $("#firmaSelectDrawer").val(response.data.firma.id);
                 $("#subeTel").val(response.data.subeTel);
 
 
@@ -193,7 +194,7 @@
             confirmButtonText: 'Evet Sil'
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(data);
+                //console.log(data);
 
                 $.ajax({
                     url: 'https://localhost/api/Urun?id=' + data,
@@ -204,7 +205,7 @@
                         'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
-                    console.log(response);
+                   // console.log(response);
                     if (response != null || data != null) {
 
                         table.ajax.reload();
@@ -232,7 +233,8 @@
             html:
                 `<label for="subeAdiEkle" class="form-label">Sube Adı</label> <input type="text" id="subeAdiEkle" class= "form-control" value="" required>
                      <label for= "subeTel" class= "form-label">Telefon</label> <input type="phone" id="subeTel" class= "form-control" value = "" required>                <br/>
-                     <label for="firmaSelectSave" class= "form-label">Firma</label> <select id="firmaSelectSave" class="select2" placeholder='select item'></select>
+                         <label for="firmaSelectSave" class= "form-label">Firma</label> <select id="firmaSelectSave" class="select2" placeholder='select item'>                    <option></option>
+    </select>
                 `,
             // preConfirm: function () {
             //     return new Promise(function (resolve) {
@@ -249,12 +251,12 @@
             },
             didOpen: getFirmalar(),
         }).then((result) => {
-            console.log(result);
+            //console.log(result);
             let subeAdi = $('#subeAdiEkle').val();
             let firmaId = $('#firmaSelectSave').val();
             let subeTel = $('#subeTel').val();
             if (result.isConfirmed) {
-                console.log($('#firmaSelectSave').val());
+                //console.log($('#firmaSelectSave').val());
                 $.ajax({
                     url: 'https://localhost/api/Sube',
                     crossDomain: true,
@@ -331,11 +333,11 @@
                     text: data.firmaAdi
                 };
             });
-            
+            // debugger;
             $("#firmaSelectDrawer").select2({
                 placeholder: "Firma Seçin",
                 data: result,
-                dropdownParent: $('.swal2-container'), // dropdownParent olarak SweetAlert2 konteynerini belirtin
+               // dropdownParent: $('.swal2-container'), // dropdownParent olarak SweetAlert2 konteynerini belirtin
                 width: 200,
 
             });

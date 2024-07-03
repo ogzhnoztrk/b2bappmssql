@@ -46,12 +46,18 @@
             <br />
 
             <div class="input-group">
-                <label for="subeSelect" class="form-label" style="margin-right: 10px;">Sube: </label> <select id="subeSelect" placeholder='select item'></select>
+                <label for="subeSelect" class="form-label" style="margin-right: 10px;">Sube: </label> 
+                <select id="subeSelect" placeholder='select item'>
+                    <option></option>
+                </select>
             </div>
             <br />
 
             <div class="input-group">
-                <label for="urunSelect" class="form-label" style="margin-right: 10px;">Urun: </label> <select class="select2" id="urunSelect" placeholder='select item'></select>
+                <label for="urunSelect" class="form-label" style="margin-right: 10px;">Urun: </label>
+                <select class="select2" id="urunSelect" placeholder='select item'>
+                    <option></option>
+                </select>
             </div>
             <br />
 
@@ -194,7 +200,7 @@
             });
 
             $("#subeSelect").select2({
-                placeholder: "Şubeler",
+                placeholder: "Şube Seçin",
                 data: result,
                 width: 200,
 
@@ -217,7 +223,7 @@
             });
 
             $("#urunSelect").select2({
-                placeholder: "Urunler",
+                placeholder: "Ürün Seçin",
                 data: result,
                 width: 200,
 

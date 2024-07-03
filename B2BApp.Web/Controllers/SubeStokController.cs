@@ -22,21 +22,18 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(Request.Cookies["jwt"]) as JwtSecurityToken;
 
-            // Claims (iddialar) JSON olarak okuma
-            var claimsJson = new JObject();
-            foreach (var claim in jsonToken.Claims)
-            {
-                claimsJson.Add(claim.Type, claim.Value);
-            }
-            ViewBag.FirmaId = claimsJson["role"].ToString();
-            ViewBag.JwtCookie = Request.Cookies["jwt"];
             return View();
         }
 
-        
+        public ActionResult StokRapor()
+        {
+
+           // JWT'yi çözme
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+
+            return View();
+        }}
 
 
 

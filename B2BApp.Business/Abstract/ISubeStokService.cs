@@ -25,6 +25,14 @@ namespace B2BApp.Business.Abstract
             string? kategoriId
             
             );
+        Result<ICollection<SubeStokDto>> getAllWithDetailsByFilters
+            (
+            string? subeId,
+            string? firmaId,
+            string? kategoriId
+            
+            );
+
         Result<SubeStokDto> getWithSubeAndUrun(ObjectId objectId);
         Result<SubeStok> getSubeStokById(ObjectId objectId);
     }
