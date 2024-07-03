@@ -4,7 +4,7 @@
 }
 
 <div class="container">
-    <h2>Satışlar</h2>
+    <h2>Satışlar Rapor</h2>
 
 
 
@@ -56,8 +56,6 @@
     </div>
     <br />
     <!--Filtre End-->
-
-
     <!--Tablo Start-->
     <div class="p-3 border bg-light">
         <table id="satislarTable" class="display" style="width:100%">
@@ -78,23 +76,73 @@
     <!--Tablo End-->
 
 
+    <br />
+    <div class="row" style="--bs-gutter-x: 0rem;">
+        <div class="col-md-6">
+            <div>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="kategoriToplamSatisPie" width="618" height="309"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="urunToplamSatisPie" width="618" height="309"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" style="--bs-gutter-x: 0rem;">
+        <div class="col-md-6">
+            <div>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="firmaToplamSatisBar"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="subeToplamSatisBar"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <br />
+
+    @* <div class="row">
+    <div class="col">
+    <div class="p-3 border bg-light text-center">Row 1</div>
+
+    </div>
+    <div class="col">
+    <div class="p-3 border bg-light text-center">Row 2</div>
+
+    </div>
+
+
+    </div>     *@
+
+
 </div>
 
 
 <script type="text/javascript">
-    let table;
-    let tarih1 = null;
-    let tarih2 = null;
-    let firma = null;
-    var kategori = null;
-    var sube = null;
-
+    let table; let tarih1 = null; let tarih2 = null; let firma = null; var kategori = null; var sube = null;
+    var kategoriSatis_pieChart; var urunToplamSatis_pieChart; var subeToplamSatis_barChart; var firmaToplamSatis_barChart;
 
     function loadTable() {
 
         $.ajax({
-
-
             url: 'https://localhost/api/Satis/GetAllWithDetailsByFilters',
             crossDomain: true,
             headers: {
@@ -109,8 +157,8 @@
                 'firmaId': firma
             }
         }).done(function (response) {
-             console.log(response);
-            // debugger;
+            
+            chartVerileriniHesapla(response);
 
             table = $('#satislarTable').DataTable({
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
@@ -169,6 +217,86 @@
         });
     };
 
+    function chartVerileriniHesapla(response) {
+        var satisDto = response.data;
+        //ürünler
+        const urunToplamSatis = {};
+        var satis = satisDto.reduce(function (accumulator, item) {
+            var existingItem = accumulator.find(function (x) {
+                return x.urunAdi === item.urun.urunAdi;
+            });
+            if (existingItem) {
+                existingItem.toplam += item.toplam;
+            } else {
+                accumulator.push({
+                    urunAdi: item.urun.urunAdi,
+                    toplam: item.toplam
+                });
+            }
+            return accumulator;
+        }, []).forEach(item => {
+            urunToplamSatis[item.urunAdi] = item.toplam;
+        });
+
+        //subeler
+        const subelerToplamSatis = {};
+        var subeler = satisDto.reduce(function (accumulator, item) {
+            var existingItem = accumulator.find(function (x) {
+                return x.subeAdi === item.sube.subeAdi;
+            });
+            if (existingItem) {
+                existingItem.toplam += item.toplam;
+            } else {
+                accumulator.push({
+                    subeAdi: item.sube.subeAdi,
+                    toplam: item.toplam
+                });
+            }
+            return accumulator;
+        }, []).forEach(item => {
+            subelerToplamSatis[item.subeAdi] = item.toplam;
+        });
+
+        //kategoriler
+        const kategoriToplamSatis = {};
+        var kategoriler = satisDto.reduce(function (accumulator, item) {
+            var existingItem = accumulator.find(function (x) {
+                return x.kategoriId === item.urun.kategoriId;
+            });
+            if (existingItem) {
+                existingItem.toplam += item.toplam;
+            } else {
+                accumulator.push({
+                    kategoriId: item.urun.kategoriId,
+                    toplam: item.toplam
+                });
+            }
+            return accumulator;
+        }, []).forEach(item => {
+            kategoriToplamSatis[item.kategoriId] = item.toplam
+        });        
+        
+        //firmalar
+        const firmalarToplamSatis = {};
+        var kategoriler = satisDto.reduce(function (accumulator, item) {
+            var existingItem = accumulator.find(function (x) {
+                return x.firmaId === item.sube.firmaId;
+            });
+            if (existingItem) {
+                existingItem.toplam += item.toplam;
+            } else {
+                accumulator.push({
+                    firmaId: item.sube.firmaId,
+                    toplam: item.toplam
+                });
+            }
+            return accumulator;
+        }, []).forEach(item => {
+            firmalarToplamSatis[item.firmaId] = item.toplam
+        });
+        initCharts(kategoriToplamSatis, urunToplamSatis, subelerToplamSatis, firmalarToplamSatis);
+    }
+
     loadTable();
 
     function applyFilter() {
@@ -184,6 +312,11 @@
         table.destroy();
         loadTable();
 
+
+        kategoriSatis_pieChart.destroy()
+        urunToplamSatis_pieChart.destroy()
+        subeToplamSatis_barChart.destroy()
+        firmaToplamSatis_barChart.destroy()
         // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
         // table.columns(0).search(sube).draw();
         // table.columns(1).search(kategori).draw();
@@ -193,7 +326,6 @@
 
 
     }
-
 
     function loadSelectsDatas() {
 
@@ -252,6 +384,123 @@
         });
 
 
+    }
+  
+    function initCharts(kategoriToplamSatis, urunToplamSatis, subelerToplamSatis, firmalarToplamSatis) {
+        var ctxKategoriToplamSatisPie = document.getElementById('kategoriToplamSatisPie');
+        ctxKategoriToplamSatisPie.width = 618;
+        ctxKategoriToplamSatisPie.height = 309;
+
+        var ctxUrunToplamSatisPie = document.getElementById('urunToplamSatisPie');
+        ctxUrunToplamSatisPie.width = 618;
+        ctxUrunToplamSatisPie.height = 309;
+
+        var ctxSubeToplamSatisBar = document.getElementById('subeToplamSatisBar');
+         ctxSubeToplamSatisBar.width = 618;
+        ctxSubeToplamSatisBar.height = 309;
+                
+        var ctxFirmaToplamSatisBar = document.getElementById('firmaToplamSatisBar');
+        ctxFirmaToplamSatisBar.width = 618;
+        ctxFirmaToplamSatisBar.height = 309;
+
+
+
+
+        console.log(kategoriToplamSatis)
+        kategoriSatis_pieChart = new Chart(ctxKategoriToplamSatisPie, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(kategoriToplamSatis),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(kategoriToplamSatis),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+
+                }
+            }
+        });
+
+        urunToplamSatis_pieChart = new Chart(ctxUrunToplamSatisPie, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(urunToplamSatis),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(urunToplamSatis),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+
+                }
+            }
+        });
+
+        subeToplamSatis_barChart = new Chart(ctxSubeToplamSatisBar, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(subelerToplamSatis),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(subelerToplamSatis),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+
+                }
+            }
+        });
+        
+        firmaToplamSatis_barChart = new Chart(ctxFirmaToplamSatisBar, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(firmalarToplamSatis),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(firmalarToplamSatis),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+
+                }
+            }
+        });
+
+
+        
     }
 
     loadSelectsDatas();
