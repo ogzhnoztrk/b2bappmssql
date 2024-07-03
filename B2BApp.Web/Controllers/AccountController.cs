@@ -70,7 +70,7 @@ namespace B2BApp.Web.Controllers
                     HttpOnly = true, // Cookie'ye JavaScript erişimini engeller
                     Secure = true,   // Sadece HTTPS üzerinden iletilir
                     SameSite = SameSiteMode.Strict, // CSRF saldırılarını önlemek için güçlendirilmiş güvenlik
-                    Expires = DateTime.UtcNow.AddDays(1) // Cookie'nin son kullanma tarihi 
+                    Expires = DateTime.UtcNow.AddHours(6) // Cookie'nin son kullanma tarihi 
 
                 });
                 return RedirectToAction("login");
