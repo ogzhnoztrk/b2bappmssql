@@ -22,23 +22,27 @@
                 <input type="date" id="tarih2" class="form-control">
             </div>
         </div>
-
+        <br />
         <div class="row">
             <div class="col">
-                <label for="firma">Firma:</label>
-                <select id="firma" class="form-control">
+                <label for="firma">Firmalar:</label>
+                <select id="firma" class="form-control js-example-basic-single">
+                    <option></option>
 
                 </select>
             </div>
+
             <div class="col">
-                <label for="sube">Şube:</label>
+                <label for="sube">Şubeler:</label>
                 <select id="sube" class="form-control">
+                    <option></option>
                 </select>
             </div>
+
             <div class="col">
                 <label for="kategori">Kategori:</label>
                 <select id="kategori" class="form-control">
-
+                    <option></option>
                 </select>
             </div>
 
@@ -74,8 +78,13 @@
 
 <script type="text/javascript">
     let table;
-    let tarih1= null;
-    let tarih2= null;
+    let tarih1 = null;
+    let tarih2 = null;
+    let firma = null;
+    var kategori = null;
+    var sube = null;
+
+
     function loadTable() {
         $.ajax({
             url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
@@ -87,7 +96,10 @@
             data: {
                 'tedarikciId': '@ViewBag.FirmaId',
                 'ilkTarih': tarih1,
-                'ikinciTarih': tarih2
+                'ikinciTarih': tarih2,
+                'subeId': sube,
+                'kategoriId': kategori,
+                'firmaId': firma
             }
         }).done(function (response) {
             // console.log(response);
@@ -149,25 +161,30 @@
         tarih1 = $('#tarih1').val() ?? "";
         tarih2 = $('#tarih2').val() ?? "";
 
-        var firma = $('#firma').val() ?? "";
-        var kategori = $('#kategori').val() ?? "";
-        var sube = $('#sube').val() ?? "";
-        debugger;
+        firma = $('#firma').val() ?? "";
+        kategori = $('#kategori').val() ?? "";
+        sube = $('#sube').val() ?? "";
+
+
         table.destroy();
         loadTable();
 
-        // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
-        table.columns(0).search(sube).draw();
-        table.columns(1).search(kategori).draw();
+        // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
+        // table.columns(0).search(sube).draw();
+        // table.columns(1).search(kategori).draw();
+        // debugger;
 
 
-        
+
 
     }
-    // console.log(@ViewBag.JwtCookie);
-    function getFirmalarForSelect() {
+
+
+    function loadSelectsDatas() {
+
+        //firmalar load
         $.ajax({
-            url: 'https://localhost/api/Firma/all',
+            url: 'https://localhost/api/Filter/GetFirmaSubeKategoriAll',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -175,7 +192,8 @@
             },
 
         }).done(function (response) {
-            var result = $.map(response.data, function (data) {
+            console.log(response)
+            var firmalar = $.map(response.data.firmalar, function (data) {
                 return {
                     id: data.id,
                     text: data.firmaAdi
@@ -183,27 +201,44 @@
             });
             var select = $("#firma").select2({
                 placeholder: "Firmalar",
-                data: result,
-                width: 200,
-        });
-        });
-    }
+                data: firmalar,
+                width: 350,
+                allowClear: true
+            });
 
-
-
-    getFirmalarForSelect();
-</script>
-@* result = $.map(response.data, function (data) {
+            var subeler = $.map(response.data.subeler, function (data) {
                 return {
                     id: data.id,
-                    text: data.firmaAdi
+                    text: data.subeAdi
                 };
             });
-            console.log(result);
-            debugger;
-            $("#firma").select2({
-                placeholder: "Firmalar",
-                data: result,
-                width: 200,
+            var select = $("#sube").select2({
+                placeholder: "Subeler",
+                data: subeler,
+                width: 350, 
+                allowClear: true
 
-            }); *@
+            });
+
+            var kategoriler = $.map(response.data.kategoriler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.kategoriAdi
+                };
+            });
+            var select = $("#kategori").select2({
+                placeholder: "Kategoriler",
+                data: kategoriler,
+                width: 350, 
+                allowClear: true
+
+            });
+
+
+        });
+
+
+    }
+
+    loadSelectsDatas();
+</script>
