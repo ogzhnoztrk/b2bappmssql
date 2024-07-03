@@ -100,7 +100,7 @@ namespace B2BApp.Business.Concrete
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(6),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials
