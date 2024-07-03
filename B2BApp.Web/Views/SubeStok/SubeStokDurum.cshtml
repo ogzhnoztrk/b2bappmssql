@@ -8,10 +8,44 @@
     <h2>Sube Stoklar</h2>
     <hr />
 
-   @*   <div class="p-3 border bg-light">
+    <!--Filtre Start-->
 
-         <canvas id="pieChart" width="618" height="309"></canvas>
-     </div> *@
+    <div class="p-3 border bg-light">
+
+        <br />
+        <div class="row">
+            <div class="col">
+                <label for="firma">Firmalar:</label>
+                <select id="firma" class="form-control js-example-basic-single">
+                    <option></option>
+
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="sube">Şubeler:</label>
+                <select id="sube" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="kategori">Kategori:</label>
+                <select id="kategori" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+        </div>
+        <br />
+
+        <br />
+        <div class="" style="display: flex;justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="applyFilter()">Filtreyi Uygula</button>
+        </div>
+    </div>
+    <br />
+    <!--Filtre End-->
     <br />
 
 
@@ -53,7 +87,9 @@
 <script type="text/javascript">
   
     let table;
-
+    let firma = null;
+    var kategori = null;
+    var sube = null;
 
     function initTable() {
         $.ajax({
@@ -65,11 +101,10 @@
             },
             data: {
                 'tedarikciId': '@ViewBag.FirmaId',
-                // 'ilkTarih': '01-01-2000',
-                // 'ikinciTarih': '01-01-2000',
-                // 'subeId': 'aaa',
-                // 'kategoriId': 'aaa',
-                // 'firmaId': 'aaa'
+           
+                 'subeId': sube,
+                 'kategoriId': kategori,
+                 'firmaId': firma
             }
         }).done(function (response) {
             table = $('#subeStokTable').DataTable({
@@ -106,7 +141,84 @@
         });
     }
     initTable();
-    
-   
+
+
+    function applyFilter() {
+
+        firma = $('#firma').val() ?? "";
+        kategori = $('#kategori').val() ?? "";
+        sube = $('#sube').val() ?? "";
+        //debugger;
+
+         table.destroy();
+        initTable();
+
+        // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
+        // table.columns(0).search(sube).draw();
+        // table.columns(1).search(kategori).draw();
+        // debugger;
+
+    }
+
+    function loadSelectsDatas() {
+
+        //firmalar load
+        $.ajax({
+            url: 'https://localhost/api/Filter/GetFirmaSubeKategoriAll',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+
+        }).done(function (response) {
+            var firmalar = $.map(response.data.firmalar, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            var select = $("#firma").select2({
+                placeholder: "Firmalar",
+                data: firmalar,
+                width: 350,
+                allowClear: true
+            });
+
+            var subeler = $.map(response.data.subeler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.subeAdi
+                };
+            });
+            var select = $("#sube").select2({
+                placeholder: "Subeler",
+                data: subeler,
+                width: 350,
+                allowClear: true
+
+            });
+
+            var kategoriler = $.map(response.data.kategoriler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.kategoriAdi
+                };
+            });
+            var select = $("#kategori").select2({
+                placeholder: "Kategoriler",
+                data: kategoriler,
+                width: 350,
+                allowClear: true
+
+            });
+
+
+        });
+
+
+    }
+
+    loadSelectsDatas();
 
 </script>
