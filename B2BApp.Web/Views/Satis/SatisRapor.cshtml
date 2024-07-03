@@ -59,6 +59,7 @@
     <!--Tablo Start-->
     <div class="p-3 border bg-light">
         <table id="satislarTable" class="display" style="width:100%">
+
             <thead>
                 <tr>
                     <th>Şube Adi</th>
@@ -86,7 +87,10 @@
 
 
     function loadTable() {
+
         $.ajax({
+            
+
             url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
             crossDomain: true,
             headers: {
@@ -104,6 +108,7 @@
         }).done(function (response) {
             // console.log(response);
             // debugger;
+
             table = $('#satislarTable').DataTable({
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
                 "data": response.data,
@@ -192,7 +197,6 @@
             },
 
         }).done(function (response) {
-            console.log(response)
             var firmalar = $.map(response.data.firmalar, function (data) {
                 return {
                     id: data.id,

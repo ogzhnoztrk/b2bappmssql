@@ -46,6 +46,8 @@ namespace B2BApp.Api.Controllers
             return sube;
         }
         [HttpGet("all")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+
         public Result<ICollection<Sube>> GetAllSube(string? firmaId)
         {
             var subelar = _subeService.getAll(firmaId);
