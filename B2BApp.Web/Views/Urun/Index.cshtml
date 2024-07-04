@@ -22,6 +22,7 @@
 
                     <th>Kategori</th>
                     <th>Fiyat</th>
+                     <th>Satış Fiyatı</th> 
                     <th class=""></th>
                 </tr>
             </thead>
@@ -33,7 +34,6 @@
 </div>
 
 @* right drawer *@
-
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Urun Güncelle</h5>
@@ -50,6 +50,10 @@
         <div class="form-group">
             <label for="urunFiyat" class="form-label">Fiyat</label>
             <input type="number" id="urunFiyat" class="form-control" value="">
+        </div>
+        <div class="form-group">
+            <label for="urunSatisFiyat" class="form-label">Fiyat</label>
+            <input type="number" id="urunSatisFiyat" class="form-control" value="">
         </div>
 
         <div class="input-group">
@@ -87,7 +91,7 @@
         table = $('#urunTable').DataTable({
             "ajax":
             {
-                "url": "https://localhost/api/Urun/GetUrunlerWithKategori",
+                "url": "https://10.60.60.141/api/Urun/GetUrunlerWithKategori",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -122,6 +126,7 @@
                 { "data": 'tedarikci.tedarikciAdi' },
                 { "data": 'kategori.kategoriAdi' },
                 { "data": 'fiyat', className: 'text-start' },
+                { "data": 'satisFiyati', className: 'text-start' },
                 {
                     "data": "id",
                     "className": "noExport",
@@ -142,7 +147,7 @@
         getDataUpdate();
 
         $.ajax({
-            url: 'https://localhost/api/Urun/GetUrunWithKategori',
+            url: 'https://10.60.60.141/api/Urun/GetUrunWithKategori',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -159,7 +164,7 @@
                 $("#tedarikciSelectDrawer").val(response.data.tedarikci.id).trigger('change');
                 $("#urunId").val(response.data.id);
                 $("#urunFiyat").val(response.data.fiyat);
-
+                $("#urunSatisFiyat").val(response.data.satisFiyati);
             }
         })
     }
@@ -167,13 +172,14 @@
     function updateUrun() {
         let yeniUrunAdi = $("#urunIsim").val();
         let yeniUrunFiyat = $("#urunFiyat").val();
+        let yeniUrunSatisFiyat = $("#urunSatisFiyat").val();
         let yeniKategoriId = $("#categorySelectDrawer").val();
         let yeniTedarikciId = $("#tedarikciSelectDrawer").val();
         let id = $("#urunId").val();
 
 
         $.ajax({
-            url: 'https://localhost/api/Urun?urunId=' + id,
+            url: 'https://10.60.60.141/api/Urun?urunId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
@@ -186,7 +192,8 @@
                 'kategoriId': yeniKategoriId,
                 'tedarikciId': yeniTedarikciId,
                 'urunAdi': yeniUrunAdi,
-                'fiyat': yeniUrunFiyat
+                'fiyat': yeniUrunFiyat,
+                'satisFiyati': yeniUrunSatisFiyat
             })
         }).done(function (response) {
 
@@ -218,7 +225,7 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://localhost/api/Urun?id=' + data,
+                    url: 'https://10.60.60.141/api/Urun?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -254,7 +261,9 @@
             html:
                 `<label for="urunIsimEkle" class="form-label">Urun</label> <input type="text" id="urunIsimEkle" class= "form-control" value="" required>
                          <label for= "urunFiyatEkle" class= "form-label">Fiyat</label> <input type="number" id = "urunFiyatEkle" class= "form-control" value = "" required>
+                             <label for= "urunSatisFiyat" class= "form-label">Satış Fiyat</label> <input type="number" id = "urunSatisFiyat" class= "form-control" value = "" required>
                          <br/>
+
                              <label for="categorySelectSave" class= "form-label">Kategori</label> <select id="categorySelectSave" class="select2" placeholder='select item'>                    <option></option>
     </select>
                          <br/>
@@ -270,12 +279,11 @@
             },
             didOpen: getDatasSave(),
         }).then((result) => {
-            console.log(result);
-
+;
             if (result.isConfirmed) {
                 console.log($('#categorySelectSave').val());
                 $.ajax({
-                    url: 'https://localhost/api/Urun',
+                    url: 'https://10.60.60.141/api/Urun',
                     crossDomain: true,
                     method: 'post',
                     headers: {
@@ -290,6 +298,7 @@
                         'kategoriId': $('#categorySelectSave').val(),
                         'tedarikciId': $('#tedarikciSelectSave').val(),
                         'fiyat': $('#urunFiyatEkle').val(),
+                        'satisFiyati': $('#urunSatisFiyat').val(),
                     })
                 }).done(function (response) {
                     if (response != null) {
@@ -311,7 +320,7 @@
     function getDatasSave() {
         // categorySelectSave
         $.ajax({
-            url: 'https://localhost/api/Kategori/all',
+            url: 'https://10.60.60.141/api/Kategori/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -335,7 +344,7 @@
 
         // TedarikciSelectSave
         $.ajax({
-            url: 'https://localhost/api/tedarikci/all',
+            url: 'https://10.60.60.141/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -362,7 +371,7 @@
     function getDataUpdate() {
         // categorySelectSave
         $.ajax({
-            url: 'https://localhost/api/Kategori/all',
+            url: 'https://10.60.60.141/api/Kategori/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -388,7 +397,7 @@
 
         // tedarikciSelectSave
         $.ajax({
-            url: 'https://localhost/api/tedarikci/all',
+            url: 'https://10.60.60.141/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',

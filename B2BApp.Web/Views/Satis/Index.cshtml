@@ -151,7 +151,7 @@
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax": 
             {
-                "url": "https://localhost/api/Satis/getAllWithUrunAndSube",
+                "url": "https://10.60.60.141/api/Satis/getAllWithUrunAndSube",
                     
                 'type': 'GET',
                 'beforeSend': function (request) {
@@ -220,7 +220,7 @@
         $("#satisTarihi").val(new Date().toISOString().slice(0, 16));
 
         $.ajax({
-            url: 'https://localhost/api/Sube/all',
+            url: 'https://10.60.60.141/api/Sube/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -243,7 +243,7 @@
 
         });
         $.ajax({
-            url: 'https://localhost/api/urun/all',
+            url: 'https://10.60.60.141/api/urun/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -275,7 +275,7 @@
 
 
         $.ajax({
-          url: 'https://localhost/api/Satis',
+          url: 'https://10.60.60.141/api/Satis',
           crossDomain: true,
           method: 'post',
           headers: {
@@ -325,7 +325,7 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://localhost/api/SubeStok?id=' + data,
+                    url: 'https://10.60.60.141/api/SubeStok?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -356,7 +356,7 @@
 
     function loadForUpdate(data) {
         $.ajax({
-            url: 'https://localhost/api/satis/GetWithUrunAndSube',
+            url: 'https://10.60.60.141/api/satis/GetWithUrunAndSube',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -369,7 +369,7 @@
             //Subeler ve Urunler
             // Subeler
             $.ajax({
-                url: 'https://localhost/api/Sube/all',
+                url: 'https://10.60.60.141/api/Sube/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
@@ -394,7 +394,7 @@
 
             //urunler
             $.ajax({
-                url: 'https://localhost/api/urun/all',
+                url: 'https://10.60.60.141/api/urun/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
@@ -446,7 +446,7 @@
         
 
         $.ajax({
-          url: 'https://localhost/api/Satis?satisId=' +Id,
+          url: 'https://10.60.60.141/api/Satis?satisId=' +Id,
           crossDomain: true,
           method: 'put',
           headers: {

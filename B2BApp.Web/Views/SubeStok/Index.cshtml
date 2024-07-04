@@ -140,7 +140,7 @@
         table = $('#subeStokTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax": {
-                "url": "https://localhost/api/SubeStok/GetAllWithSubeAndUrun",
+                "url": "https://10.60.60.141/api/SubeStok/GetAllWithSubeAndUrun",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -185,7 +185,7 @@
 
     function loadData() {
         $.ajax({
-            url: 'https://localhost/api/Sube/all',
+            url: 'https://10.60.60.141/api/Sube/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -208,7 +208,7 @@
 
         });
         $.ajax({
-            url: 'https://localhost/api/urun/all',
+            url: 'https://10.60.60.141/api/urun/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -238,7 +238,7 @@
         let stok = $("#stok").val();
 
         $.ajax({
-            url: 'https://localhost/api/SubeStok',
+            url: 'https://10.60.60.141/api/SubeStok',
             crossDomain: true,
             method: 'post',
             headers: {
@@ -286,7 +286,7 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://localhost/api/SubeStok?id=' + data,
+                    url: 'https://10.60.60.141/api/SubeStok?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -317,7 +317,7 @@
 
     function loadForUpdate(data) {
         $.ajax({
-            url: 'https://localhost/api/SubeStok/GetWithSubeAndUrun',
+            url: 'https://10.60.60.141/api/SubeStok/GetWithSubeAndUrun',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -328,7 +328,7 @@
             }
         }).done(function (response) {
             $.ajax({
-                url: 'https://localhost/api/Sube/all',
+                url: 'https://10.60.60.141/api/Sube/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
@@ -351,7 +351,7 @@
 
             });
             $.ajax({
-                url: 'https://localhost/api/urun/all',
+                url: 'https://10.60.60.141/api/urun/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
@@ -400,7 +400,7 @@
         let id = $("#subeStokId").val();
 
         $.ajax({
-            url: 'https://localhost/api/SubeStok?subeStokId=' + id,
+            url: 'https://10.60.60.141/api/SubeStok?subeStokId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {

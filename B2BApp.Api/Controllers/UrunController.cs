@@ -93,7 +93,8 @@ namespace B2BApp.Api.Controllers
             };
         }
 
-        [HttpDelete][Authorize(Roles = "667acd84d84200e1b93b9449")]
+        [HttpDelete]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> DeleteUrun(string id)
         {
             _urunService.deleteUrun(ObjectId.Parse(id));

@@ -92,7 +92,8 @@ namespace B2BApp.Business.Abstract
                             Fiyat = urun.Fiyat,
                             Id = urun.Id,
                             UrunAdi = urun.UrunAdi,
-                            Tedarikci = tedarikci
+                            Tedarikci = tedarikci,
+                           SatisFiyati= urun.SatisFiyati
                             
                         };
                         urunDtos.Add(urunDto);
@@ -154,7 +155,7 @@ namespace B2BApp.Business.Abstract
 
                 var result = new Result<UrunDto>
                 {
-                    Data = new UrunDto { Id = urun.Id, Fiyat= urun.Fiyat, UrunAdi= urun.UrunAdi, Kategori = kategori,Tedarikci = tedarikci},
+                    Data = new UrunDto { Id = urun.Id, Fiyat= urun.Fiyat, UrunAdi= urun.UrunAdi, Kategori = kategori,Tedarikci = tedarikci,SatisFiyati = urun.SatisFiyati},
                     Message = "Ürün Kategori Bilgileri İle Getirildi",
                     StatusCode = 200,
                     Time = DateTime.Now,
@@ -191,8 +192,9 @@ namespace B2BApp.Business.Abstract
                             Fiyat = urun.Fiyat,
                             Id = urun.Id,
                             UrunAdi = urun.UrunAdi,
-                            Tedarikci = tedarikci
-
+                            Tedarikci = tedarikci,
+                            SatisFiyati = urun.SatisFiyati
+                            
                         };
                         urunDtos.Add(urunDto);
                     }

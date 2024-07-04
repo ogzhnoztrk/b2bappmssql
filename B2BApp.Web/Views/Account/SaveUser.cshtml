@@ -84,7 +84,7 @@
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax":
             {
-                'url': "https://localhost/api/Kullanici/getAllWithTedarikci",
+                'url': "https://10.60.60.141/api/Kullanici/getAllWithTedarikci",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -129,7 +129,7 @@
     function loadData() {
         //tedarkci
         $.ajax({
-            url: 'https://localhost/api/tedarikci/all',
+            url: 'https://10.60.60.141/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -161,7 +161,7 @@
         debugger;
 
         $.ajax({
-            url: 'https://localhost/api/Auth',
+            url: 'https://10.60.60.141/api/Auth',
             crossDomain: true,
             method: 'post',
             headers: {
@@ -208,7 +208,7 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://localhost/api/Kullanici?id=' + data,
+                    url: 'https://10.60.60.141/api/Kullanici?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {

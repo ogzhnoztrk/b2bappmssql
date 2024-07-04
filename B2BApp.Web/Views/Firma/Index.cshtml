@@ -71,7 +71,7 @@
 
             "ajax":
             {
-                "url": "https://localhost/api/firma/all",
+                "url": "https://10.60.60.141/api/firma/all",
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
@@ -119,7 +119,7 @@
     function getFirmaInfo(data) {
 
         $.ajax({
-            url: 'https://localhost/api/Firma',
+            url: 'https://10.60.60.141/api/Firma',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -145,7 +145,7 @@
         let id = $("#firmaId").val();
 
         $.ajax({
-            url: 'https://localhost/api/Firma?firmaId=' + id,
+            url: 'https://10.60.60.141/api/Firma?firmaId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
@@ -189,7 +189,7 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://localhost/api/Firma?id=' + data,
+                    url: 'https://10.60.60.141/api/Firma?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -243,7 +243,7 @@
 
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://localhost/api/Firma',
+                    url: 'https://10.60.60.141/api/Firma',
                     crossDomain: true,
                     method: 'post',
                     headers: {

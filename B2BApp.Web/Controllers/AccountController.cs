@@ -43,12 +43,12 @@ namespace B2BApp.Web.Controllers
         }
         public async Task<IActionResult> LoginPost(LoginVm loginVm) 
         {
-            
 
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            HttpClient client = new HttpClient(handler);
 
-            HttpClient client = new HttpClient();
-
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost/api/Auth/login");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://10.60.60.141/api/Auth/login");
 
             request.Headers.Add("accept", "text/plain");
 

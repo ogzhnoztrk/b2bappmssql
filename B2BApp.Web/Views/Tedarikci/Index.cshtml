@@ -72,7 +72,7 @@
 
             "ajax":
             {
-                "url": "https://localhost/api/Tedarikci/all",
+                "url": "https://10.60.60.141/api/Tedarikci/all",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -119,7 +119,7 @@
     function getTedarikciInfo(data) {
 
         $.ajax({
-            url: 'https://localhost/api/Tedarikci',
+            url: 'https://10.60.60.141/api/Tedarikci',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -145,7 +145,7 @@
         let id = $("#tedarikciId").val();
 
         $.ajax({
-            url: 'https://localhost/api/Tedarikci?tedarikciId=' + id,
+            url: 'https://10.60.60.141/api/Tedarikci?tedarikciId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
@@ -188,7 +188,7 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://localhost/api/Tedarikci?id=' + data,
+                    url: 'https://10.60.60.141/api/Tedarikci?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -239,7 +239,7 @@
 
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://localhost/api/Tedarikci',
+                    url: 'https://10.60.60.141/api/Tedarikci',
                     crossDomain: true,
                     method: 'post',
                     headers: {
@@ -268,7 +268,7 @@
 
 
                 // $.ajax({
-                //     url: 'https://localhost/api/Tedarikci',
+                //     url: 'https://10.60.60.141/api/Tedarikci',
                 //     crossDomain: true,
                 //     method: 'post',
                 //     headers: {

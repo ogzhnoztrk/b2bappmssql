@@ -72,7 +72,7 @@
 
             "ajax":
             {
-                'url': "https://localhost/api/kategori/all",
+                'url': "https://10.60.60.141/api/kategori/all",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -119,7 +119,7 @@
     function getKategoriInfo(data) {
 
         $.ajax({
-            url: 'https://localhost/api/Kategori',
+            url: 'https://10.60.60.141/api/Kategori',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -143,7 +143,7 @@
         let id = $("#kategoriId").val();
     
         $.ajax({
-            url: 'https://localhost/api/Kategori?kategoriId=' + id,
+            url: 'https://10.60.60.141/api/Kategori?kategoriId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
@@ -186,7 +186,7 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://localhost/api/Kategori?id='+data,
+                    url: 'https://10.60.60.141/api/Kategori?id='+data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -232,7 +232,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://localhost/api/Kategori',
+                    url: 'https://10.60.60.141/api/Kategori',
                     crossDomain: true,
                     method: 'post',
                     headers: {
