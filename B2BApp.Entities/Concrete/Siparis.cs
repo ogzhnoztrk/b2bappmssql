@@ -15,5 +15,6 @@ namespace B2BApp.Entities.Concrete
         public double Adet { get; set; }
         public double Toplam { get; set; }
         public DateTime SiparisTarih { get; set; }
+        public bool IsActive { get; set; }
     }
 }

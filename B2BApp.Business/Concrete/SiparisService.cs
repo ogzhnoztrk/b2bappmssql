@@ -28,14 +28,16 @@ namespace B2BApp.Business.Abstract
 
                 var toplam = urun.Fiyat * siparis.Adet;
 
-                var siparisSon = new Siparis { 
+                var siparisSon = new Siparis
+                {
                     Adet = siparis.Adet,
-                    UrunId = siparis.UrunId, 
-                    Toplam = toplam, 
+                    UrunId = siparis.UrunId,
+                    Toplam = toplam,
                     SiparisTarih = siparis.SiparisTarih,
-                    SubeId = siparis.SubeId, 
+                    SubeId = siparis.SubeId,
                     Id = siparis.Id,
-                    TedarikciId = urun.TedarikciId
+                    TedarikciId = urun.TedarikciId,
+                    IsActive = true
                 };
 
 
@@ -94,7 +96,8 @@ namespace B2BApp.Business.Abstract
                     Sube = sube,
                     Urun = urun,
                     Tedarikci = tedarikci,
-                    Toplam = siparis.Toplam
+                    Toplam = siparis.Toplam,
+                    IsActive = siparis.IsActive,
                 };
                 siparisDTOs.Add(siparisDto);
             }
@@ -126,7 +129,8 @@ namespace B2BApp.Business.Abstract
                 Sube = sube,
                 Urun = urun,
                 Tedarikci = tedarikci,
-                Toplam = siparis.Toplam
+                Toplam = siparis.Toplam,
+                IsActive = siparis.IsActive
             };
 
             var result = new Result<SiparisDto>
@@ -170,7 +174,8 @@ namespace B2BApp.Business.Abstract
                     SiparisTarih = siparis.SiparisTarih,
                     SubeId = siparis.SubeId,
                     Id = siparis.Id,
-                    TedarikciId = urun.TedarikciId
+                    TedarikciId = urun.TedarikciId,
+                    IsActive = siparis.IsActive,
                 };
 
 

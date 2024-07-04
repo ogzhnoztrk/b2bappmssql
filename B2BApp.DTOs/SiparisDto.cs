@@ -16,5 +16,6 @@ namespace B2BApp.DTOs
         public double Adet { get; set; }
         public double Toplam{ get; set; }
         public DateTime Tarih { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -15,10 +15,18 @@ namespace B2BApp.Web.Controllers
             return View();
         }
 
-        
+        public ActionResult SiparisRapor()
+        {
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+
+
+            return View();
+        }
 
 
 
-       
+
+
+
     }
 }

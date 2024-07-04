@@ -24,7 +24,6 @@
                     <th>Tedarikci</th>
                     <th>Adet</th>
                     <th>Toplam</th>
-                    <th>Aktiflik</th>
                     <th>Tarih</th>
                     <th></th>
                 </tr>
@@ -73,7 +72,6 @@
         </div>
 
 
-
     </div>
 </div>
 @* Ekleme start*@
@@ -112,11 +110,6 @@
         <label for="Tarih">Tarih</label>
         <input type="datetime-local" class="form-control mb-3" id="tarihUpdate" placeholder="Tarih">
 
-        <input class="form-check-input" type="checkbox" value="" id="aktifMi">
-        <label class="form-check-label" for="aktifMi">
-            Aktif Mi?
-        </label>
-
         <div class="" style="display: flex;justify-content: flex-end;">
             <button onClick="update()" class="btn btn-warning"></i>Güncelle</button>
 
@@ -129,7 +122,7 @@
 
 <script type="text/javascript">
     let table;
-       
+
     function loadTable() {
         $.ajax({
             url: 'https://10.60.60.141/api/Siparis/GetAllWithDetails',
@@ -138,9 +131,8 @@
                 'accept': 'text/plain',
                 'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
-            
-        }).done(function (response) {
 
+        }).done(function (response) {
             table = $('#siparislerTable').DataTable({
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
                 "data": response.data,
@@ -174,16 +166,6 @@
                     { "data": 'tedarikci.tedarikciAdi' },
                     { "data": 'adet', className: 'text-start' },
                     { "data": 'toplam', className: 'text-start' },
-                    { "data": 'isActive', className: 'text-start',
-                        "render": function (data) { 
-                            if (data) 
-                            { 
-                                return "Aktif" 
-                            } else 
-                            { 
-                                return "Bitmiş"} 
-                            } 
-                    },
                     {
                         "data": 'tarih',
                         "render": function (data) {
@@ -208,10 +190,10 @@
                         "data": "id",
                         "render": function (data) {
                             return `
-                             <div class="w-75 btn-group" role="group">
-                                           <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelle" aria-controls="Guncelle"></i>Edit</a>
-                                   <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                             </div>`
+                                 <div class="w-75 btn-group" role="group">
+                                               <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelle" aria-controls="Guncelle"></i>Edit</a>
+                                       <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                 </div>`
                         },
                         "width": "20%"
                     },
@@ -221,8 +203,8 @@
         });
     };
     loadTable();
-    
-    function Delete(id){
+
+    function Delete(id) {
 
 
         Swal.fire({
@@ -248,9 +230,9 @@
                 }).done(function (response) {
                     if (response != null || data != null) {
 
-                        table.destroy();loadTable();
-                        
-                        
+                        table.destroy(); loadTable();
+
+
                         Swal.fire({
                             title: "Siparis Silindi",
                             icon: "success"
@@ -265,9 +247,9 @@
                 });
             }
         })
-       
+
     }
-    
+
     function save() {
         let subeId = $("#subeSelect").val();
         let urunId = $("#urunSelect").val();
@@ -292,14 +274,13 @@
                 'tedarikciId': tedarikciId,
                 'adet': adet,
                 'toplam': toplam,
-                'siparisTarih': siparisTarih,
-                'isActive':true 
+                'siparisTarih': siparisTarih
             })
         }).done(function (response) {
             if (response != null) {
                 $("#eklemeClose").click()
                 //Reload/redraw the table with new data
-                table.destroy();loadTable();
+                table.destroy(); loadTable();
 
                 Swal.fire({
                     title: "Siparis Eklendi",
@@ -313,7 +294,7 @@
             }
         });
     }
-    
+
     function loadSelectDatas() {
         $.ajax({
             url: 'https://10.60.60.141/api/Filter/GetSubeTedarikciUrunAll',
@@ -334,7 +315,7 @@
                 }),
                 width: 350,
             });
-            
+
 
             var tedarikciSelect = $("#tedarikciSelect").select2({
                 placeholder: "Tedarikciler",
@@ -392,8 +373,8 @@
             });
         });
     }
-    
-    function loadForUpdate(id){
+
+    function loadForUpdate(id) {
         loadSelectDatas();
         $.ajax({
             url: 'https://10.60.60.141/api/Siparis/GetAllWithDetailsById',
@@ -406,6 +387,7 @@
                 'siparisId': id
             }
         }).done(function (response) {
+
             //burada guncel verileri atayacağız
             $("#subeUpdateSelect").val(response.data.sube.id).trigger('change');
             $("#tedarikciUpdateSelect").val(response.data.tedarikci.id).trigger('change');
@@ -413,7 +395,6 @@
             $("#tarihUpdate").val(new Date(response.data.tarih).toISOString().slice(0, 16));
             $("#adetUpdate").val(response.data.adet);
             $("#siparisId").val(response.data.id);
-            $("#aktifMi").prop('checked', response.data.isActive);
         });
     }
 
@@ -424,11 +405,9 @@
         var tarih = $("#tarihUpdate").val();
         var adet = $("#adetUpdate").val();
         var id = $("#siparisId").val();
-        var aktifMi = $('#aktifMi').prop('checked');
-
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Siparis?siparisId='+id, 
+            url: 'https://10.60.60.141/api/Siparis?siparisId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
@@ -443,14 +422,13 @@
                 'tedarikciId': tedarikciId,
                 'adet': adet,
                 'toplam': 0,
-                'siparisTarih': tarih,
-                'isActive': aktifMi
+                'siparisTarih': tarih
             })
         }).done(function (response) {
             $("#guncelleClose").click()
 
             //Reload/redraw the table with new data
-            table.destroy();loadTable();
+            table.destroy(); loadTable();
 
             Swal.fire({
                 title: "Satış Güncellendi",
