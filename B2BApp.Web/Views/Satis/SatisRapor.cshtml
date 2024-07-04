@@ -89,8 +89,6 @@
     function loadTable() {
 
         $.ajax({
-            
-
             url: 'https://localhost/api/Satis/GetAllWithUrunAndSubeByTedarikciId',
             crossDomain: true,
             headers: {
@@ -106,9 +104,6 @@
                 'firmaId': firma
             }
         }).done(function (response) {
-            // console.log(response);
-            // debugger;
-
             table = $('#satislarTable').DataTable({
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
                 "data": response.data,
@@ -125,6 +120,13 @@
                                 },
                                 title: 'FirmaSatışlar',
                                 className: 'btn btn-success',
+                            },
+                            {
+                                extend: 'colvis',
+                                collectionLayout: 'fixed columns',
+                                popoverTitle: 'Görüntülenecek sütunları işaretleyin',
+                                className: 'btn btn-warning',
+
                             }
                         ],
                     }
@@ -173,14 +175,6 @@
 
         table.destroy();
         loadTable();
-
-        // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
-        // table.columns(0).search(sube).draw();
-        // table.columns(1).search(kategori).draw();
-        // debugger;
-
-
-
 
     }
 

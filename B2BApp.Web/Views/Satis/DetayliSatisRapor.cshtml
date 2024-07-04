@@ -90,7 +90,7 @@
         <div class="col-md-6">
             <div>
                 <div class="p-3 border bg-light">
-
+                  
                     <canvas id="urunToplamSatisPie" width="618" height="309"></canvas>
                 </div>
             </div>
@@ -109,7 +109,7 @@
         <div class="col-md-6">
             <div>
                 <div class="p-3 border bg-light">
-
+                    
                     <canvas id="subeToplamSatisBar"></canvas>
                 </div>
             </div>
@@ -118,19 +118,6 @@
     </div>
     <br />
     <br />
-
-    @* <div class="row">
-    <div class="col">
-    <div class="p-3 border bg-light text-center">Row 1</div>
-
-    </div>
-    <div class="col">
-    <div class="p-3 border bg-light text-center">Row 2</div>
-
-    </div>
-
-
-    </div>     *@
 
 
 </div>
@@ -408,6 +395,7 @@
 
 
         urunToplamSatis_pieChart = new Chart(ctxUrunToplamSatisPie, {
+            
             type: 'doughnut',
             data: {
                 labels: Object.keys(urunToplamSatis),
@@ -425,6 +413,11 @@
                     legend: {
                         position: 'top',
                     },
+                    title: {
+                        display: true,
+                        text: 'Ürünlere Göre Satış',
+                        position:'bottom'
+                    }
 
                 }
             }
@@ -448,6 +441,11 @@
                     legend: {
                         position: 'top',
                     },
+                    title: {
+                        display: true,
+                        text: 'Subelere Göre Satış',
+                        position: 'bottom'
+                    }
 
                 }
             }
@@ -471,7 +469,6 @@
                 kategoriToplamSatis[firma.kategoriAdi] = kategoriToplamSatis[key];
                 delete kategoriToplamSatis[key]
             });
-            debugger;
 
 
             kategoriSatis_pieChart = new Chart(ctxKategoriToplamSatisPie, {
@@ -492,6 +489,11 @@
                         legend: {
                             position: 'top',
                         },
+                        title: {
+                            display: true,
+                            text: 'Kategorilere Göre Satış',
+                            position: 'bottom'
+                        }
 
                     }
                 }
@@ -517,7 +519,6 @@
                 firmalarToplamSatis[firma.firmaAdi] = firmalarToplamSatis[key];
                 delete firmalarToplamSatis[key]
             });
-            debugger;
 
 
 
@@ -539,6 +540,11 @@
                         legend: {
                             position: 'top',
                         },
+                        title: {
+                            display: true,
+                            text: 'Firmalara Göre Satış',
+                            position: 'bottom'
+                        }
 
                     }
                 }
@@ -547,7 +553,7 @@
         });
 
        
-        debugger;
+
 
         
     }
@@ -555,7 +561,3 @@
     loadSelectsDatas();
 
 </script>
-[
-    "66815653eb1408f3839b7f3d",
-    "66815670eb1408f3839b7f3f"
-]
