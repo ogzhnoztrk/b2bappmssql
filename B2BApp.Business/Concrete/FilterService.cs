@@ -48,5 +48,21 @@ namespace B2BApp.Business.Concrete
                 Time = DateTime.Now
             };
         }
+
+        public Result<SubeUrunDto> GetSubeUrunAllByTedarikciId(string tedarikciId)
+        {
+
+            return new Result<SubeUrunDto>
+            {
+                Data = new SubeUrunDto
+                {
+                    Subeler = _unitOfWork.Sube.GetAll().Data,
+                    Urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data
+                },
+                Message = "Şube ve Ürün bilgileri başarıyla getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+        }
     }
 }

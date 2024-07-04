@@ -7,10 +7,54 @@
 
     <h2>Siparisler</h2>
     <hr />
+    <div class="p-3 border bg-light">
 
-    <div class="" style="display: flex;justify-content: flex-end;">
-        <button onClick="loadSelectDatas()" class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#Ekle" aria-controls="Ekleme"><i class="bi bi-plus"></i> Yeni Siparis</button>
+        <br />
+        <div class="row">
+            <div class="col">
+                <label for="tarih1">Tarih1:</label>
+                <input type="date" id="tarih1" class="form-control js-example-basic-single"></input>
+            </div>
 
+            <div class="col">
+                <label for="tarih2">Tarih2:</label>
+                <input type="date" id="tarih2" class="form-control js-example-basic-single"></input>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="urunSelect">Ürünler:</label>
+                <select id="urunSelect" class="form-control js-example-basic-single">
+                    <option></option>
+
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="subeSelect">Şubeler:</label>
+                <select id="subeSelect" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="aktiflikSelect">Kategori:</label>
+                <select id="aktiflikSelect" class="form-control" >
+                    <option></option>
+
+                </select>
+            </div>
+
+        </div>
+
+        <br />
+
+        <br />
+        <div class="" style="display: flex;justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="applyFilter()">Filtreyi Uygula</button>
+        </div>
     </div>
     <br />
 
@@ -34,89 +78,6 @@
 
     </div>
 </div>
-
-@* Ekleme start*@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="Ekle" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Siparis Ekle</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="eklemeClose"></button>
-    </div>
-    <div class="offcanvas-body">
-        <label for="Sube">Subeler</label>
-        <select class="form-select mb-3" id="subeSelect" aria-label="Sube">
-            <option></option>
-            <!-- Add options here -->
-        </select>
-
-        <label for="Tedarikci">Tedarikciler</label>
-        <select class="form-select mb-3" id="tedarikciSelect" aria-label="Tedarikci">
-            <option></option>
-            <!-- Add options here -->
-        </select>
-
-        <label for="Urun">Urunler</label>
-        <select class="form-select mb-3" id="urunSelect" aria-label="Urun">
-            <option></option>
-            <!-- Add options here -->
-        </select>
-
-        <label for="Adet">Adet</label>
-        <input type="number" class="form-control mb-3" id="adet" placeholder="Adet">
-
-        <label for="Tarih">Tarih</label>
-        <input type="datetime-local" class="form-control mb-3" id="tarih" placeholder="Tarih">
-
-        <div class="" style="display: flex;justify-content: flex-end;">
-            <button class="btn btn-secondary" onClick="save()"></i>Ekle</button>
-
-        </div>
-
-
-    </div>
-</div>
-@* Ekleme start*@
-
-@* Guncelleme start*@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="Guncelle" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Siparis Guncelle</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="guncelleClose"></button>
-    </div>
-    <div class="offcanvas-body">
-        <label type="text" id="siparisId" value="" hidden></label>
-
-
-        <label for="Sube">Sube</label>
-        <select class="form-select mb-3" id="subeUpdateSelect" aria-label="Sube">
-            <option></option>
-            <!-- Add options here -->
-        </select>
-
-        <label for="Tedarikci">Tedarikci</label>
-        <select class="form-select mb-3" id="tedarikciUpdateSelect" aria-label="Tedarikci">
-            <option></option>
-            <!-- Add options here -->
-        </select>
-
-        <label for="Urun">Urun</label>
-        <select class="form-select mb-3" id="urunUpdateSelect" aria-label="Urun">
-            <option></option>
-            <!-- Add options here -->
-        </select>
-
-        <label for="Adet">Adet</label>
-        <input type="number" class="form-control mb-3" id="adetUpdate" placeholder="Adet">
-
-        <label for="Tarih">Tarih</label>
-        <input type="datetime-local" class="form-control mb-3" id="tarihUpdate" placeholder="Tarih">
-
-        <div class="" style="display: flex;justify-content: flex-end;">
-            <button onClick="update()" class="btn btn-warning"></i>Güncelle</button>
-
-        </div>
-    </div>
-</div>
-@* Guncelleme start*@
 
 
 
@@ -191,8 +152,8 @@
                         "render": function (data) {
                             return `
                                  <div class="w-75 btn-group" role="group">
-                                               <a onClick=loadForUpdate("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#Guncelle" aria-controls="Guncelle"></i>Edit</a>
-                                       <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                             <a onClick=aktiflikDegistir("${data}") class="btn btn-success mx-2" type="button"></i>Aktiflik değiştir</a>
+                                      
                                  </div>`
                         },
                         "width": "20%"
@@ -297,14 +258,14 @@
 
     function loadSelectDatas() {
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetSubeTedarikciUrunAll',
+            url: 'https://10.60.60.141/api/Filter/GetSubeUrunAllByTedarikciId?tedarikciId=668154e8eb1408f3839b7f34',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
                 'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
-
+            debugger;
             var subeSelect = $("#subeSelect").select2({
                 placeholder: "Şubeler",
                 data: $.map(response.data.subeler, function (data) {
@@ -317,17 +278,6 @@
             });
 
 
-            var tedarikciSelect = $("#tedarikciSelect").select2({
-                placeholder: "Tedarikciler",
-                data: $.map(response.data.tedarikciler, function (data) {
-                    return {
-                        id: data.id,
-                        text: data.tedarikciAdi
-                    };
-                }),
-                width: 350,
-            });
-
             var urunSelect = $("#urunSelect").select2({
                 placeholder: "Ürünler",
                 data: $.map(response.data.urunler, function (data) {
@@ -337,43 +287,16 @@
                     };
                 }),
                 width: 350,
-            });
-
-            var subeUpdateSelect = $("#subeUpdateSelect").select2({
-                placeholder: "Şubeler",
-                data: $.map(response.data.subeler, function (data) {
-                    return {
-                        id: data.id,
-                        text: data.subeAdi
-                    };
-                }),
+            });    
+            var aktiflikSelect = $("#aktiflikSelect").select2({
+                placeholder: "Aktiflik Durumu",
+                data: [{ id: "true", text: "Aktif" }, { id: "false", text: "Pasif" }],
                 width: 350,
             });
-
-            var tedarikciUpdateSelect = $("#tedarikciUpdateSelect").select2({
-                placeholder: "Tedarikciler",
-                data: $.map(response.data.tedarikciler, function (data) {
-                    return {
-                        id: data.id,
-                        text: data.tedarikciAdi
-                    };
-                }),
-                width: 350,
-            });
-
-            var urunUpdateSelect = $("#urunUpdateSelect").select2({
-                placeholder: "Ürünler",
-                data: $.map(response.data.urunler, function (data) {
-                    return {
-                        id: data.id,
-                        text: data.urunAdi
-                    };
-                }),
-                width: 350,
-            });
+           
         });
     }
-
+    loadSelectDatas();
     function loadForUpdate(id) {
         loadSelectDatas();
         $.ajax({

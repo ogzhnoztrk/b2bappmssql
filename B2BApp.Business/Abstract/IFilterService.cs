@@ -12,6 +12,7 @@ namespace B2BApp.Business.Abstract
     {
         Result<FilterDto> GetFirmaSubeKategoriAll();
         Result<SubeUrunTedarikciDto> GetSubeTedarikciUrunAll();
+        Result<SubeUrunDto> GetSubeUrunAllByTedarikciId(string tedarikciId);
 
     }
 }
