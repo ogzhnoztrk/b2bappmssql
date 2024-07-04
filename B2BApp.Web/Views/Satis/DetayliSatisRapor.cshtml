@@ -295,10 +295,12 @@
             firmalarToplamSatis[item.firmaId] = item.toplam
         });
         initCharts(kategoriToplamSatis, urunToplamSatis, subelerToplamSatis, firmalarToplamSatis);
+
     }
 
     loadTable();
 
+    //filtrelerin uygulanması
     function applyFilter() {
         // Get the selected filter values
         tarih1 = $('#tarih1').val() ?? "";
@@ -317,16 +319,11 @@
         urunToplamSatis_pieChart.destroy()
         subeToplamSatis_barChart.destroy()
         firmaToplamSatis_barChart.destroy()
-        // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
-        // table.columns(0).search(sube).draw();
-        // table.columns(1).search(kategori).draw();
-        // debugger;
-
-
 
 
     }
-
+   
+    //selectbarlara gerekli değerlerin atanması
     function loadSelectsDatas() {
 
         //firmalar load
@@ -399,36 +396,16 @@
          ctxSubeToplamSatisBar.width = 618;
         ctxSubeToplamSatisBar.height = 309;
                 
+
+
+
         var ctxFirmaToplamSatisBar = document.getElementById('firmaToplamSatisBar');
         ctxFirmaToplamSatisBar.width = 618;
         ctxFirmaToplamSatisBar.height = 309;
+        
 
 
 
-
-        console.log(kategoriToplamSatis)
-        kategoriSatis_pieChart = new Chart(ctxKategoriToplamSatisPie, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(kategoriToplamSatis),
-                datasets: [{
-                    label: 'Toplam Satış',
-                    data: Object.values(kategoriToplamSatis),
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-
-                }
-            }
-        });
 
         urunToplamSatis_pieChart = new Chart(ctxUrunToplamSatisPie, {
             type: 'doughnut',
@@ -475,30 +452,102 @@
                 }
             }
         });
-        
-        firmaToplamSatis_barChart = new Chart(ctxFirmaToplamSatisBar, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(firmalarToplamSatis),
-                datasets: [{
-                    label: 'Toplam Satış',
-                    data: Object.values(firmalarToplamSatis),
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
 
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
 
-                }
+
+        //KATEGORİLER
+        $.ajax({
+            url: 'https://localhost/api/kategori/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
+        }).done(function (response) {
+            console.log(response.data);
+            Object.keys(kategoriToplamSatis).forEach(function (key) {
+                var firma = response.data.find(x => x.id == key);
+
+                kategoriToplamSatis[firma.kategoriAdi] = kategoriToplamSatis[key];
+                delete kategoriToplamSatis[key]
+            });
+            debugger;
+
+
+            kategoriSatis_pieChart = new Chart(ctxKategoriToplamSatisPie, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(kategoriToplamSatis),
+                    datasets: [{
+                        label: 'Toplam Satış',
+                        data: Object.values(kategoriToplamSatis),
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+
+                    }
+                }
+            });
+
         });
 
+
+
+
+        //firmlar
+        $.ajax({
+            url: 'https://localhost/api/Firma/all',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            }
+        }).done(function (response) {
+            console.log(response.data);
+            Object.keys(firmalarToplamSatis).forEach(function (key) {
+                var firma = response.data.find(x => x.id == key);
+                firmalarToplamSatis[firma.firmaAdi] = firmalarToplamSatis[key];
+                delete firmalarToplamSatis[key]
+            });
+            debugger;
+
+
+
+            firmaToplamSatis_barChart = new Chart(ctxFirmaToplamSatisBar, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(firmalarToplamSatis),
+                    datasets: [{
+                        label: 'Toplam Satış',
+                        data: Object.values(firmalarToplamSatis),
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+
+                    }
+                }
+            });
+
+        });
+
+       
+        debugger;
 
         
     }
@@ -506,3 +555,7 @@
     loadSelectsDatas();
 
 </script>
+[
+    "66815653eb1408f3839b7f3d",
+    "66815670eb1408f3839b7f3f"
+]
