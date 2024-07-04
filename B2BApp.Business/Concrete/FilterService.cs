@@ -1,6 +1,6 @@
 ﻿using B2BApp.Business.Abstract;
 using B2BApp.DataAccess.Abstract;
-using B2BApp.DTOs;
+using B2BApp.DTOs.FilterDtos;
 using Core.Models.Concrete;
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,22 @@ namespace B2BApp.Business.Concrete
                     Subeler = _unitOfWork.Sube.GetAll().Data
                 },
                 Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+        }
+
+        public Result<SubeUrunTedarikciDto> GetSubeTedarikciUrunAll()
+        {
+            return new Result<SubeUrunTedarikciDto>
+            {
+                Data = new SubeUrunTedarikciDto
+                {
+                    Subeler = _unitOfWork.Sube.GetAll().Data,
+                    Tedarikciler = _unitOfWork.Tedarikci.GetAll().Data,
+                    Urunler = _unitOfWork.Urun.GetAll().Data,
+                },
+                Message = "Şube, Tedarikçi ve Ürün bilgileri başarıyla getirildi",
                 StatusCode = 200,
                 Time = DateTime.Now
             };

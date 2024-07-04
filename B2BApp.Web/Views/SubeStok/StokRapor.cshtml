@@ -65,7 +65,6 @@
                     <th>Şube Adi</th>
                     <th>Ürün</th>
                     <th>Stok</th>
-
                 </tr>
             </thead>
             <tfoot>
@@ -146,15 +145,11 @@
         firma = $('#firma').val() ?? "";
         kategori = $('#kategori').val() ?? "";
         sube = $('#sube').val() ?? "";
-        //debugger;
+
 
         table.destroy();
         initTable();
 
-        // // hız açısından sube adı ve kategori adını Datatable uzerinden filtrelioruz
-        // table.columns(0).search(sube).draw();
-        // table.columns(1).search(kategori).draw();
-        // debugger;
 
     }
 

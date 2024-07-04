@@ -1,5 +1,5 @@
 ﻿using B2BApp.Business.Abstract;
-using B2BApp.DTOs;
+using B2BApp.DTOs.FilterDtos;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,5 +24,14 @@ namespace B2BApp.Api.Controllers
 
             return _filterService.GetFirmaSubeKategoriAll();
         }
+
+
+        [HttpGet("GetSubeTedarikciUrunAll")]
+        public Result<SubeUrunTedarikciDto> GetSubeTedarikciUrunAll()
+        {
+
+            return _filterService.GetSubeTedarikciUrunAll();
+        }
+
     }
 }

@@ -27,6 +27,7 @@ namespace B2BApp.DataAccess.Concrete
             Urun = new UrunRepository(_settings);
             Tedarikci = new TedarikciRepository(_settings);
             Kullanici = new UserRepository(_settings);
+            Siparis = new SiparisRepository(_settings);
         }
 
         public IFirmaRepository Firma {get; private set;}
@@ -37,5 +38,6 @@ namespace B2BApp.DataAccess.Concrete
         public IUrunRepository Urun {get; private set;}
         public ITedarikciRepository Tedarikci {get; private set;}
         public IUserRepository Kullanici { get; private set;}
+        public ISiparisRepository Siparis{ get; private set;}
     }
 }

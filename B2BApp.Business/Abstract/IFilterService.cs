@@ -1,4 +1,4 @@
-﻿using B2BApp.DTOs;
+﻿using B2BApp.DTOs.FilterDtos;
 using Core.Models.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ namespace B2BApp.Business.Abstract
     public interface IFilterService
     {
         Result<FilterDto> GetFirmaSubeKategoriAll();
+        Result<SubeUrunTedarikciDto> GetSubeTedarikciUrunAll();
 
     }
 }
