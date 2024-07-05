@@ -1,9 +1,7 @@
 ﻿using B2BApp.Business.Abstract;
-using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -52,7 +50,7 @@ namespace B2BApp.Api.Controllers
         public Result<ICollection<Kategori>> GetCompany()
         {
             var kategoriler = _kategoriService.getAll();
-            
+
             return kategoriler;
         }
         [HttpPut]

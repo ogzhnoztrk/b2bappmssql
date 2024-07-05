@@ -1,9 +1,7 @@
 ﻿using B2BApp.Business.Abstract;
-using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -19,7 +17,7 @@ namespace B2BApp.Api.Controllers
 
         public TedarikciController(ITedarikciService tedarikciService)
         {
-                _tedarikciService = tedarikciService;
+            _tedarikciService = tedarikciService;
         }
 
 
@@ -36,16 +34,16 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
-      
+
         [HttpGet]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> GetCompany(string id)
         {
-            
+
             var tedarikci = _tedarikciService.getTedarikciById(ObjectId.Parse(id));
             return tedarikci;
         }
-      
+
         [HttpGet("all")]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Tedarikci>> GetCompany()
@@ -57,7 +55,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpPut]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<Tedarikci> UpdateCompany(Tedarikci tedarikci,string tedarikciId)
+        public Result<Tedarikci> UpdateCompany(Tedarikci tedarikci, string tedarikciId)
         {
             _tedarikciService.updateTedarikci(tedarikci, tedarikciId);
             return new Result<Tedarikci>

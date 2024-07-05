@@ -3,7 +3,6 @@ using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -83,7 +82,8 @@ namespace B2BApp.Api.Controllers
             return _satisService.getAllWithUrunAndSubeByTedarikciId(tedarikciId, ilkTarih, ikinciTarih, subeId, kategoriId, firmaId);
         }
 
-        [HttpGet("GetAllWithDetailsByFilters")]   [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        [HttpGet("GetAllWithDetailsByFilters")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
 
         public Result<ICollection<SatisDto>> GetAllWithUrunAndSube(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId)
         {

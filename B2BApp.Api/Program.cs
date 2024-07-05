@@ -5,7 +5,6 @@ using B2BApp.DataAccess.Abstract;
 using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -65,7 +64,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(o =>
 {
     o.TokenValidationParameters = new TokenValidationParameters
-    {   
+    {
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey

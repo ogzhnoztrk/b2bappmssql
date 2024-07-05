@@ -3,7 +3,6 @@ using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -36,7 +35,7 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
-     
+
         [HttpGet]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> GetCompany(string id)
@@ -45,7 +44,7 @@ namespace B2BApp.Api.Controllers
             var subeStok = _subeStokService.getSubeStokById(ObjectId.Parse(id));
             return subeStok;
         }
-      
+
         [HttpGet("all")]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeStok>> GetCompany()
@@ -60,7 +59,7 @@ namespace B2BApp.Api.Controllers
         {
             return _subeStokService.getWithSubeAndUrun(ObjectId.Parse(id));
         }
-       
+
         [HttpGet("GetAllWithSubeAndUrunByTedarikciId")] //kullanıcılar ulaşabilir
         public Result<ICollection<SubeStokDto>> GetAllWithSubeAndUrunByTedarikciId(
             string tedarikciId,
@@ -68,8 +67,8 @@ namespace B2BApp.Api.Controllers
             string? firmaId,
             string? kategoriId
             )
-        { 
-            return _subeStokService.getAllWithSubeAndUrunByTedarikciId(tedarikciId,subeId,firmaId,kategoriId); 
+        {
+            return _subeStokService.getAllWithSubeAndUrunByTedarikciId(tedarikciId, subeId, firmaId, kategoriId);
         }
 
         [HttpGet("GetAllWithDetailsByFilters")]
@@ -92,7 +91,7 @@ namespace B2BApp.Api.Controllers
         public Result<SubeStok> UpdateCompany(SubeStok subeStok, string subeStokId)
         {
 
-            _subeStokService.updateSubeStok(subeStok,subeStokId);
+            _subeStokService.updateSubeStok(subeStok, subeStokId);
             return new Result<SubeStok>
             {
                 Data = subeStok,

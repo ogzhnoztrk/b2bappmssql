@@ -1,9 +1,7 @@
 ﻿using B2BApp.Business.Abstract;
-using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -18,7 +16,7 @@ namespace B2BApp.Api.Controllers
 
         public FirmaController(IFirmaService firmaService)
         {
-                _firmaService = firmaService;
+            _firmaService = firmaService;
         }
 
 
@@ -39,7 +37,7 @@ namespace B2BApp.Api.Controllers
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Firma> GetFirma(string id)
         {
-            
+
             var firma = _firmaService.getFirmaById(ObjectId.Parse(id));
             return firma;
         }
@@ -56,7 +54,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpPut]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<Firma> UpdateFirma(Firma firma,string firmaId)
+        public Result<Firma> UpdateFirma(Firma firma, string firmaId)
         {
             //Firma firma = new Firma
             //{

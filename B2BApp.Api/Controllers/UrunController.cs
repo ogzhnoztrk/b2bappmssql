@@ -3,7 +3,6 @@ using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -38,7 +37,7 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
-       
+
         [HttpGet]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> GetUrun(string id)
@@ -53,21 +52,21 @@ namespace B2BApp.Api.Controllers
         public Result<ICollection<UrunDto>> GetUrunWithKategori()
         {
             return _urunService.getAllWithKategoriAdiAndTedarikci();
-                
-        
+
+
         }
-       
+
         [HttpGet("GetUrunlerWithDetailsByTedarikciId")] //Kullanıcı ulaşabilir
         public Result<ICollection<UrunDto>> GetUrunlerWithDetailsByTedarikciId(string tedarikciId)
         {
             return _urunService.getUrunlerWithDetailsByTedarikciId(tedarikciId);
-                
-        
+
+
         }
 
         [HttpGet("GetUrunWithKategori")]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<UrunDto> GetUrunWithKategori(string id) 
+        public Result<UrunDto> GetUrunWithKategori(string id)
         {
             return _urunService.getUrunWithKategoriAndTedarikci(ObjectId.Parse(id));
         }

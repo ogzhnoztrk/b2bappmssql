@@ -3,7 +3,6 @@ using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -18,7 +17,7 @@ namespace B2BApp.Api.Controllers
 
         public SiparisController(ISiparisService siparisService)
         {
-                _siparisService = siparisService;
+            _siparisService = siparisService;
         }
 
 
@@ -64,7 +63,7 @@ namespace B2BApp.Api.Controllers
         {
             return _siparisService.getAllWithDetailsById(siparisId);
         }
-    
+
         [HttpGet("GetAllWithDetailsByFilters")]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SiparisDto>> GetAllWithDetailsByFilters(DateTime? tarih1, DateTime? tarih2, string? urunId, string? subeId, bool? aktifMi)
