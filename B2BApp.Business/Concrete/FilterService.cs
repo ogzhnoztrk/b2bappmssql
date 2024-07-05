@@ -80,8 +80,22 @@ namespace B2BApp.Business.Concrete
                 Time = DateTime.Now
             };
         }
-   
-        
-    
+
+        public Result<SubeKategoriFirmaUrunFilter> GetSubeKategoriFirmaUrunAll()
+        {
+            return new Result<SubeKategoriFirmaUrunFilter>
+            {
+                Data = new SubeKategoriFirmaUrunFilter
+                {
+                    Kategoriler = _unitOfWork.Kategori.GetAll().Data,
+                    Firmalar = _unitOfWork.Firma.GetAll().Data,
+                    Subeler = _unitOfWork.Sube.GetAll().Data,
+                    Urunler = _unitOfWork.Urun.GetAll().Data
+                },
+                Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+        }
     }
 }

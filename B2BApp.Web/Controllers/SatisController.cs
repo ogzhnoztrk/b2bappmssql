@@ -16,28 +16,37 @@ namespace B2BApp.Web.Controllers
             return View();
         }
 
-           // GET: SatisController
+        // GET: SatisController
         public ActionResult SatisRapor()
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            
+
 
             return View();
         }
-               public ActionResult DetayliSatisRapor()
+        public ActionResult DetayliSatisRapor()
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            
+
 
             return View();
         }
 
-       
+        public ActionResult KarRapor()
+        {
+            // JWT'yi çözme
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+
+
+            return View();
+        }
 
 
 
-       
+
+
+
     }
 }

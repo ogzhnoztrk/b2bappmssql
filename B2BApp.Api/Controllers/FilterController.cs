@@ -23,6 +23,12 @@ namespace B2BApp.Api.Controllers
         {
 
             return _filterService.GetFirmaSubeKategoriAll();
+        } 
+
+        [HttpGet("GetSubeKategoriFirmaUrunAll")]
+        public Result<SubeKategoriFirmaUrunFilter> GetSubeKategoriFirmaUrunAll()
+        {
+            return _filterService.GetSubeKategoriFirmaUrunAll();
         }
 
 
