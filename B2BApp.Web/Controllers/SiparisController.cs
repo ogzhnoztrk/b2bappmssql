@@ -22,6 +22,16 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
+              
+        public ActionResult DetayliRapor()
+        {
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+
+
+            return View();
+        }
+              
+
 
 
 

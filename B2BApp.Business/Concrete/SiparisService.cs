@@ -52,6 +52,23 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+        public Result<string> changeAktiflik(string siparisId)
+        {
+            var siparis = _unitOfWork.Siparis.GetById(siparisId).Data;
+
+            siparis.IsActive = !siparis.IsActive;
+
+            _unitOfWork.Siparis.ReplaceOne(siparis, siparisId);
+
+            return new Result<string>
+            {
+                Data = siparisId,
+                Message = "Siparişin aktiflik durumu başarıyla değiştirildi",
+                StatusCode =200,
+                Time=DateTime.Now
+            };
+        }
+
         public void deleteSiparis(ObjectId objectId)
         {
             try
@@ -111,6 +128,86 @@ namespace B2BApp.Business.Abstract
             };
 
             return result;
+        }
+
+        public Result<ICollection<SiparisDto>> getAllWithDetailsByFilters(DateTime? tarih1, DateTime? tarih2, string? urunId, string? subeId, bool? aktifMi)
+        {
+            var siparisler = _unitOfWork.Siparis.GetAll().Data;
+            siparisler = aktifMi == null ? siparisler : siparisler.Where(x => x.IsActive == aktifMi).ToList();
+            siparisler = subeId == null ? siparisler : siparisler.Where(x => x.SubeId == subeId).ToList();
+            siparisler = urunId == null ? siparisler : siparisler.Where(x => x.UrunId == urunId).ToList();
+            siparisler = tarih1 == null ? siparisler : siparisler.Where(x => x.SiparisTarih >= tarih1).ToList();
+            siparisler = tarih2 == null ? siparisler : siparisler.Where(x => x.SiparisTarih <= tarih2).ToList();
+
+            ICollection<SiparisDto> siparisDTOs = new List<SiparisDto>();
+            foreach (var siparis in siparisler)
+            {
+                var sube = _unitOfWork.Sube.GetById(siparis.SubeId).Data;
+                var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
+                var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+
+                var siparisDto = new SiparisDto
+                {
+                    Id = siparis.Id,
+                    Adet = siparis.Adet,
+                    Tarih = siparis.SiparisTarih,
+                    Sube = sube,
+                    Urun = urun,
+                    Tedarikci = tedarikci,
+                    Toplam = siparis.Toplam,
+                    IsActive = siparis.IsActive,
+                };
+                siparisDTOs.Add(siparisDto);
+            }
+
+            return new Result<ICollection<SiparisDto>>
+            {
+                Data = siparisDTOs,
+                Message = "Siparişler detayları ile başarıyla getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+        }
+
+        public Result<ICollection<SiparisDto>> getAllWithDetailsByFiltersAndTedarikciId(
+            string tedarikciId, DateTime? tarih1, DateTime? tarih2, string? urunId, string? subeId, bool? aktifMi)
+        {
+            var siparisler = _unitOfWork.Siparis.FilterBy(x=>x.TedarikciId == tedarikciId).Data;
+            siparisler = aktifMi == null ? siparisler : siparisler.Where(x => x.IsActive == aktifMi).ToList();
+            siparisler = subeId == null ? siparisler : siparisler.Where(x => x.SubeId == subeId).ToList();
+            siparisler = urunId == null ? siparisler : siparisler.Where(x => x.UrunId == urunId).ToList();
+            siparisler = tarih1 == null ? siparisler : siparisler.Where(x => x.SiparisTarih >= tarih1).ToList();
+            siparisler = tarih2 == null ? siparisler : siparisler.Where(x => x.SiparisTarih <= tarih2).ToList();
+
+            ICollection<SiparisDto> siparisDTOs = new List<SiparisDto>();
+            foreach (var siparis in siparisler)
+            {
+                var sube = _unitOfWork.Sube.GetById(siparis.SubeId).Data;
+                var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
+                var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+
+                var siparisDto = new SiparisDto
+                {
+                    Id = siparis.Id,
+                    Adet = siparis.Adet,
+                    Tarih = siparis.SiparisTarih,
+                    Sube = sube,
+                    Urun = urun,
+                    Tedarikci = tedarikci,
+                    Toplam = siparis.Toplam,
+                    IsActive = siparis.IsActive,
+                };
+                siparisDTOs.Add(siparisDto);
+            }
+
+            return new Result<ICollection<SiparisDto>>
+            {
+                Data = siparisDTOs,
+                Message = "Siparişler detayları ile başarıyla getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+        
         }
 
         public Result<SiparisDto> getAllWithDetailsById(string siparisId)

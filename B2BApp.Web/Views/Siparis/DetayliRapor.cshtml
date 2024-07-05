@@ -41,7 +41,7 @@
 
             <div class="col">
                 <label for="aktiflikSelect">Kategori:</label>
-                <select id="aktiflikSelect" class="form-control" >
+                <select id="aktiflikSelect" class="form-control">
                     <option></option>
 
                 </select>
@@ -92,14 +92,14 @@
 
     function loadTable() {
         $.ajax({
-            url: 'https://10.60.60.141/api/Siparis/GetAllWithDetailsByFiltersAndTedarikciId',
+            url: 'https://10.60.60.141/api/Siparis/GetAllWithDetailsByFilters',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
                 'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
-                'tedarikciId': '@ViewBag.FirmaId',
+                
                 'tarih1': tarih1,
                 'tarih2': tarih2,
                 'urunId': urun,
@@ -175,9 +175,9 @@
                         "data": "id",
                         "render": function (data) {
                             return `
-                                 <div class="w-75 btn-group" role="group">
-                                   <a onClick=aktiflikDegistir("${data}") class="btn btn-success mx-2" type="button"></i>Aktiflik değiştir</a>
-                                 </div>`
+                                     <div class="w-75 btn-group" role="group">
+                                       <a onClick=aktiflikDegistir("${data}") class="btn btn-success mx-2" type="button"></i>Aktiflik değiştir</a>
+                                     </div>`
                         },
                         "width": "20%"
                     },
@@ -321,7 +321,7 @@
 
     function loadSelectDatas() {
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetSubeUrunAllByTedarikciId?tedarikciId=' + "@ViewBag.FirmaId",
+            url: 'https://10.60.60.141/api/Filter/GetSubeUrunAll',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
@@ -337,7 +337,7 @@
                     };
                 }),
                 width: 350,
-                allowClear:true
+                allowClear: true
             });
 
 
@@ -352,7 +352,7 @@
                 width: 350,
                 allowClear: true
 
-            });    
+            });
             var aktiflikSelect = $("#aktiflikSelect").select2({
                 placeholder: "Aktiflik Durumu",
                 data: [{ id: "true", text: "Aktif" }, { id: "false", text: "Pasif" }],
@@ -360,7 +360,7 @@
                 allowClear: true
 
             });
-           
+
         });
     }
     loadSelectDatas();
@@ -373,20 +373,20 @@
         urun = $('#urunSelect').val() ?? "";
         sube = $('#subeSelect').val() ?? "";
         aktiflik = $('#aktiflikSelect').val() ?? "";
-        if(aktiflik == "true"){
+        if (aktiflik == "true") {
             aktiflik = true
         }
-        else if(aktiflik == "false") {
+        else if (aktiflik == "false") {
             aktiflik = false
         }
-        
+
 
         table.destroy();
         loadTable();
 
 
     }
-    
+
     function loadForUpdate(id) {
         loadSelectDatas();
         $.ajax({
@@ -411,7 +411,7 @@
         });
     }
 
-    function aktiflikDegistir(id){
+    function aktiflikDegistir(id) {
         Swal.fire({
             title: 'Emin Misiniz?',
             text: "Aktiflik Durmunu Değiştirmek Üzeresiniz!",
@@ -424,7 +424,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Siparis/changeAktiflik?siparisId='+id,
+                    url: 'https://10.60.60.141/api/Siparis/changeAktiflik?siparisId=' + id,
                     crossDomain: true,
                     method: 'put',
                     headers: {
@@ -436,17 +436,17 @@
                             title: "Aktiflik Durumu Güncellendi",
                             icon: "success"
                         });
-                    }else{
-                            Swal.fire({
+                    } else {
+                        Swal.fire({
                             title: "Aktiflik Durumu Güncellenirken Bir Sorun Oluştu",
                             icon: "error"
                         });
                     }
                     table.destroy();
                     loadTable();
-                    
+
                 });
-               
+
             }
         })
     }
