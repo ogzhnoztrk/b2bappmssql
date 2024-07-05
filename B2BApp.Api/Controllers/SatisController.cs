@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
 
     public class SatisController : ControllerBase
     {
@@ -119,7 +119,7 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet("getSatisKar")]
-        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<KarDto>> getSatisKar(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId, string? urunId)
         {
             return _satisService.getSatisKar(ilkTarih, ikinciTarih, subeId, kategoriId, firmaId, urunId);
