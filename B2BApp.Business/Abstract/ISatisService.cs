@@ -40,7 +40,7 @@ namespace B2BApp.Business.Abstract
                 string? firmaId,
                 string? urunId
             );
-
+        Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId,string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2);
         Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
         Result<Satis> getSatisById(ObjectId objectId);
     }

@@ -98,5 +98,23 @@ namespace B2BApp.Business.Concrete
                 Time = DateTime.Now
             };
         }
+
+        public Result<SubeKategoriFirmaUrunFilter> GetSubeKategoriFirmaUrunAllBytedarikciId(string tedarikciId)
+        {
+            _logger.LogInformation("Firma, Şube ve Kategori bilgileri başarıyla getirildi");
+            return new Result<SubeKategoriFirmaUrunFilter>
+            {
+                Data = new SubeKategoriFirmaUrunFilter
+                {
+                    Kategoriler = _unitOfWork.Kategori.GetAll().Data,
+                    Firmalar = _unitOfWork.Firma.GetAll().Data,
+                    Subeler = _unitOfWork.Sube.GetAll().Data,
+                    Urunler = _unitOfWork.Urun.FilterBy(x=>x.TedarikciId == tedarikciId).Data
+                },
+                Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+        }
     }
 }

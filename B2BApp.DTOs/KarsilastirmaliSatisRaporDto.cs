@@ -1,0 +1,33 @@
+﻿using B2BApp.Entities.Concrete;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace B2BApp.DTOs
+{
+    public class KarsilastirmaliSatisRaporDto
+    {
+
+        public Urun? Urun{ get; set; }
+            public double? Donem1Miktar{ get; set; }
+            public double? Donem1Tutar{ get; set; }
+        public double? Donem2Miktar{ get; set; }
+        public double? Donem2Tutar{ get; set; }
+
+    }
+    public class DonemselToplam
+    {
+        public Dictionary<DateTime, double> Donem1 { get; set; }
+        public Dictionary<DateTime, double> Donem2 { get; set; }
+    }
+
+    public class KarsilastirmaliSatisRapor
+    {
+        public List<KarsilastirmaliSatisRaporDto> KarsilastirmaliSatisRaporDtos { get; set; }
+        public DonemselToplam DonemselToplam { get; set; }
+    }
+
+   
+}

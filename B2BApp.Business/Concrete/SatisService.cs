@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZstdSharp.Unsafe;
 
 namespace B2BApp.Business.Abstract
 {
@@ -334,6 +335,69 @@ namespace B2BApp.Business.Abstract
                 _logger.LogError(ex, "Kar hesaplanırken bir hata oluştu");
                 throw;
             }
+        }
+
+        public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId,string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2)
+        {
+
+            donem ??= "aylik"; donem1Tarih1 ??= DateTime.Now; donem1Tarih2 ??= DateTime.Now;
+
+            var donem2Tarih1 = DateTime.Now;
+            var donem2Tarih2 = DateTime.Now; 
+
+            var satislar = _unitOfWork.Satis.GetAll().Data;
+            satislar = satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.TedarikciId == tedarikciId).ToList();
+            satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetById(x.SubeId).Data.FirmaId == firmaId).ToList();
+            satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.KategoriId == kategoriId).ToList();
+            satislar = subeId == null ? satislar : satislar.Where(x => x.SubeId == subeId).ToList();
+            satislar = urunId == null ? satislar : satislar.Where(x => x.UrunId == urunId).ToList();
+
+            if (donem.Contains("aylik"))
+            {
+                donem2Tarih1 = donem1Tarih1.Value.AddMonths(-1);
+                donem2Tarih2 = donem1Tarih2.Value.AddMonths(-1);
+            }else if(donem.Contains("yillik")){
+                donem2Tarih1 = donem1Tarih1.Value.AddYears(-1);
+                donem2Tarih2 = donem1Tarih2.Value.AddYears(-1);
+            }
+
+
+            var dto = satislar.GroupBy(x => x.UrunId)
+                .Select(x => new KarsilastirmaliSatisRaporDto
+                {
+                    Urun = _unitOfWork.Urun.GetById(x.Key).Data,
+                    Donem1Miktar = x.Where(y => y.SatisTarihi >= donem1Tarih1 && y.SatisTarihi <= donem1Tarih2).Sum(y => y.SatisMiktari),
+                    Donem1Tutar = x.Where(y => y.SatisTarihi >= donem1Tarih1 && y.SatisTarihi <= donem1Tarih2).Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari),
+                    Donem2Miktar = x.Where(y => y.SatisTarihi >= donem2Tarih1 && y.SatisTarihi <= donem2Tarih2).Sum(y => y.SatisMiktari),
+                    Donem2Tutar = x.Where(y => y.SatisTarihi >= donem2Tarih1 && y.SatisTarihi <= donem2Tarih2).Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari),
+                }).ToList();
+
+            var DONEM1 = satislar.Where(x => x.SatisTarihi >= donem1Tarih1 && x.SatisTarihi <= donem1Tarih2)
+                .GroupBy(x => x.SatisTarihi.Date)
+                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari));
+            var DONEM2 = satislar.Where(x => x.SatisTarihi >= donem2Tarih1 && x.SatisTarihi <= donem2Tarih2)
+                .GroupBy(x => x.SatisTarihi.Date)
+                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari));
+            var donemselToplam = new DonemselToplam
+            {
+                Donem1 = DONEM1,
+                Donem2 = DONEM2
+            };
+
+            var x = new KarsilastirmaliSatisRapor
+            {
+                KarsilastirmaliSatisRaporDtos = dto,
+                DonemselToplam = donemselToplam
+            };
+            _logger.LogInformation("Karşılaştırmalı satış raporu getirildi");
+            return new Result<KarsilastirmaliSatisRapor>
+            {
+                Data = x,
+                Message = "Karşılaştırmalı satış raporu getirildi",
+                StatusCode = 200,
+                Time = DateTime.Now
+            };
+
         }
     }
 }

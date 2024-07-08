@@ -49,6 +49,13 @@ namespace B2BApp.Api.Controllers
             return _filterService.GetSubeUrunAll();
         }
 
+        [HttpGet("GetSubeKategoriFirmaUrunAllBytedarikciId")]
+        public Result<SubeKategoriFirmaUrunFilter> GetSubeKategoriFirmaUrunAllBytedarikciId(string tedarikciId)
+        {
+            return _filterService.GetSubeKategoriFirmaUrunAllBytedarikciId(tedarikciId);
+        }
+
+
 
     }
 }
