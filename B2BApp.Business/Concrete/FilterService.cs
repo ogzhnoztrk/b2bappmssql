@@ -1,7 +1,9 @@
-﻿using B2BApp.Business.Abstract;
+﻿using Amazon.Runtime.Internal.Util;
+using B2BApp.Business.Abstract;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs.FilterDtos;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +15,14 @@ namespace B2BApp.Business.Concrete
     public class FilterService : IFilterService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public FilterService(IUnitOfWork unitOfWork)
+        private readonly ILogger<FilterService> _logger;
+            public FilterService(IUnitOfWork unitOfWork, ILogger<FilterService> logger)
         {
             _unitOfWork = unitOfWork;
         }
         public Result<FilterDto> GetFirmaSubeKategoriAll()
         {
+            _logger.LogInformation("Firma, Şube ve Kategori bilgileri getiriliyor");
             return new Result<FilterDto>
             {
                 Data = new FilterDto
@@ -35,6 +39,7 @@ namespace B2BApp.Business.Concrete
 
         public Result<SubeUrunTedarikciDto> GetSubeTedarikciUrunAll()
         {
+            _logger.Equals("Şube, Tedarikçi ve Ürün bilgileri getiriliyor");
             return new Result<SubeUrunTedarikciDto>
             {
                 Data = new SubeUrunTedarikciDto
@@ -51,7 +56,7 @@ namespace B2BApp.Business.Concrete
 
         public Result<SubeUrunDto> GetSubeUrunAllByTedarikciId(string tedarikciId)
         {
-
+            _logger.LogInformation("Şube ve Ürün bilgileri getiriliyor");
             return new Result<SubeUrunDto>
             {
                 Data = new SubeUrunDto
@@ -67,7 +72,7 @@ namespace B2BApp.Business.Concrete
          
         public Result<SubeUrunDto> GetSubeUrunAll()
         {
-
+            _logger.LogInformation("Şube ve Ürün bilgileri getiriliyor");
             return new Result<SubeUrunDto>
             {
                 Data = new SubeUrunDto
@@ -83,6 +88,7 @@ namespace B2BApp.Business.Concrete
 
         public Result<SubeKategoriFirmaUrunFilter> GetSubeKategoriFirmaUrunAll()
         {
+            _logger.LogInformation("Firma, Şube ve Kategori bilgileri başarıyla getirildi");
             return new Result<SubeKategoriFirmaUrunFilter>
             {
                 Data = new SubeKategoriFirmaUrunFilter

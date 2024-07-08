@@ -1,6 +1,8 @@
-﻿using B2BApp.DataAccess.Abstract;
+﻿using Amazon.Runtime.Internal.Util;
+using B2BApp.DataAccess.Abstract;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -13,9 +15,11 @@ namespace B2BApp.Business.Abstract
     public class TedarikciService : ITedarikciService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<TedarikciService> _logger;
 
-        public TedarikciService(IUnitOfWork unitOfWork)
+        public TedarikciService(IUnitOfWork unitOfWork, ILogger<TedarikciService> logger)
         {
+            _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
@@ -24,10 +28,12 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _unitOfWork.Tedarikci.InsertOne(Tedarikci);
-            }
-            catch (Exception)
-            {
+                _logger.LogInformation("Tedarikçi Eklendi");
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Tedarikçi Eklenirken Hata Oluştu");
                 throw;
             }
         }
@@ -37,10 +43,11 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _unitOfWork.Tedarikci.DeleteById(objectId.ToString());
+                _logger.LogInformation("Tedarikçi Silindi");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Tedarikçi Silinirken Hata Oluştu");
                 throw;
             }
         }
@@ -49,10 +56,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Tedarikçiler Listelendi");
                 return _unitOfWork.Tedarikci.GetAll();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Tedarikçiler Listelenirken Hata Oluştu");
                 throw;
             }
         }
@@ -61,25 +70,26 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Tedarikçi Getirildi");
                 return _unitOfWork.Tedarikci.GetById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Tedarikçi Getirilirken Hata Oluştu");
                 throw;
             }
-            throw new NotImplementedException();
         }
 
         public void updateTedarikci(Tedarikci Tedarikci, string TedarikciId)
         {
             try
             {
-                _unitOfWork.Tedarikci.ReplaceOne(Tedarikci, TedarikciId);
-            }
-            catch (Exception)
-            {
+                _unitOfWork.Tedarikci.ReplaceOne(Tedarikci, TedarikciId); _logger.LogInformation("Tedarikçi Güncellendi");
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Tedarikçi Güncellenirken Hata Oluştu");
                 throw;
             }
         }

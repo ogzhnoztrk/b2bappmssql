@@ -1,7 +1,9 @@
-﻿using B2BApp.DataAccess.Abstract;
+﻿using Amazon.Runtime.Internal.Util;
+using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -14,8 +16,10 @@ namespace B2BApp.Business.Abstract
     public class UrunService : IUrunService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UrunService(IUnitOfWork unitOfWork)
+        private readonly ILogger<UrunService> _logger;
+        public UrunService(IUnitOfWork unitOfWork, ILogger<UrunService> logger)
         {
+            _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
@@ -23,11 +27,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Ürün Eklendi");
                 _unitOfWork.Urun.InsertOne(Urun);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Ürün eklenirken hata olustu");
                 throw;
             }
         }
@@ -37,10 +42,11 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _unitOfWork.Urun.DeleteById(objectId.ToString());
+                _logger.LogInformation("urun Silindi");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "urun Silinirken Hata Oluştu");
                 throw;
             }
         }
@@ -49,11 +55,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Urunler Listelendi");
                 return _unitOfWork.Urun.GetAll();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Urunler Listelenirken Hata Oluştu");
                 throw;
             }
         }
@@ -62,11 +69,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Urun Id ye gore getirildi");
                 return _unitOfWork.Urun.GetById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Urun Id ye gore getirilirken hata olustu");
                 throw;
             }
 
@@ -108,12 +116,12 @@ namespace B2BApp.Business.Abstract
                 };
 
 
-
+                _logger.LogInformation("Urunler Kategori Bilgileri İle Getirildi");   
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Urunler Kategori Bilgileri İle Getirilirken Hata Oluştu");
                 throw;
             }
         }
@@ -122,11 +130,13 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                
                 _unitOfWork.Urun.ReplaceOne(Urun, Urun.Id.ToString());
+                _logger.LogInformation("Ürün guncellendi");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Ürün guncellenirken hata olustu");
                 throw;
             }
         }
@@ -162,12 +172,12 @@ namespace B2BApp.Business.Abstract
                 };
 
 
-
+                _logger.LogInformation("Ürün Kategori Bilgileri İle Getirildi");
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Ürün Kategori Bilgileri İle Getirilirken Hata Oluştu");
                 throw;
             }
         }
@@ -208,12 +218,12 @@ namespace B2BApp.Business.Abstract
                 };
 
 
-
+                _logger.LogInformation("Urunler Kategori Bilgileri İle Getirildi");
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Urunler Kategori Bilgileri İle Getirilirken Hata Oluştu");
                 throw;
             }
         }

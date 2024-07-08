@@ -1,7 +1,9 @@
-﻿using B2BApp.DataAccess.Abstract;
+﻿using Amazon.Runtime.Internal.Util;
+using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,11 @@ namespace B2BApp.Business.Abstract
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        public SubeService(IUnitOfWork unitOfWork)
+        private readonly ILogger<SubeService> _logger;
+        public SubeService(IUnitOfWork unitOfWork, ILogger<SubeService> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public void addSube(Sube Sube)
@@ -25,10 +29,11 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _unitOfWork.Sube.InsertOne(Sube);
+                _logger.LogInformation("Şube Eklendi");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Eklenirken Hata Oluştu");
                 throw;
             }
         }
@@ -37,11 +42,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Şube Silindi");
                 _unitOfWork.Sube.DeleteById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Silinirken Hata Oluştu");
                 throw;
             }
         }
@@ -52,32 +58,36 @@ namespace B2BApp.Business.Abstract
             {
                 if (firmaId == null)
                 {
+                    _logger.LogInformation("Tüm Şubeler Getirildi"); 
                     return _unitOfWork.Sube.GetAll();
                 }
                 else
                 {
+                    _logger.LogInformation("Firmaya göre Tüm Şubeler Getirildi");
+
                     return _unitOfWork.Sube.FilterBy(x => x.FirmaId == firmaId);
                 }
 
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şubeler Getirilirken Hata Oluştu");
                 throw;
             }
         }
 
-        public Result<ICollection<Sube>> getSubeByFirmaId(string subeId)
+        public Result<ICollection<Sube>> getSubeByFirmaId(string firmaId)
         {
             try
             {
-                return _unitOfWork.Sube.FilterBy(x => x.FirmaId == subeId);
+                _logger.LogInformation("Firmaya Göre Şubeler Getirildi");
+                return _unitOfWork.Sube.FilterBy(x => x.FirmaId == firmaId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Firmaya Göre Şubeler Getirilirken Hata Oluştu");
                 throw;
             }
         }
@@ -86,11 +96,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Şube Getirildi");
                 return _unitOfWork.Sube.GetById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Getirilirken Hata Oluştu");
                 throw;
             }
 
@@ -98,59 +109,78 @@ namespace B2BApp.Business.Abstract
 
         public Result<ICollection<SubeDto>> getSubelerWithFirma()
         {
-            var subeler = _unitOfWork.Sube.GetAll().Data;
-            var subelerDTOs = new List<SubeDto>();
-            foreach (var sube in subeler) 
+            try
             {
-                var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
-                subelerDTOs.Add(new SubeDto { Id = sube.Id, SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
+                var subeler = _unitOfWork.Sube.GetAll().Data;
+                var subelerDTOs = new List<SubeDto>();
+                foreach (var sube in subeler)
+                {
+                    var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
+                    subelerDTOs.Add(new SubeDto { Id = sube.Id, SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
 
 
+                }
+
+                var result = new Result<ICollection<SubeDto>>
+                {
+                    Data = subelerDTOs,
+                    Message = "Şubeler Firmaları İle Birlikte Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+                _logger.LogInformation("Şubeler Firmaları İle Birlikte Getirildi");
+                return result;
             }
-
-            var result = new Result<ICollection<SubeDto>>
+            catch (Exception ex)
             {
-                Data = subelerDTOs,
-                Message = "Şubeler Firmaları İle Birlikte Getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now,
-            };
-            return result;
+                _logger.LogError(ex, "Şubeler Firmaları İle Birlikte Getirilirken Hata Oluştu");
+                throw;
+            }
 
         }
 
         public Result<SubeDto> getSubeWithFirma(ObjectId objectId)
         {
-            var sube = _unitOfWork.Sube.GetById(objectId.ToString()).Data;
-            var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
-            var subelerDTO = new SubeDto
+            try
             {
-                Id = sube.Id,
-                SubeAdi = sube.SubeAdi,
-                SubeTel = sube.SubeTel,
-                Firma = firma
-            };
-           
+                var sube = _unitOfWork.Sube.GetById(objectId.ToString()).Data;
+                var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
+                var subelerDTO = new SubeDto
+                {
+                    Id = sube.Id,
+                    SubeAdi = sube.SubeAdi,
+                    SubeTel = sube.SubeTel,
+                    Firma = firma
+                };
 
-            var result = new Result<SubeDto>
+
+                var result = new Result<SubeDto>
+                {
+                    Data = subelerDTO,
+                    Message = "Şubeler Firmaları İle Birlikte Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+                _logger.LogInformation("Şubeler Firmaları İle Birlikte Getirildi");
+                return result;
+            }
+            catch (Exception ex)
             {
-                Data = subelerDTO,
-                Message = "Şubeler Firmaları İle Birlikte Getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now,
-            };
-            return result;
+                _logger.LogError(ex, "Şubeler Firmaları İle Birlikte Getirilirken Hata Oluştu");
+                throw;
+            }
         }
 
         public void updateSube(Sube Sube, string subeId)
         {
             try
             {
+                _logger.LogInformation("Şube Güncellendi");
                 _unitOfWork.Sube.ReplaceOne(Sube, Sube.Id.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Güncellenirken Hata Oluştu");
                 throw;
             }
         }

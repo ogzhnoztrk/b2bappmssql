@@ -5,6 +5,7 @@ using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -22,11 +23,12 @@ namespace B2BApp.Business.Concrete
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly JwtModel jwtModel;
-
-        public AuthService(IUnitOfWork unitOfWork, IOptions<JwtModel> options)
+        private readonly ILogger<AuthService> _logger;
+        public AuthService(IUnitOfWork unitOfWork, IOptions<JwtModel> options, ILogger<AuthService> logger)
         {
             _unitOfWork = unitOfWork;
            jwtModel = options.Value;
+            _logger = logger;
         }
 
         public Result<KullaniciKayitDto> Register(KullaniciKayitDto userRegisterDto)
@@ -34,7 +36,8 @@ namespace B2BApp.Business.Concrete
             var isExist = IsUserExist(userRegisterDto.KullaniciAdi);
             if (!isExist) //kullanıcı mevcut ise
             {
-                return new Result<KullaniciKayitDto> { Data = null, Message = "Bu kullanıcı adı alınmış", StatusCode = 200, Time = DateTime.Now };
+                _logger.LogError("Bu kullanıcı adı alınmış");
+                return new Result<KullaniciKayitDto> { Data = null, Message = "Bu kullanıcı adı alınmış", StatusCode = 400, Time = DateTime.Now };
             }
             else
             {
@@ -49,6 +52,7 @@ namespace B2BApp.Business.Concrete
                     TedarikciId = userRegisterDto.TedarikciId
                 };
                 _unitOfWork.Kullanici.InsertOne(kullanici);
+                _logger.LogInformation("Kullanıcı Eklendi");
                 return new Result<KullaniciKayitDto> { Data = null, Message = "Kullanıcı Eklendi", StatusCode = 200, Time = DateTime.Now };
             }
         }
@@ -58,14 +62,15 @@ namespace B2BApp.Business.Concrete
             var kullanici = _unitOfWork.Kullanici.FilterBy(x => x.KullaniciAdi == kullaniciGirisDto.KullaniciAdi).Data?.FirstOrDefault();
             if (kullanici == null)//kullanıcı Mevcur değilse
             {
+                _logger.LogError("Kullanıcı Bulunamadı");
                 return new Result<Kullanici> { Data = kullanici, Message = "Kullanıcı Bulunamadı", StatusCode = 400, Time = DateTime.Now };
             }
             if (!HashingHelper.VerifyPasswordHash(kullaniciGirisDto.Sifre, kullanici.SifreHash, kullanici.SifreSalt))
-            {
+            {_logger.LogError("Şifre Veya Kullanıcı Adı Yanlış");
                 return new Result<Kullanici> { Data = kullanici, Message = "Şifre Veya Kullanıcı Adı Yanlış", StatusCode = 400, Time = DateTime.Now };
             }
             else
-            {
+            {_logger.LogInformation("Giriş Yapıldı");
                 return new Result<Kullanici> { Data = kullanici, Message = "Giriş Yapıldi", StatusCode = 200, Time = DateTime.Now };
             }
 

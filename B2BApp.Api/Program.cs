@@ -6,6 +6,7 @@ using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,8 +44,14 @@ builder.Services.AddCors(options =>
         });
 });
 
-
-
+Log.Logger= new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/serilog.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.Seq("http://localhost:5341")
+    .Enrich.WithMachineName()
+    .Enrich.WithProperty("Application", "B2BApp")
+    .CreateLogger();
+builder.Host.UseSerilog(Log.Logger);
 
 
 //jwt ile ilgili ayarlar

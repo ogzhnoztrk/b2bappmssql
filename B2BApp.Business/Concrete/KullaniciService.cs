@@ -2,6 +2,7 @@
 using B2BApp.DataAccess.Abstract;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -14,21 +15,25 @@ namespace B2BApp.Business.Abstract
     public class KullaniciService : IKullaniciService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<KullaniciService> _logger;
 
-        public KullaniciService(IUnitOfWork unitOfWork)
+        public KullaniciService(IUnitOfWork unitOfWork, ILogger<KullaniciService> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
+            
         }
 
         public void addKullanici(Kullanici kullanici)
         {
             try
             {
+                _logger.LogInformation("Kullanıcı eklendi");
                 _unitOfWork.Kullanici.InsertOne(kullanici);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError("Kullanıcı eklenirken hata oluştu {ex}", ex.Message);
                 throw;
             }
         }
@@ -37,11 +42,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Kullanıcı silindi");
                 _unitOfWork.Kullanici.DeleteById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError("Kullanıcı silinirken hata oluştu {ex}", ex.Message);
                 throw;
             }
         }
@@ -50,12 +56,15 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Kullanıcılar getirildi");
                 return _unitOfWork.Kullanici.GetAll();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError("Kullanıcılar getirilirken hata oluştu {ex}", ex.Message);
                 throw;
             }
+
         }
 
         public Result<ICollection<KullaniciDto>> getAllWithTedarikci()
@@ -73,7 +82,7 @@ namespace B2BApp.Business.Abstract
 
 
 
-
+            _logger.LogInformation("Kullanıclıar detayları ile birlikte getirildi");
             return new Result<ICollection<KullaniciDto>>
             {
                 Data = kullanicilarDto,
@@ -89,14 +98,15 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Kullanıcı getirildi");
                 return _unitOfWork.Kullanici.GetById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError("Kullanıcı getirilirken  hata {ex}", ex.Message);
 
                 throw;
             }
-            throw new NotImplementedException();
         }
 
         public void updateKullanici(Kullanici kullanici, string kullaniciId)
@@ -104,10 +114,12 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _unitOfWork.Kullanici.ReplaceOne(kullanici, kullaniciId);
-            }
-            catch (Exception)
-            {
+                _logger.LogInformation("Kullanıcı güncellendi");
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Kullanıcı güncellenirken hata oluştu {ex}", ex.Message);
                 throw;
             }
         }

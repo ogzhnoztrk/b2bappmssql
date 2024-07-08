@@ -1,0 +1,18 @@
+2024-07-08 08:52:06.647 +03:00 [INF] User profile is available. Using 'C:\Users\oguzhan.ozturk\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-07-08 08:52:06.821 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-07-08 08:52:06.821 +03:00 [INF] Hosting environment: Development
+2024-07-08 08:52:06.822 +03:00 [INF] Content root path: C:\Users\oguzhan.ozturk\source\repos\B2BApp\B2BApp.Api
+2024-07-08 08:52:06.844 +03:00 [INF] Request starting HTTP/2 GET https://localhost:44369/swagger/index.html - null null
+2024-07-08 08:52:07.593 +03:00 [INF] Request finished HTTP/2 GET https://localhost:44369/swagger/index.html - 200 null text/html;charset=utf-8 753.2066ms
+2024-07-08 08:52:07.649 +03:00 [INF] Request starting HTTP/2 GET https://localhost:44369/_vs/browserLink - null null
+2024-07-08 08:52:07.649 +03:00 [INF] Request starting HTTP/2 GET https://localhost:44369/_framework/aspnetcore-browser-refresh.js - null null
+2024-07-08 08:52:07.654 +03:00 [INF] Request finished HTTP/2 GET https://localhost:44369/_framework/aspnetcore-browser-refresh.js - 200 13756 application/javascript; charset=utf-8 3.9341ms
+2024-07-08 08:52:08.627 +03:00 [INF] Request finished HTTP/2 GET https://localhost:44369/_vs/browserLink - 200 null text/javascript; charset=UTF-8 977.7395ms
+2024-07-08 08:52:08.664 +03:00 [INF] Request starting HTTP/2 GET https://localhost:44369/swagger/v1/swagger.json - null null
+2024-07-08 08:52:08.776 +03:00 [INF] Request finished HTTP/2 GET https://localhost:44369/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 111.7597ms
+2024-07-08 08:52:16.229 +03:00 [INF] Request starting HTTP/2 POST https://localhost:44369/api/Auth - application/json 78
+2024-07-08 08:52:16.235 +03:00 [INF] CORS policy execution successful.
+2024-07-08 08:52:16.298 +03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (6682972f420b0208d3d620a7)
+2024-07-08 08:52:16.300 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2024-07-08 08:52:16.302 +03:00 [INF] Request finished HTTP/2 POST https://localhost:44369/api/Auth - 401 null null 72.6254ms

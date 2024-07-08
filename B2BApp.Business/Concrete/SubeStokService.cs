@@ -1,7 +1,9 @@
-﻿using B2BApp.DataAccess.Abstract;
+﻿using Amazon.Runtime.Internal.Util;
+using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -14,9 +16,11 @@ namespace B2BApp.Business.Abstract
     public class SubeStokService : ISubeStokService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public SubeStokService(IUnitOfWork unitOfWork)
+        private readonly ILogger<SubeStokService> _logger;
+        public SubeStokService(IUnitOfWork unitOfWork, ILogger<SubeStokService> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;   
         }
 
 
@@ -24,11 +28,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Şube Stok Eklendi");
                 _unitOfWork.SubeStok.InsertOne(SubeStok);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError("Şube Stok Eklenirken Hata Oluştu");
                 throw;
             }
         }
@@ -37,11 +42,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Şube Stok Silindi");
                 _unitOfWork.SubeStok.DeleteById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Stok Silinirken Hata Oluştu");
                 throw;
             }
         }
@@ -50,136 +56,145 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Tüm Şube Stokları Getirildi");
                 return _unitOfWork.SubeStok.GetAll();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Tüm Şube Stokları Getirilirken Hata Oluştu");
                 throw;
             }
         }
 
         public Result<ICollection<SubeStokDto>> getAllWithDetailsByFilters(string? subeId, string? firmaId, string? kategoriId)
         {
-            //kategoriId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
-            var urunler = kategoriId == null ? _unitOfWork.Urun.GetAll().Data : _unitOfWork.Urun.FilterBy(x => x.KategoriId == kategoriId).Data;
-
-            //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
-            var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
-            //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
-            sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
-
-            var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
-
-            var subeStokDTOs = (from urun in urunler
-                                join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
-
-                                join sub in sube on subeStok.SubeId equals sub.Id
-                                select new SubeStokDto
-                                {
-                                    id = subeStok.Id,
-                                    Stok = subeStok.Stok,
-                                    Sube = sub,
-                                    Urun = urun,
-
-                                }).ToList();
-
-            //var subeStokDTOs = (from urun in urunler
-            //                    join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
-                                
-
-            //                    join sub in sube on subeStok.SubeId equals sub.Id
-            //                    select new SubeStokDto
-            //                    {
-            //                        id = subeStok.id,
-            //                        Stok = subeStok.Stok,
-            //                        Sube = sub,
-            //                        Urun = urun,
-
-            //                    }).ToList();
-
-            var result = new Result<ICollection<SubeStokDto>>
+            try
             {
-                Data = subeStokDTOs,
-                Message = "Şubelerin Stokları Detayları İle Getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now,
-            };
-            return result;
+                //kategoriId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
+                var urunler = kategoriId == null ? _unitOfWork.Urun.GetAll().Data : _unitOfWork.Urun.FilterBy(x => x.KategoriId == kategoriId).Data;
+                //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
+                var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
+                //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
+                sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
 
+                var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
+
+                var subeStokDTOs = (from urun in urunler
+                                    join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
+
+                                    join sub in sube on subeStok.SubeId equals sub.Id
+                                    select new SubeStokDto
+                                    {
+                                        id = subeStok.Id,
+                                        Stok = subeStok.Stok,
+                                        Sube = sub,
+                                        Urun = urun,
+
+                                    }).ToList();
+
+                var result = new Result<ICollection<SubeStokDto>>
+                {
+                    Data = subeStokDTOs,
+                    Message = "Şubelerin Stokları Detayları İle Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+
+                _logger.LogInformation("Şubelerin Stokları Detayları İle Getirildi");
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Şubelerin Stokları Detayları İle Getirilirken Hata Oluştu");
+                throw;
+            }
         }
 
         public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrun()
         {
-            var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
-            var subeStokDTOs = new List<SubeStokDto>();
-            foreach (var subeStok in subeStoklar)
+            try
             {
-                var urun = _unitOfWork.Urun.GetById(subeStok.UrunId).Data;
-                var sube = _unitOfWork.Sube.GetById(subeStok.SubeId).Data;
-                subeStokDTOs.Add(new SubeStokDto
+                var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
+                var subeStokDTOs = new List<SubeStokDto>();
+                foreach (var subeStok in subeStoklar)
                 {
-                    id = subeStok.Id,
-                    Stok = subeStok.Stok,
-                    Sube = sube,
-                    Urun = urun
-                });
+                    var urun = _unitOfWork.Urun.GetById(subeStok.UrunId).Data;
+                    var sube = _unitOfWork.Sube.GetById(subeStok.SubeId).Data;
+                    subeStokDTOs.Add(new SubeStokDto
+                    {
+                        id = subeStok.Id,
+                        Stok = subeStok.Stok,
+                        Sube = sube,
+                        Urun = urun
+                    });
 
+                }
+                var result = new Result<ICollection<SubeStokDto>>
+                {
+                    Data = subeStokDTOs,
+                    Message = "Şubelerin Stokları Detayları İle Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+                _logger.LogInformation("Şubelerin Stokları Detayları İle Getirildi");
+                return result;
             }
-            var result = new Result<ICollection<SubeStokDto>>
+            catch (Exception ex)
             {
-                Data = subeStokDTOs,
-                Message = "Şubelerin Stokları Detayları İle Getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now,
-            };
-            return result;
+                _logger.LogError("Şubelerin Stokları Detayları İle Getirilirke Hata Oluştu");
+                throw;
+            }
         }
 
-        public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId
-            (
-            string tedarikciId,
-            string? subeId,
-            string? firmaId,
-            string? kategoriId
-            )
+        public Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId(string tedarikciId, string? subeId, string? firmaId, string? kategoriId)
         {
-            //tedarikciId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili tedarikcinin stoklarını getir
-            var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
-
-            //kategoriId null ise tüm kategorilerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
-            urunler = kategoriId == null ? urunler : urunler.Where(x => x.KategoriId == kategoriId).ToList();
-
-
-            //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
-            var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x=>x.Id == subeId).Data;
-            //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
-            sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
-            
-            var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
-
-            var subeStokDTOs = (from urun in urunler
-                        join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
-                        where urun.TedarikciId == tedarikciId
-                        
-                        join sub in sube on subeStok.SubeId equals sub.Id
-                        select new SubeStokDto
-                        {
-                            id = tedarikciId,
-                            Stok = subeStok.Stok,
-                            Sube = sub,
-                            Urun = urun,
-
-                        }).ToList();
-
-            var result = new Result<ICollection<SubeStokDto>>
+            try
             {
-                Data = subeStokDTOs,
-                Message = "Şubelerin Stokları Detayları İle Getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now,
-            };
-            return result;
+                //tedarikciId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili tedarikcinin stoklarını getir
+                var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+
+                //kategoriId null ise tüm kategorilerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
+                urunler = kategoriId == null ? urunler : urunler.Where(x => x.KategoriId == kategoriId).ToList();
+
+
+                //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
+                var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
+                //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
+                sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
+
+                var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
+
+                var subeStokDTOs = (from urun in urunler
+                                    join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
+                                    where urun.TedarikciId == tedarikciId
+
+                                    join sub in sube on subeStok.SubeId equals sub.Id
+                                    select new SubeStokDto
+                                    {
+                                        id = tedarikciId,
+                                        Stok = subeStok.Stok,
+                                        Sube = sub,
+                                        Urun = urun,
+
+                                    }).ToList();
+
+                var result = new Result<ICollection<SubeStokDto>>
+                {
+                    Data = subeStokDTOs,
+                    Message = "Şubelerin Stokları Detayları İle Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+                _logger.LogInformation("Şubelerin Stokları Detayları İle Getirildi");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Şubelerin Stokları Detayları İle Getirilirken Hata Oluştu");
+                throw;
+            }
 
         }
 
@@ -187,11 +202,12 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
+                _logger.LogInformation("Şube Stok Getirildi");  
                 return _unitOfWork.SubeStok.GetById(objectId.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Stok Getirilirken Hata Oluştu");
                 throw;
             }
 
@@ -199,39 +215,49 @@ namespace B2BApp.Business.Abstract
 
         public Result<SubeStokDto> getWithSubeAndUrun(ObjectId objectId)
         {
-            var subeStok = _unitOfWork.SubeStok.GetById(objectId.ToString()).Data;
-
-            var sube = _unitOfWork.Sube.GetById(subeStok.SubeId).Data;
-            var urun = _unitOfWork.Urun.GetById(subeStok.UrunId).Data;
-
-            var subeStokDto = new SubeStokDto
+            try
             {
-                id = subeStok.Id,
-                Stok = subeStok.Stok,
-                Sube = sube,
-                Urun = urun,
-            };
+                var subeStok = _unitOfWork.SubeStok.GetById(objectId.ToString()).Data;
 
-            var result = new Result<SubeStokDto>
+                var sube = _unitOfWork.Sube.GetById(subeStok.SubeId).Data;
+                var urun = _unitOfWork.Urun.GetById(subeStok.UrunId).Data;
+
+                var subeStokDto = new SubeStokDto
+                {
+                    id = subeStok.Id,
+                    Stok = subeStok.Stok,
+                    Sube = sube,
+                    Urun = urun,
+                };
+
+                var result = new Result<SubeStokDto>
+                {
+                    Data = subeStokDto,
+                    Message = "Seçili Ürünün Şube Stoğu Getirildi",
+                    StatusCode = 200,
+                    Time = DateTime.Now,
+                };
+
+                _logger.LogInformation("Seçili Ürünün Şube Stoğu Getirildi");
+                return result;
+            }
+            catch (Exception ex)
             {
-                Data = subeStokDto,
-                Message = "Seçili Ürünün Şube Stoğu Getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now,
-            };
-
-            return result;
+                _logger.LogError(ex, "Seçili Ürünün Şube Stoğu Getirilirken Hata Oluştu");
+                throw;
+            }
         }
 
         public void updateSubeStok(SubeStok SubeStok, string subeStokId)
         {
             try
             {
+                _logger.LogInformation("Şube Stok Güncellendi");
                 _unitOfWork.SubeStok.ReplaceOne(SubeStok, SubeStok.Id.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Şube Stok Güncellenirken Hata Oluştu");
                 throw;
             }
         }
