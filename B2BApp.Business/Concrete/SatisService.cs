@@ -355,7 +355,7 @@ namespace B2BApp.Business.Abstract
             if (donem.Contains("aylik"))
             {
                 donem2Tarih1 = donem1Tarih1.Value.AddMonths(-1);
-                donem2Tarih2 = donem1Tarih2.Value.AddMonths(-1);
+                donem2Tarih2 = donem1Tarih1.Value.AddDays(-1);
             }else if(donem.Contains("yillik")){
                 donem2Tarih1 = donem1Tarih1.Value.AddYears(-1);
                 donem2Tarih2 = donem1Tarih2.Value.AddYears(-1);
@@ -387,7 +387,9 @@ namespace B2BApp.Business.Abstract
             var x = new KarsilastirmaliSatisRapor
             {
                 KarsilastirmaliSatisRaporDtos = dto,
-                DonemselToplam = donemselToplam
+                DonemselToplam = donemselToplam,
+                Donem1Tarih = $"{donem1Tarih1.Value.ToShortDateString()} - {donem1Tarih2.Value.ToShortDateString()}",
+                Donem2Tarih = $"{donem2Tarih1.ToShortDateString()} - {donem2Tarih2.ToShortDateString()}"
             };
             _logger.LogInformation("Karşılaştırmalı satış raporu getirildi");
             return new Result<KarsilastirmaliSatisRapor>

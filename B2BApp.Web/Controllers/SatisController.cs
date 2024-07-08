@@ -42,6 +42,14 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
+        public ActionResult KSatisRapor()
+        {
+            // JWT'yi çözme
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+
+
+            return View();
+        }
 
 
 

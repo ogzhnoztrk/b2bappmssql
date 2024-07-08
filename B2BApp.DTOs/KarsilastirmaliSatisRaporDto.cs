@@ -27,6 +27,8 @@ namespace B2BApp.DTOs
     {
         public List<KarsilastirmaliSatisRaporDto> KarsilastirmaliSatisRaporDtos { get; set; }
         public DonemselToplam DonemselToplam { get; set; }
+        public string Donem1Tarih { get; set; }
+        public string Donem2Tarih { get; set; }
     }
 
    

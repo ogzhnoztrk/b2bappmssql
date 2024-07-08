@@ -1,0 +1,248 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container">
+    <h2>Satışlar</h2>
+
+
+
+    <!--Filtre Start-->
+
+    <div class="p-3 border bg-light">
+        <!-- Existing code -->
+        <div class="row">
+            <div class="col">
+                <label for="tarih1">Tarih1:</label>
+                <input type="date" id="tarih1" class="form-control">
+            </div>
+            <div class="col">
+                <label for="tarih2">Tarih2:</label>
+                <input type="date" id="tarih2" class="form-control">
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col">
+                <label for="firma">Firmalar:</label>
+                <select id="firma" class="form-control js-example-basic-single">
+                    <option></option>
+
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="sube">Şubeler:</label>
+                <select id="sube" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="kategori">Kategori:</label>
+                <select id="kategori" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="col">
+                <label for="donem">Dönem:</label>
+                <select id="donem" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+        </div>
+        <br />
+
+        <br />
+        <div class="" style="display: flex;justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="applyFilter()">Filtreyi Uygula</button>
+        </div>
+    </div>
+    <br />
+    <!--Filtre End-->
+    <!--Tablo Start-->
+    <div class="p-3 border bg-light">
+        <table id="satislarTable" class="display" style="width:100%">
+            <div style="text-align: right;" id="donemAralik"></div>
+            <thead>
+                <tr>
+                    <th>Ürün</th>
+                    <th>Donem 1 Miktar</th>
+                    <th>Donem 1 Tutar</th>
+                    <th>Donem 2 Miktar</th>
+                    <th>Donem 2 Tutar</th>
+
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+    <!--Tablo End-->
+
+
+    <br />
+</div>
+
+
+<script type="text/javascript">
+    let table; let tarih1 = null; let tarih2 = null; let firma = null; var kategori = null; var sube = null; var donem = null;
+
+
+
+
+    function loadTable() {
+
+        $.ajax({
+            url: 'https://10.60.60.141/api/Satis/getkarsilastirmaliSatisRapor',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+            data: {
+                'tedarikciId': '@ViewBag.FirmaId',
+                'tarih1': tarih1,
+                'tarih2': tarih2,
+                'subeId': sube,
+                'kategoriId': kategori,
+                'firmaId': firma,
+                'donem': donem
+            }
+        }).done(function (response) {
+            
+            document.getElementById("donemAralik").innerHTML = "Dönem1 / Dönem2 : "+response.data.donem1Tarih + " / " + response.data.donem2Tarih;
+            table = $('#satislarTable').DataTable({
+                "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
+                "data": response.data.karsilastirmaliSatisRaporDtos,
+                "layout": {
+                    "bottomStart": {
+                        buttons: [
+                            {
+                                extend: 'pdf',
+                                text: 'Pdf',
+                                exportOptions: {
+                                    modifier: {
+                                        page: 'current'
+                                    }
+                                },
+                                title: 'FirmaSatışlar',
+                                className: 'btn btn-success',
+                            },
+                            {
+                                extend: 'colvis',
+                                collectionLayout: 'fixed columns',
+                                popoverTitle: 'Görüntülenecek sütunları işaretleyin',
+                                className: 'btn btn-warning',
+
+                            }
+                        ],
+                    }
+                },
+                "columns": [
+                    { "data": 'urun.urunAdi' },
+                    { "data": 'donem1Miktar' },
+                    { "data": 'donem1Tutar' },
+                    { "data": 'donem2Miktar' },
+                    { "data": 'donem2Tutar' },
+
+                ]
+            });
+        });
+    };
+
+    loadTable();
+
+    function applyFilter() {
+        // Get the selected filter values
+        tarih1 = $('#tarih1').val() ?? "";
+        tarih2 = $('#tarih2').val() ?? "";
+        debugger;
+        firma = $('#firma').val() ?? "";
+        kategori = $('#kategori').val() ?? "";
+        sube = $('#sube').val() ?? "";
+        donem = $('#donem').val() ?? "";
+
+
+        table.destroy();
+        loadTable();
+
+
+    }
+
+    function loadSelectsDatas() {
+
+        //firmalar load
+        $.ajax({
+            url: 'https://10.60.60.141/api/Filter/GetSubeKategoriFirmaUrunAllBytedarikciId',
+            crossDomain: true,
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            },
+            data: {
+                'tedarikciId': '@ViewBag.FirmaId'
+            }
+
+        }).done(function (response) {
+            var firmalar = $.map(response.data.firmalar, function (data) {
+                return {
+                    id: data.id,
+                    text: data.firmaAdi
+                };
+            });
+            var select = $("#firma").select2({
+                placeholder: "Firmalar",
+                data: firmalar,
+                width: 250,
+                allowClear: true
+            });
+
+            var subeler = $.map(response.data.subeler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.subeAdi
+                };
+            });
+            var select = $("#sube").select2({
+                placeholder: "Subeler",
+                data: subeler,
+                width: 250,
+                allowClear: true
+
+            });
+
+            var kategoriler = $.map(response.data.kategoriler, function (data) {
+                return {
+                    id: data.id,
+                    text: data.kategoriAdi
+                };
+            });
+            var select = $("#kategori").select2({
+                placeholder: "Kategoriler",
+                data: kategoriler,
+                width: 250,
+                allowClear: true
+
+            });
+
+            var donemler = $("#donem").select2({
+                placeholder: "Donem Seçiniz",
+                data: [{ id: "aylik", text: "Aylık" }, { id: "yillik", text: "Yıllık" }],
+                width: 250,
+                allowClear: true
+
+            });
+
+
+        });
+
+
+    }
+
+    loadSelectsDatas();
+
+</script>
