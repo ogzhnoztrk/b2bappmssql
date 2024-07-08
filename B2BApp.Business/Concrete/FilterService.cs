@@ -1,14 +1,8 @@
-﻿using Amazon.Runtime.Internal.Util;
-using B2BApp.Business.Abstract;
+﻿using B2BApp.Business.Abstract;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs.FilterDtos;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Concrete
 {
@@ -16,9 +10,10 @@ namespace B2BApp.Business.Concrete
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<FilterService> _logger;
-            public FilterService(IUnitOfWork unitOfWork, ILogger<FilterService> logger)
+        public FilterService(IUnitOfWork unitOfWork, ILogger<FilterService> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
         public Result<FilterDto> GetFirmaSubeKategoriAll()
         {
@@ -69,7 +64,7 @@ namespace B2BApp.Business.Concrete
                 Time = DateTime.Now
             };
         }
-         
+
         public Result<SubeUrunDto> GetSubeUrunAll()
         {
             _logger.LogInformation("Şube ve Ürün bilgileri getiriliyor");

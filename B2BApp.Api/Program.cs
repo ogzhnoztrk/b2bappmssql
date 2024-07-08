@@ -25,7 +25,6 @@ builder.Services.AddSingleton<IUrunSatisRaporServisi, UrunSatisRaporServisi>();
 builder.Services.AddSingleton<IFilterService, FilterService>();
 builder.Services.AddSingleton<ISiparisService, SiparisService>();
 
-
 builder.Services.AddSingleton<IKullaniciService, KullaniciService>();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 
