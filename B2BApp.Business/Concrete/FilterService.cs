@@ -109,7 +109,7 @@ namespace B2BApp.Business.Concrete
                     Kategoriler = _unitOfWork.Kategori.GetAll().Data,
                     Firmalar = _unitOfWork.Firma.GetAll().Data,
                     Subeler = _unitOfWork.Sube.GetAll().Data,
-                    Urunler = _unitOfWork.Urun.FilterBy(x=>x.TedarikciId == tedarikciId).Data
+                    Urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data
                 },
                 Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
                 StatusCode = 200,

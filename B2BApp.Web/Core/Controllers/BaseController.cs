@@ -13,7 +13,7 @@ namespace B2BApp.Web.Core.Controllers
         {
             base.OnActionExecuting(context);
             // JWT'yi dondormek icin
-             if (Request.Cookies["jwt"] != null)
+            if (Request.Cookies["jwt"] != null)
             {
                 var handler = new JwtSecurityTokenHandler();
                 var jsonToken = handler.ReadToken(Request.Cookies["jwt"]) as JwtSecurityToken;
@@ -29,7 +29,7 @@ namespace B2BApp.Web.Core.Controllers
                 ViewBag.KullanıcıAdi = claimsJson["unique_name"].ToString();
                 ViewBag.JwtCookie = Request.Cookies["jwt"];
             }
-            
+
 
         }
     }

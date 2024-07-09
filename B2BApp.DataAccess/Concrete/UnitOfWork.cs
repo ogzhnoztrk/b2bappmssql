@@ -1,13 +1,6 @@
 ﻿using B2BApp.DataAccess.Abstract;
-using B2BApp.Entities;
 using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Context;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.DataAccess.Concrete
 {
@@ -30,14 +23,14 @@ namespace B2BApp.DataAccess.Concrete
             Siparis = new SiparisRepository(_settings);
         }
 
-        public IFirmaRepository Firma {get; private set;}
-        public IKategoriRepository Kategori {get; private set;}
-        public ISatisRepository Satis {get; private set;}
-        public ISubeRepository Sube {get; private set;}
-        public ISubeStokRepository SubeStok {get; private set;}
-        public IUrunRepository Urun {get; private set;}
-        public ITedarikciRepository Tedarikci {get; private set;}
-        public IUserRepository Kullanici { get; private set;}
-        public ISiparisRepository Siparis{ get; private set;}
+        public IFirmaRepository Firma { get; private set; }
+        public IKategoriRepository Kategori { get; private set; }
+        public ISatisRepository Satis { get; private set; }
+        public ISubeRepository Sube { get; private set; }
+        public ISubeStokRepository SubeStok { get; private set; }
+        public IUrunRepository Urun { get; private set; }
+        public ITedarikciRepository Tedarikci { get; private set; }
+        public IUserRepository Kullanici { get; private set; }
+        public ISiparisRepository Siparis { get; private set; }
     }
 }

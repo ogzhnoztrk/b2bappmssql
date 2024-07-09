@@ -1,5 +1,4 @@
 ﻿using B2BApp.Web.Core.Controllers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2BApp.Web.Controllers
@@ -22,7 +21,7 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
-              
+
         public ActionResult DetayliRapor()
         {
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
@@ -30,7 +29,7 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
-              
+
 
 
 

@@ -1,15 +1,9 @@
-﻿using Amazon.Runtime.Internal.Util;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
@@ -85,7 +79,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 var urunler = _unitOfWork.Urun.GetAll().Data;
-                 var urunDtos = new List<UrunDto>();
+                var urunDtos = new List<UrunDto>();
 
                 if (urunler != null)
                 {
@@ -101,8 +95,8 @@ namespace B2BApp.Business.Abstract
                             Id = urun.Id,
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci,
-                           SatisFiyati= urun.SatisFiyati
-                            
+                            SatisFiyati = urun.SatisFiyati
+
                         };
                         urunDtos.Add(urunDto);
                     }
@@ -116,7 +110,7 @@ namespace B2BApp.Business.Abstract
                 };
 
 
-                _logger.LogInformation("Urunler Kategori Bilgileri İle Getirildi");   
+                _logger.LogInformation("Urunler Kategori Bilgileri İle Getirildi");
                 return result;
             }
             catch (Exception ex)
@@ -130,7 +124,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                
+
                 _unitOfWork.Urun.ReplaceOne(Urun, Urun.Id.ToString());
                 _logger.LogInformation("Ürün guncellendi");
             }
@@ -148,15 +142,15 @@ namespace B2BApp.Business.Abstract
                 var urun = _unitOfWork.Urun.GetById(objectId.ToString()).Data;
                 var kategori = _unitOfWork.Kategori.GetById(urun.KategoriId.ToString()).Data;
                 var tedarikci = new Tedarikci();
-                if (urun.TedarikciId !=null)
+                if (urun.TedarikciId != null)
                 {
                     tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId.ToString()).Data;
 
                 }
                 else
                 {
-                    tedarikci = new() { Id = ObjectId.GenerateNewId().ToString(), TedarikciAdi = "AA" , TedarikciTel = "00"};
-                        
+                    tedarikci = new() { Id = ObjectId.GenerateNewId().ToString(), TedarikciAdi = "AA", TedarikciTel = "00" };
+
 
                 }
 
@@ -165,7 +159,7 @@ namespace B2BApp.Business.Abstract
 
                 var result = new Result<UrunDto>
                 {
-                    Data = new UrunDto { Id = urun.Id, Fiyat= urun.Fiyat, UrunAdi= urun.UrunAdi, Kategori = kategori,Tedarikci = tedarikci,SatisFiyati = urun.SatisFiyati},
+                    Data = new UrunDto { Id = urun.Id, Fiyat = urun.Fiyat, UrunAdi = urun.UrunAdi, Kategori = kategori, Tedarikci = tedarikci, SatisFiyati = urun.SatisFiyati },
                     Message = "Ürün Kategori Bilgileri İle Getirildi",
                     StatusCode = 200,
                     Time = DateTime.Now,
@@ -204,7 +198,7 @@ namespace B2BApp.Business.Abstract
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci,
                             SatisFiyati = urun.SatisFiyati
-                            
+
                         };
                         urunDtos.Add(urunDto);
                     }

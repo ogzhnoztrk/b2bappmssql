@@ -8,14 +8,9 @@ using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Concrete
 {
@@ -27,7 +22,7 @@ namespace B2BApp.Business.Concrete
         public AuthService(IUnitOfWork unitOfWork, IOptions<JwtModel> options, ILogger<AuthService> logger)
         {
             _unitOfWork = unitOfWork;
-           jwtModel = options.Value;
+            jwtModel = options.Value;
             _logger = logger;
         }
 
@@ -66,11 +61,13 @@ namespace B2BApp.Business.Concrete
                 return new Result<Kullanici> { Data = kullanici, Message = "Kullanıcı Bulunamadı", StatusCode = 400, Time = DateTime.Now };
             }
             if (!HashingHelper.VerifyPasswordHash(kullaniciGirisDto.Sifre, kullanici.SifreHash, kullanici.SifreSalt))
-            {_logger.LogError("Şifre Veya Kullanıcı Adı Yanlış");
+            {
+                _logger.LogError("Şifre Veya Kullanıcı Adı Yanlış");
                 return new Result<Kullanici> { Data = kullanici, Message = "Şifre Veya Kullanıcı Adı Yanlış", StatusCode = 400, Time = DateTime.Now };
             }
             else
-            {_logger.LogInformation("Giriş Yapıldı");
+            {
+                _logger.LogInformation("Giriş Yapıldı");
                 return new Result<Kullanici> { Data = kullanici, Message = "Giriş Yapıldi", StatusCode = 200, Time = DateTime.Now };
             }
 
@@ -80,7 +77,7 @@ namespace B2BApp.Business.Concrete
         {
             var generateToken = GenerateAccessToken(kullanici.KullaniciAdi, kullanici.TedarikciId);
             var token = new JwtSecurityTokenHandler().WriteToken(generateToken);
-            return new Result<string>(200,"Giris Başarılı",token,DateTime.Now );
+            return new Result<string>(200, "Giris Başarılı", token, DateTime.Now);
         }
 
 

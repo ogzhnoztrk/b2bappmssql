@@ -1,5 +1,4 @@
 ﻿using B2BApp.Web.Core.Controllers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2BApp.Web.Controllers
@@ -14,10 +13,10 @@ namespace B2BApp.Web.Controllers
             return View();
         }
 
-       
 
 
 
-       
+
+
     }
 }

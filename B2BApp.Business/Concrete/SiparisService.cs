@@ -1,15 +1,9 @@
-﻿using Amazon.Runtime.Internal.Util;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
@@ -88,7 +82,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                
+
                 _unitOfWork.Siparis.DeleteById(objectId.ToString());
 
                 _logger.LogInformation("Sipariş başarıyla silindi");
@@ -199,7 +193,7 @@ namespace B2BApp.Business.Abstract
                     Time = DateTime.Now
                 };
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Siparişler detayları ile getirilirken bir hata oluştu.");
                 throw;
@@ -253,7 +247,7 @@ namespace B2BApp.Business.Abstract
                 _logger.LogError(ex, "Siparişler detayları ile getirilirken bir hata oluştu.");
                 throw;
             }
-        
+
         }
 
         public Result<SiparisDto> getAllWithDetailsById(string siparisId)
@@ -312,7 +306,7 @@ namespace B2BApp.Business.Abstract
         public void updateSiparis(Siparis siparis, string siparisId)
         {
             try
-            { 
+            {
                 var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
 
                 var toplam = urun.Fiyat * siparis.Adet;
@@ -332,11 +326,11 @@ namespace B2BApp.Business.Abstract
 
 
                 _logger.LogInformation("Sipariş başarıyla güncellendi");
-                _unitOfWork.Siparis.ReplaceOne(siparisSon,siparisId);
+                _unitOfWork.Siparis.ReplaceOne(siparisSon, siparisId);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Sipariş güncellenirken bir hata oluştu"); 
+                _logger.LogError(ex, "Sipariş güncellenirken bir hata oluştu");
                 throw;
             }
         }

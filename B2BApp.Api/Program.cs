@@ -43,7 +43,7 @@ builder.Services.AddCors(options =>
         });
 });
 
-Log.Logger= new LoggerConfiguration()
+Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("logs/serilog.txt", rollingInterval: RollingInterval.Day)
     .WriteTo.Seq("http://localhost:5341")

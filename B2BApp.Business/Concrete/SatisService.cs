@@ -1,17 +1,10 @@
-﻿using Amazon.Runtime.Internal.Util;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZstdSharp.Unsafe;
 
 namespace B2BApp.Business.Abstract
 {
@@ -337,13 +330,13 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId,string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2)
+        public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId, string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2)
         {
 
             donem ??= "aylik"; donem1Tarih1 ??= DateTime.Now; donem1Tarih2 ??= DateTime.Now;
 
             var donem2Tarih1 = DateTime.Now;
-            var donem2Tarih2 = DateTime.Now; 
+            var donem2Tarih2 = DateTime.Now;
 
             var satislar = _unitOfWork.Satis.GetAll().Data;
             satislar = satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.TedarikciId == tedarikciId).ToList();
@@ -356,9 +349,11 @@ namespace B2BApp.Business.Abstract
             {
                 var fark = donem1Tarih2.Value.Subtract(donem1Tarih1.Value).Days;
 
-                donem2Tarih1 = donem1Tarih1.Value.AddDays(-(Math.Abs(fark))-1);
+                donem2Tarih1 = donem1Tarih1.Value.AddDays(-(Math.Abs(fark)) - 1);
                 donem2Tarih2 = donem1Tarih1.Value.AddDays(-1);
-            }else if(donem.Contains("yillik")){
+            }
+            else if (donem.Contains("yillik"))
+            {
                 donem2Tarih1 = donem1Tarih1.Value.AddYears(-1);
                 donem2Tarih2 = donem1Tarih2.Value.AddYears(-1);
             }

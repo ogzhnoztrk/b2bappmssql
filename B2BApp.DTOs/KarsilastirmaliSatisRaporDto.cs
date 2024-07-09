@@ -1,20 +1,15 @@
 ﻿using B2BApp.Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.DTOs
 {
     public class KarsilastirmaliSatisRaporDto
     {
 
-        public Urun? Urun{ get; set; }
-            public double? Donem1Miktar{ get; set; }
-            public double? Donem1Tutar{ get; set; }
-        public double? Donem2Miktar{ get; set; }
-        public double? Donem2Tutar{ get; set; }
+        public Urun? Urun { get; set; }
+        public double? Donem1Miktar { get; set; }
+        public double? Donem1Tutar { get; set; }
+        public double? Donem2Miktar { get; set; }
+        public double? Donem2Tutar { get; set; }
 
     }
     public class DonemselToplam
@@ -31,5 +26,5 @@ namespace B2BApp.DTOs
         public string Donem2Tarih { get; set; }
     }
 
-   
+
 }

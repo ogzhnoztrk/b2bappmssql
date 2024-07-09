@@ -2,11 +2,6 @@
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
@@ -24,7 +19,7 @@ namespace B2BApp.Business.Abstract
                 string? subeId,
                 string? kategoriId,
                 string? firmaId
-            );       
+            );
         Result<ICollection<SatisDto>> getAllWithUrunAndSube(
                 DateTime? ilkTarih,
                 DateTime? ikinciTarih,
@@ -40,7 +35,7 @@ namespace B2BApp.Business.Abstract
                 string? firmaId,
                 string? urunId
             );
-        Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId,string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2);
+        Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId, string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2);
         Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
         Result<Satis> getSatisById(ObjectId objectId);
     }

@@ -1,12 +1,9 @@
 ﻿using B2BApp.Models;
+using B2BApp.Web.Core.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
-using B2BApp.Web.Core.Controllers;
+using System.Net.Http.Headers;
 
 
 
@@ -41,7 +38,7 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
-        public async Task<IActionResult> LoginPost(LoginVm loginVm) 
+        public async Task<IActionResult> LoginPost(LoginVm loginVm)
         {
 
             HttpClientHandler handler = new HttpClientHandler();
@@ -52,17 +49,17 @@ namespace B2BApp.Web.Controllers
 
             request.Headers.Add("accept", "text/plain");
 
-            request.Content = new StringContent("{\n  \"kullaniciAdi\": \"" + loginVm.KullaniciAdi+"\",\n  \"sifre\": \""+loginVm.Sifre+"\"\n}");
+            request.Content = new StringContent("{\n  \"kullaniciAdi\": \"" + loginVm.KullaniciAdi + "\",\n  \"sifre\": \"" + loginVm.Sifre + "\"\n}");
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             HttpResponseMessage response = await client.SendAsync(request);
-           // response.EnsureSuccessStatusCode();
+            // response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
 
             // JSON string'ini ayrıştır
             var jsonObject = JObject.Parse(responseBody);
-            
-            
+
+
 
             if (jsonObject["statusCode"].ToString() != "400")
             {
@@ -88,7 +85,7 @@ namespace B2BApp.Web.Controllers
         public IActionResult SaveUser()
         {
             // JWT'yi çözme
-            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");            
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
 
             return View();
         }

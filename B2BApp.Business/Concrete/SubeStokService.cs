@@ -1,15 +1,9 @@
-﻿using Amazon.Runtime.Internal.Util;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
@@ -20,7 +14,7 @@ namespace B2BApp.Business.Abstract
         public SubeStokService(IUnitOfWork unitOfWork, ILogger<SubeStokService> logger)
         {
             _unitOfWork = unitOfWork;
-            _logger = logger;   
+            _logger = logger;
         }
 
 
@@ -202,7 +196,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _logger.LogInformation("Şube Stok Getirildi");  
+                _logger.LogInformation("Şube Stok Getirildi");
                 return _unitOfWork.SubeStok.GetById(objectId.ToString());
             }
             catch (Exception ex)

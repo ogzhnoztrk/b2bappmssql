@@ -1,8 +1,5 @@
-﻿using B2BApp.DTOs;
-using B2BApp.Web.Core.Controllers;
-using Microsoft.AspNetCore.Http;
+﻿using B2BApp.Web.Core.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace B2BApp.Web.Controllers
 {

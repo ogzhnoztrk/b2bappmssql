@@ -1,31 +1,25 @@
-﻿using Amazon.Runtime.Internal.Util;
-using B2BApp.Business.Abstract;
+﻿using B2BApp.Business.Abstract;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Concrete
 {
-	public class UrunSatisRaporServisi : IUrunSatisRaporServisi
-	{
-		private readonly IUnitOfWork _unitOfWork;
-		private readonly ILogger<UrunSatisRaporServisi> _logger;
-		public UrunSatisRaporServisi(IUnitOfWork unitOfWork, ILogger<UrunSatisRaporServisi> logger)
-		{
-			_logger = logger;
-			_unitOfWork = unitOfWork;
-		}
+    public class UrunSatisRaporServisi : IUrunSatisRaporServisi
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<UrunSatisRaporServisi> _logger;
+        public UrunSatisRaporServisi(IUnitOfWork unitOfWork, ILogger<UrunSatisRaporServisi> logger)
+        {
+            _logger = logger;
+            _unitOfWork = unitOfWork;
+        }
 
-		public Result<UrunlerVeAylikSatislarDto> getUrunlerVeAylikSatislarByTedarikciId(string tedarikciId)
-		{
-			try
-			{
+        public Result<UrunlerVeAylikSatislarDto> getUrunlerVeAylikSatislarByTedarikciId(string tedarikciId)
+        {
+            try
+            {
                 var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
                 var satislar = _unitOfWork.Satis.GetAll().Data;
                 var subeler = _unitOfWork.Sube.GetAll().Data;
@@ -108,13 +102,13 @@ namespace B2BApp.Business.Concrete
                 _logger.LogInformation("Ürünler ve Aylık Satışlar Getirildi");
                 return result;
             }
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Ürünler ve Aylık Satışlar Getirilirke hata oluştu");
-				throw;
-			}
-		}
-	
-	}
-	
+                throw;
+            }
+        }
+
+    }
+
 }

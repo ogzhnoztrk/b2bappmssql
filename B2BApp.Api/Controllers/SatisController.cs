@@ -68,7 +68,7 @@ namespace B2BApp.Api.Controllers
         {
             return _satisService.getAllWithUrunAndSube();
         }
-      
+
         /// <summary>
         /// Date time null olabilir, null ise tüm tarihler arasında getirir, tedarikciye ait olanları tarihler arasında getirir, tedarikciye ait olanları getirir,
         /// Tarih Formati (MM/DD/YYYY)
@@ -124,7 +124,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("getkarsilastirmaliSatisRapor")]
-        public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId,string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? tarih1, DateTime? tarih2)
+        public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId, string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? tarih1, DateTime? tarih2)
         {
             return _satisService.getkarsilastirmaliSatisRapor(tedarikciId, firmaId, kategoriId, subeId, urunId, donem, tarih1, tarih2);
         }

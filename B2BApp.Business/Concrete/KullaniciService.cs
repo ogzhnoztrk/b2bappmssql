@@ -4,11 +4,6 @@ using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.Abstract
 {
@@ -21,7 +16,7 @@ namespace B2BApp.Business.Abstract
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
-            
+
         }
 
         public void addKullanici(Kullanici kullanici)
@@ -77,7 +72,10 @@ namespace B2BApp.Business.Abstract
                 select new KullaniciDto
                 {
                     Id = kullanici.Id,
-                    Tedarikci = tedarikci, KullaniciAdi = kullanici.KullaniciAdi, SifreHash = kullanici.SifreHash, SifreSalt= kullanici.SifreSalt
+                    Tedarikci = tedarikci,
+                    KullaniciAdi = kullanici.KullaniciAdi,
+                    SifreHash = kullanici.SifreHash,
+                    SifreSalt = kullanici.SifreSalt
                 }).ToList();
 
 
