@@ -5,53 +5,53 @@
 
 <div class="container">
 
-    <h2>Kategoriler</h2>
-    <hr />
 
-    <div class="" style="display: flex;justify-content: flex-end;">
-        <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Kategori</button>
-
-    </div>
     <br />
 
     <div class="p-3 border bg-light">
+        <h2>Kategoriler</h2>
+        <hr />
 
-    <table id="myTable" class="display" style="width:100%">
-        <style>
+        <div class="" style="display: flex;justify-content: flex-end;">
+            <button class="btn btn-success" onclick="Save()"><i class="bi bi-plus"></i> Yeni Kategori</button>
 
-
-        </style>
-        <thead>
-            <tr>
-                <th>Kategori Adi</th>
-                <th></th>
-            </tr>
-        </thead>
-
-    </table>
+        </div>
+        <table id="myTable" class="display" style="width:100%">
+            <style>
 
 
-</div>
+            </style>
+            <thead>
+                <tr>
+                    <th>Kategori Adi</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+
+
+    </div>
 </div>
 
 @* right drawer *@
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"> 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Kategori Güncelle</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id="dismissBUton"></button>
     </div>
     <div class="offcanvas-body">
         @* kategori hidden id *@
-        <label type="text" id="kategoriId" value="" hidden></label> 
+        <label type="text" id="kategoriId" value="" hidden></label>
 
         <br />
         <label for="kategoriIsim" class="form-label">Kategori</label>
-        <input type="text" id="kategoriIsim" class="form-control"  value="">
+        <input type="text" id="kategoriIsim" class="form-control" value="">
 
         <br />
-        <div style ="display: flex;justify-content: flex-end;">
-                <button onclick=updateKategori() class="btn btn-secondary">Güncelle</button>
+        <div style="display: flex;justify-content: flex-end;">
+            <button onclick=updateKategori() class="btn btn-secondary">Güncelle</button>
         </div>
     </div>
 </div>
@@ -104,18 +104,18 @@
                     "data": "id",
                     "render": function (data) {
                         return `
-                                  <div class="w-75 btn-group" role="group">
-                                          <a onClick=getKategoriInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
-                                      <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
-                                  </div>`
+                                      <div class="w-75 btn-group" role="group">
+                                              <a onClick=getKategoriInfo("${data}") class="btn btn-primary mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>Edit</a>
+                                          <a onClick=Delete("${data}") class="btn btn-danger mx-2"><i class="bi bi-trash"></i>Delete</a>
+                                      </div>`
                     },
                     "width": "20%"
                 },
             ]
         });
     });
-   
-   
+
+
     function getKategoriInfo(data) {
 
         $.ajax({
@@ -129,8 +129,8 @@
                 'id': data
             }
         }).done(function (response) {
-            if(response != null){
-                
+            if (response != null) {
+
                 $("#kategoriIsim").val(response.data.kategoriAdi);
                 $("#kategoriId").val(response.data.id);
 
@@ -141,7 +141,7 @@
     function updateKategori() {
         let yeniKategoriAdi = $("#kategoriIsim").val();
         let id = $("#kategoriId").val();
-    
+
         $.ajax({
             url: 'https://10.60.60.141/api/Kategori?kategoriId=' + id,
             crossDomain: true,
@@ -161,7 +161,7 @@
             $("#dismissBUton").click()
             //Reload/redraw the table with new data
             table.ajax.reload();
-            
+
             Swal.fire({
                 title: "Kategori Güncellendi",
                 icon: "success"
@@ -186,7 +186,7 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Kategori?id='+data,
+                    url: 'https://10.60.60.141/api/Kategori?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
@@ -196,7 +196,7 @@
                 }).done(function (response) {
                     console.log(response);
                     if (response != null || data != null) {
-                         
+
                         //Reload/redraw the table with new data
                         table.ajax.reload();
                         Swal.fire({

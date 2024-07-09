@@ -63,6 +63,7 @@
     </div>
     <br />
     <!--Filtre End-->
+   
     <!--Tablo Start-->
     <div class="p-3 border bg-light">
         <table id="satislarTable" class="display" style="width:100%">
@@ -82,6 +83,7 @@
         </table>
     </div>
     <!--Tablo End-->
+  
     <br />
     <div class="row" style="--bs-gutter-x: 0rem;">
         <div class="col-md-6">
@@ -190,19 +192,25 @@
         var donem2Values = Object.values(donem2);
         var donem2Total = donem2Values.reduce((a, b) => a + b, 0);
        
+
+
+
+
+
         donem1_lineChart = new Chart(document.getElementById('donem1Chart').getContext('2d'), {
             type: 'line',
             data: {
                 labels: Object.keys(donem1),
-                datasets: [{
-                    label: 'Dönem 1',
-                    data: Object.values(donem1),
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2
-                },
-                
-               ]
+                datasets: [
+                    {
+                        label: 'Dönem 1',
+                        data: Object.values(donem1),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2
+                    },
+
+                ]
             },
             options: {
                 scales: {
