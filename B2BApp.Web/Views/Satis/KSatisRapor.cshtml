@@ -4,7 +4,7 @@
 }
 
 <div class="container">
-    <h2>Satışlar</h2>
+    <h2>Karşılaştırmalı Satış Rapor</h2>
 
 
 
@@ -14,11 +14,11 @@
         <!-- Existing code -->
         <div class="row">
             <div class="col">
-                <label for="tarih1">Tarih1:</label>
+                <label for="tarih1">İlk Tarih:</label>
                 <input type="date" id="tarih1" class="form-control">
             </div>
             <div class="col">
-                <label for="tarih2">Tarih2:</label>
+                <label for="tarih2">Son Tarih:</label>
                 <input type="date" id="tarih2" class="form-control">
             </div>
         </div>
@@ -82,7 +82,30 @@
         </table>
     </div>
     <!--Tablo End-->
+    <br />
+    <div class="row" style="--bs-gutter-x: 0rem;">
+        <div class="col-md-6">
+            <div>
+                <div class="p-3 border bg-light">
 
+                    <canvas id="donem1Chart" width="618" height="309"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="donem2Chart" width="618" height="309"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+  
+    <br />
+    <br />
 
     <br />
 </div>
@@ -90,7 +113,7 @@
 
 <script type="text/javascript">
     let table; let tarih1 = null; let tarih2 = null; let firma = null; var kategori = null; var sube = null; var donem = null;
-
+    var donem1_lineChart;var donem2_lineChart;
 
 
 
@@ -113,7 +136,7 @@
                 'donem': donem
             }
         }).done(function (response) {
-            
+            chartVerileriniHesapla(response.data);
             document.getElementById("donemAralik").innerHTML = "Dönem1 / Dönem2 : "+response.data.donem1Tarih + " / " + response.data.donem2Tarih;
             table = $('#satislarTable').DataTable({
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
@@ -156,11 +179,89 @@
 
     loadTable();
 
+    function chartVerileriniHesapla(data){
+        initCharts(data.donemselToplam.donem1, data.donemselToplam.donem2);
+    }
+   
+    function initCharts(donem1, donem2){
+       
+        var donem1Values = Object.values(donem1);
+        var donem1Total = donem1Values.reduce((a, b) => a + b, 0);
+        var donem2Values = Object.values(donem2);
+        var donem2Total = donem2Values.reduce((a, b) => a + b, 0);
+       
+        donem1_lineChart = new Chart(document.getElementById('donem1Chart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(donem1),
+                datasets: [{
+                    label: 'Dönem 1',
+                    data: Object.values(donem1),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                },
+                
+               ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: "1. Dönem Toplam Tutar : " + donem1Total
+                    }
+                }
+            }
+        });
+
+        donem2_lineChart = new Chart(document.getElementById('donem2Chart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(donem2),
+                datasets: [{
+                    label: 'Dönem 2',
+                    data: Object.values(donem2),
+                    backgroundColor: 'rgba(50, 50, 200, 0.2)',
+                    borderColor: 'rgba(50, 50, 200, 1)',
+                    borderWidth: 2
+                },
+               ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: "2. Dönem Toplam Tutar : " + donem2Total
+                    }
+                }
+            }
+        });
+
+
+    }
+    
     function applyFilter() {
         // Get the selected filter values
         tarih1 = $('#tarih1').val() ?? "";
         tarih2 = $('#tarih2').val() ?? "";
-        debugger;
         firma = $('#firma').val() ?? "";
         kategori = $('#kategori').val() ?? "";
         sube = $('#sube').val() ?? "";
@@ -169,7 +270,8 @@
 
         table.destroy();
         loadTable();
-
+        donem1_lineChart.destroy();
+        donem2_lineChart.destroy();
 
     }
 

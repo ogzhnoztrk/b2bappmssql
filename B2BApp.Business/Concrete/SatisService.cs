@@ -354,7 +354,9 @@ namespace B2BApp.Business.Abstract
 
             if (donem.Contains("aylik"))
             {
-                donem2Tarih1 = donem1Tarih1.Value.AddMonths(-1);
+                var fark = donem1Tarih2.Value.Subtract(donem1Tarih1.Value).Days;
+
+                donem2Tarih1 = donem1Tarih1.Value.AddDays(-(Math.Abs(fark))-1);
                 donem2Tarih2 = donem1Tarih1.Value.AddDays(-1);
             }else if(donem.Contains("yillik")){
                 donem2Tarih1 = donem1Tarih1.Value.AddYears(-1);
@@ -374,10 +376,10 @@ namespace B2BApp.Business.Abstract
 
             var DONEM1 = satislar.Where(x => x.SatisTarihi >= donem1Tarih1 && x.SatisTarihi <= donem1Tarih2)
                 .GroupBy(x => x.SatisTarihi.Date)
-                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari));
+                .ToDictionary(x => x.Key.ToShortDateString(), x => x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari));
             var DONEM2 = satislar.Where(x => x.SatisTarihi >= donem2Tarih1 && x.SatisTarihi <= donem2Tarih2)
                 .GroupBy(x => x.SatisTarihi.Date)
-                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari));
+                .ToDictionary(x => x.Key.ToShortDateString(), x => x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari));
             var donemselToplam = new DonemselToplam
             {
                 Donem1 = DONEM1,
