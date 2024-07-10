@@ -125,7 +125,7 @@
 
 <script type="text/javascript">
     let table; let tarih1 = null; let tarih2 = null; let firma = null; var kategori = null; var sube = null; var donem = null;
-    var donem1_lineChart; var donem2_lineChart; var donemtest_lineChart;
+    var donem1_pieChart; var donem2_pieChart; var donemtest_lineChart;
 
 
 
@@ -210,8 +210,6 @@
             donem2Values.push(donem2[date] || 0);
         });
 
-
-
         donemtest_lineChart = new Chart(document.getElementById('donemtestChart').getContext('2d'), {
             type: 'line',
             data: {
@@ -262,68 +260,64 @@
         var donem2Values = Object.values(donem2);
         var donem2Total = donem2Values.reduce((a, b) => a + b, 0);
 
-        donem1_lineChart = new Chart(document.getElementById('donem1Chart').getContext('2d'), {
-            type: 'line',
+        donem1_pieChart = new Chart(document.getElementById('donem1Chart').getContext('2d'), {
+            type: 'doughnut',
             data: {
                 labels: Object.keys(donem1),
                 datasets: [
                     {
                         label: 'Dönem 1',
                         data: Object.values(donem1),
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        
                         borderWidth: 2
                     },
 
                 ]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
                 responsive: true,
+                maintainAspectRatio: false,
+
                 plugins: {
                     legend: {
                         position: 'top',
                     },
                     title: {
                         display: true,
-                        text: "1. Dönem Toplam Tutar : " + donem1Total
+                        text: 'Dönem 1',
+                        position: 'bottom'
                     }
+
                 }
             }
         });
 
-        donem2_lineChart = new Chart(document.getElementById('donem2Chart').getContext('2d'), {
-            type: 'line',
+        donem2_pieChart = new Chart(document.getElementById('donem2Chart').getContext('2d'), {
+            type: 'doughnut',
             data: {
                 labels: Object.keys(donem2),
                 datasets: [{
                     label: 'Dönem 2',
                     data: Object.values(donem2),
-                    backgroundColor: 'rgba(50, 50, 200, 0.2)',
-                    borderColor: 'rgba(50, 50, 200, 1)',
+                  
                     borderWidth: 2
                 },
                ]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
                 responsive: true,
+                maintainAspectRatio: false,
+
                 plugins: {
                     legend: {
                         position: 'top',
                     },
                     title: {
                         display: true,
-                        text: "2. Dönem Toplam Tutar : " + donem2Total
+                        text: 'Dönem 2',
+                        position: 'bottom'
                     }
+
                 }
             }
         });
@@ -342,8 +336,8 @@
 
         table.destroy();
         loadTable();
-        donem1_lineChart.destroy();
-        donem2_lineChart.destroy();
+        donem1_pieChart.destroy();
+        donem2_pieChart.destroy();
         donemtest_lineChart.destroy();
 
     }
