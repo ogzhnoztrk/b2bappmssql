@@ -14,8 +14,8 @@ namespace B2BApp.DTOs
     }
     public class DonemselToplam
     {
-        public Dictionary<string, double> Donem1 { get; set; }
-        public Dictionary<string, double> Donem2 { get; set; }
+        public Dictionary<DateTime, double> Donem1 { get; set; }
+        public Dictionary<DateTime, double> Donem2 { get; set; }
     }
 
     public class KarsilastirmaliSatisRapor

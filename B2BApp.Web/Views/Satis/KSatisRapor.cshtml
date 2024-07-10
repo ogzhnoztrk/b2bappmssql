@@ -86,6 +86,16 @@
   
     <br />
     <div class="row" style="--bs-gutter-x: 0rem;">
+    
+        <div class="col-md-12">
+            <div>
+                <div class="p-3 border bg-light">
+
+                    <canvas id="donemtestChart" width="618" height="309"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-6">
             <div>
                 <div class="p-3 border bg-light">
@@ -115,7 +125,7 @@
 
 <script type="text/javascript">
     let table; let tarih1 = null; let tarih2 = null; let firma = null; var kategori = null; var sube = null; var donem = null;
-    var donem1_lineChart;var donem2_lineChart;
+    var donem1_lineChart; var donem2_lineChart; var donemtest_lineChart;
 
 
 
@@ -183,19 +193,74 @@
 
     function chartVerileriniHesapla(data){
         initCharts(data.donemselToplam.donem1, data.donemselToplam.donem2);
+        ikiliChart(data.donemselToplam.donem1, data.donemselToplam.donem2);
     }
    
+    function ikiliChart(donem1, donem2){
+
+        var sortedDates = Object.keys(donem1).concat(Object.keys(donem2)).sort();
+
+        //sortedDates = sortedDates.push(Object.keys(donem2))
+       
+        var donem1Values = [];
+        var donem2Values = [];
+
+        sortedDates.forEach(function (date) {
+            donem1Values.push(donem1[date] || 0);
+            donem2Values.push(donem2[date] || 0);
+        });
+
+
+
+        donemtest_lineChart = new Chart(document.getElementById('donemtestChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: sortedDates,
+                datasets: [
+                    {
+                        label: 'Dönem 1',
+                        data: donem1Values,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Dönem 2',
+                        data: donem2Values,
+                        backgroundColor: 'rgba(20, 50, 200, 0.2)',
+                        borderColor: 'rgba(20, 50, 200, 1)',
+                        borderWidth: 2
+                    },
+
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: "1. Dönem ve 2. Dönem Toplam Tutar "
+                    }
+                }
+            }
+        });
+        // Rest of the code...
+    }
+  
     function initCharts(donem1, donem2){
        
         var donem1Values = Object.values(donem1);
         var donem1Total = donem1Values.reduce((a, b) => a + b, 0);
         var donem2Values = Object.values(donem2);
         var donem2Total = donem2Values.reduce((a, b) => a + b, 0);
-       
-
-
-
-
 
         donem1_lineChart = new Chart(document.getElementById('donem1Chart').getContext('2d'), {
             type: 'line',
@@ -263,7 +328,6 @@
             }
         });
 
-
     }
     
     function applyFilter() {
@@ -280,6 +344,7 @@
         loadTable();
         donem1_lineChart.destroy();
         donem2_lineChart.destroy();
+        donemtest_lineChart.destroy();
 
     }
 
