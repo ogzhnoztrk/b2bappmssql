@@ -1,5 +1,8 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using B2BApp.Business.Abstract;
 using B2BApp.Business.Concrete;
+using B2BApp.Business.DependecyResolvers.Autofac;
 using B2BApp.Core.Utilities.Helpers.Security;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DataAccess.Concrete;
@@ -11,22 +14,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
-builder.Services.AddSingleton<IFirmaService, FirmaService>();
-builder.Services.AddSingleton<IKategoriService, KategoriService>();
-builder.Services.AddSingleton<ISatisService, SatisService>();
-builder.Services.AddSingleton<ISubeService, SubeService>();
-builder.Services.AddSingleton<IUrunService, UrunService>();
-builder.Services.AddSingleton<ISubeStokService, SubeStokService>();
-builder.Services.AddSingleton<ITedarikciService, TedarikciService>();
-builder.Services.AddSingleton<IUrunSatisRaporServisi, UrunSatisRaporServisi>();
-builder.Services.AddSingleton<IFilterService, FilterService>();
-builder.Services.AddSingleton<ISiparisService, SiparisService>();
-
-builder.Services.AddSingleton<IKullaniciService, KullaniciService>();
-builder.Services.AddSingleton<IAuthService, AuthService>();
 
 
 // Tüm originlere izin verin (Sadece geliþtirme için)
@@ -84,7 +71,10 @@ builder.Services.AddAuthentication(options =>
 
 
 
-
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()).ConfigureContainer<ContainerBuilder>(builder =>
+{
+    builder.RegisterModule(new AutofacBusinessModule());
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -124,9 +114,6 @@ else
         });
 }
 
-
-// Tüm originlere izin veren CORS politikasý
-app.UseCors("AllowAll");
 
 
 app.UseHttpsRedirection();
