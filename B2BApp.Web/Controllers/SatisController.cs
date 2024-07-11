@@ -10,6 +10,8 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+            if (!(ViewBag.FirmaId as string).Contains("6682972f420b0208d3d620a7")) return RedirectToAction("index", "home");
+            
             return View();
         }
 
@@ -18,6 +20,7 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+            if (!(ViewBag.FirmaId as string).Contains("6682972f420b0208d3d620a7")) return RedirectToAction("index", "home");
 
 
             return View();
@@ -35,6 +38,7 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+            if (!(ViewBag.FirmaId as string).Contains("6682972f420b0208d3d620a7")) return RedirectToAction("index", "home");
 
 
             return View();

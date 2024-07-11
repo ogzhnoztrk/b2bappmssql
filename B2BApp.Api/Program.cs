@@ -115,6 +115,8 @@ else
 }
 
 
+// Tüm originlere izin veren CORS politikasý
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 

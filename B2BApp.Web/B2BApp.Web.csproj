@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <Content Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
@@ -15,10 +22,6 @@
     <ProjectReference Include="..\B2BApp.DTOs\B2BApp.DTOs.csproj" />
     <ProjectReference Include="..\B2BApp.Entities\B2BApp.Entities.csproj" />
     <ProjectReference Include="..\B2BApp.Models\B2BApp.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\Security\Jwt\" />
   </ItemGroup>
 
 </Project>
