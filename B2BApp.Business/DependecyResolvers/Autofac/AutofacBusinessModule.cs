@@ -3,11 +3,6 @@ using B2BApp.Business.Abstract;
 using B2BApp.Business.Concrete;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DataAccess.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace B2BApp.Business.DependecyResolvers.Autofac
 {

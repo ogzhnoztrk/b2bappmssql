@@ -1,7 +1,3 @@
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

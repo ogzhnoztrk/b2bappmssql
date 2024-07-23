@@ -1,11 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using B2BApp.Business.Abstract;
-using B2BApp.Business.Concrete;
 using B2BApp.Business.DependecyResolvers.Autofac;
 using B2BApp.Core.Utilities.Helpers.Security;
-using B2BApp.DataAccess.Abstract;
-using B2BApp.DataAccess.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

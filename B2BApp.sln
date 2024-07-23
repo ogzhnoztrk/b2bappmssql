@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "B2BApp.DTOs", "B2BApp.DTOs\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "B2BApp.Web", "B2BApp.Web\B2BApp.Web.csproj", "{59F4C3FE-989A-43BC-88F0-EABA0E2FD9FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B2BApp.Models", "B2BApp.Models\B2BApp.Models.csproj", "{3223718C-3ADD-408F-8556-E5EF032445AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "B2BApp.Models", "B2BApp.Models\B2BApp.Models.csproj", "{3223718C-3ADD-408F-8556-E5EF032445AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

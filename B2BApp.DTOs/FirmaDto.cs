@@ -2,7 +2,7 @@
 {
     public class FirmaDto
     {
-        public BaseObjectId ObjectId { get; set; }
+        public string Id{ get; set; }
         public string FirmaAdi { get; set; }
         public string FirmaTel { get; set; }
     }
