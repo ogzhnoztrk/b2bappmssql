@@ -5,12 +5,13 @@ using Core.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class SubeStokController : ControllerBase
     {
@@ -21,10 +22,22 @@ namespace B2BApp.Api.Controllers
             _subeStokService = subeStokService;
         }
 
+        [HttpPost("InsertMany")]
+       // [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<List<SubeStok>> addManySubeStok(List<SubeStok> subeStok)
+        {
+            _subeStokService.addManySubeStok(subeStok);
+            return new Result<List<SubeStok>>
+            {
+                Data = subeStok,
+                Message = "SubeStok başarıyla eklendi",
+                StatusCode = StatusCodes.Status200OK
+            };
+        }
 
         [HttpPost]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<SubeStok> PostCompany(SubeStok subeStok)
+        public Result<SubeStok> PostSubeStok(SubeStok subeStok)
         {
 
             _subeStokService.addSubeStok(subeStok);
@@ -38,7 +51,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpGet]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<SubeStok> GetCompany(string id)
+        public Result<SubeStok> GetSubeStok(string id)
         {
 
             var subeStok = _subeStokService.getSubeStokById(ObjectId.Parse(id));
@@ -47,7 +60,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpGet("all")]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<ICollection<SubeStok>> GetCompany()
+        public Result<ICollection<SubeStok>> GetSubeStok()
         {
             var subeStoklar = _subeStokService.getAll();
             return subeStoklar;
@@ -88,7 +101,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpPut]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<SubeStok> UpdateCompany(SubeStok subeStok, string subeStokId)
+        public Result<SubeStok> UpdateSubeStok(SubeStok subeStok, string subeStokId)
         {
 
             _subeStokService.updateSubeStok(subeStok, subeStokId);
@@ -102,7 +115,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpDelete]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<SubeStok> DeleteCompany(string id)
+        public Result<SubeStok> DeleteSubeStok(string id)
         {
             _subeStokService.deleteSubeStok(ObjectId.Parse(id));
 

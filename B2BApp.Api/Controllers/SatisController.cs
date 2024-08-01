@@ -21,8 +21,18 @@ namespace B2BApp.Api.Controllers
             _satisService = satisService;
         }
 
-
-
+        [HttpPost("InsertMany")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<List<Satis>> addManySatis(List<Satis> satislar)
+        {
+            _satisService.addManySatis(satislar);
+            return new Result<List<Satis>>
+            {
+                Data = satislar,
+                Message = "Satislar başarıyla eklendi",
+                
+            };
+        }
 
         [HttpPost]
         [Authorize(Roles = "6682972f420b0208d3d620a7")]

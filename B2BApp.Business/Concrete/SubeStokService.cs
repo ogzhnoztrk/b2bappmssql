@@ -1,9 +1,12 @@
 ﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
 using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
+using System.Linq.Expressions;
 
 namespace B2BApp.Business.Abstract
 {
@@ -16,12 +19,36 @@ namespace B2BApp.Business.Abstract
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
+     
+        public void addManySubeStok(List<SubeStok> subeStokList)
+        {
+            //şubeId ve urunid aynı olan verileri sil
+            var duplicateStoklar = new List<SubeStok>();
+            
+            foreach (var subeStok in subeStokList)
+            {
+                var duplicateStok = _unitOfWork.SubeStok.FilterBy(x => x.SubeId == subeStok.SubeId && x.UrunId == subeStok.UrunId).Data;
+                duplicateStoklar.AddRange(duplicateStok);
+            }
 
+            foreach (var duplicateStok in duplicateStoklar)
+            {
+                _unitOfWork.SubeStok.DeleteById(duplicateStok.Id.ToString());
+            }
+
+            //yeni verileri ekle
+            _unitOfWork.SubeStok.InsertMany(subeStokList);
+        }
 
         public void addSubeStok(SubeStok SubeStok)
         {
             try
             {
+                if (_unitOfWork.SubeStok.FilterBy(x => x.SubeId == SubeStok.SubeId && x.UrunId == SubeStok.UrunId).Data.Count > 0)
+                {
+                    _logger.LogError("Şube Stok Eklenirken Hata Oluştu: Aynı Ürün Zaten Ekli");
+                    throw new Exception("Aynı Ürün Zaten Ekli");
+                }
                 _logger.LogInformation("Şube Stok Eklendi");
                 _unitOfWork.SubeStok.InsertOne(SubeStok);
             }
@@ -256,5 +283,9 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+
+        #region
+
+        #endregion
     }
 }

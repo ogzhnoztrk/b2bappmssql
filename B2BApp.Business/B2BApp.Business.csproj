@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.1.0" />
+    <PackageReference Include="BenchmarkDotNet.Core" Version="0.10.14" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 

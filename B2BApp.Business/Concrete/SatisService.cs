@@ -18,6 +18,28 @@ namespace B2BApp.Business.Abstract
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
+        public void addManySatis(List<Satis> satislar)
+        {
+            try
+            {
+                var batchSize = 200000;
+                var totalSatislar = satislar.Count;
+                var batchCount = (int)Math.Ceiling((double)totalSatislar / batchSize);
+
+                for (int i = 0; i < batchCount; i++)
+                {
+                    var batch = satislar.Skip(i * batchSize).Take(batchSize).ToList();
+                    _unitOfWork.Satis.InsertMany(batch);
+                }
+
+                _logger.LogInformation("Satışlar eklendi");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Satışlar eklenirken hata oluştu");
+                throw;
+            }
+        }
 
         public void addSatis(Satis satis)
         {
@@ -398,5 +420,7 @@ namespace B2BApp.Business.Abstract
             };
 
         }
+
+    
     }
 }

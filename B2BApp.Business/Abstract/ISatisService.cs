@@ -8,6 +8,7 @@ namespace B2BApp.Business.Abstract
     public interface ISatisService
     {
         void addSatis(Satis satis);
+        void addManySatis(List<Satis> satislar);
         void updateSatis(Satis satis, string satisId);
         void deleteSatis(ObjectId objectId);
         Result<ICollection<Satis>> getAll();
