@@ -25,11 +25,33 @@ namespace B2BApp.Business.Abstract
                 var batchSize = 200000;
                 var totalSatislar = satislar.Count;
                 var batchCount = (int)Math.Ceiling((double)totalSatislar / batchSize);
-
+                var urunler = _unitOfWork.Urun.GetAll().Data;
+                List<Satis> satislarTemp = new List<Satis>();
                 for (int i = 0; i < batchCount; i++)
                 {
                     var batch = satislar.Skip(i * batchSize).Take(batchSize).ToList();
-                    _unitOfWork.Satis.InsertMany(batch);
+
+                    foreach (var satis in batch)
+                    {
+                        var urun = urunler.FirstOrDefault(u => u.Id == satis.UrunId);
+                        if (urun != null)
+                        {
+                            var toplam = urun.SatisFiyati * satis.SatisMiktari;
+                            var satisSon = new Satis
+                            {
+                                SatisMiktari = satis.SatisMiktari,
+                                SatisTarihi = satis.SatisTarihi,
+                                SubeId = satis.SubeId,
+                                Toplam = (double)toplam,
+                                UrunId = satis.UrunId,
+                                Id = satis.Id
+                            };
+                            satislarTemp.Add(satisSon);
+                        }
+                    }
+
+                    _unitOfWork.Satis.InsertMany(satislarTemp);
+                    satislarTemp.Clear();
                 }
 
                 _logger.LogInformation("Satışlar eklendi");
@@ -108,6 +130,7 @@ namespace B2BApp.Business.Abstract
 
                 foreach (var satis in satislar)
                 {
+                    
                     var satisDto = new SatisDto
                     {
                         Id = satis.Id,
@@ -308,30 +331,59 @@ namespace B2BApp.Business.Abstract
 
         public Result<ICollection<KarDto>> getSatisKar(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId, string? urunId)
         {
-
             try
             {
-                var satislar = _unitOfWork.Satis.GetAll().Data;
+                var satislar = _unitOfWork.Satis.GetAll().Data.AsQueryable();
 
-                satislar = ilkTarih == null ? satislar : satislar.Where(x => x.SatisTarihi >= ilkTarih).ToList();
-                satislar = ikinciTarih == null ? satislar : satislar.Where(x => x.SatisTarihi <= ikinciTarih).ToList();
-                satislar = subeId == null ? satislar : satislar.Where(x => x.SubeId == subeId).ToList();
-                satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetById(x.SubeId).Data.FirmaId == firmaId).ToList();
-                satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.KategoriId == kategoriId).ToList();
-                satislar = urunId == null ? satislar : satislar.Where(x => x.UrunId == urunId).ToList();
+                if (ilkTarih.HasValue)
+                    satislar = satislar.Where(x => x.SatisTarihi >= ilkTarih);
 
-                var groupedSatislar = satislar.GroupBy(x => x.UrunId)
-                                        .Select(x => new KarDto
-                                        {
-                                            Urun = _unitOfWork.Urun.GetById(x.Key).Data,
-                                            Firma = _unitOfWork.Firma.GetById(_unitOfWork.Sube.GetById(x.First().SubeId).Data.FirmaId).Data,
-                                            Sube = _unitOfWork.Sube.GetById(x.First().SubeId).Data,
-                                            ToplamSatisFiyat = x.Sum(y => y.Toplam),
-                                            ToplamKar = x.Sum(y => y.Toplam) - x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari),
-                                            ToplamFiyat = (double)x.Sum(y => _unitOfWork.Urun.GetById(y.UrunId).Data.Fiyat * y.SatisMiktari),
-                                            ToplamSatisMiktari = x.Sum(y => y.SatisMiktari),
+                if (ikinciTarih.HasValue)
+                    satislar = satislar.Where(x => x.SatisTarihi <= ikinciTarih);
 
-                                        }).ToList();
+                if (!string.IsNullOrEmpty(subeId))
+                    satislar = satislar.Where(x => x.SubeId == subeId);
+
+                if (!string.IsNullOrEmpty(firmaId))
+                {
+                    var subeIds = _unitOfWork.Sube.GetAll()
+                                                  .Data
+                                                  .Where(s => s.FirmaId == firmaId)
+                                                  .Select(s => s.Id)
+                                                  .ToList();
+                    satislar = satislar.Where(x => subeIds.Contains(x.SubeId));
+                }
+
+                if (!string.IsNullOrEmpty(kategoriId))
+                {
+                    var urunIds = _unitOfWork.Urun.GetAll()
+                                                  .Data
+                                                  .Where(u => u.KategoriId == kategoriId)
+                                                  .Select(u => u.Id)
+                                                  .ToList();
+                    satislar = satislar.Where(x => urunIds.Contains(x.UrunId));
+                }
+
+                if (!string.IsNullOrEmpty(urunId))
+                    satislar = satislar.Where(x => x.UrunId == urunId);
+
+                var satisList = satislar.ToList();
+
+                var urunDict = _unitOfWork.Urun.GetAll().Data.ToDictionary(u => u.Id);
+                var subeDict = _unitOfWork.Sube.GetAll().Data.ToDictionary(s => s.Id);
+                var firmaDict = _unitOfWork.Firma.GetAll().Data.ToDictionary(f => f.Id);
+
+                var groupedSatislar = satisList.GroupBy(x => x.UrunId)
+                    .Select(x => new KarDto
+                    {
+                        Urun = urunDict[x.Key],
+                        Sube = subeDict[x.First().SubeId],
+                        Firma = firmaDict[subeDict[x.First().SubeId].FirmaId],
+                        ToplamSatisFiyat = x.Sum(y => y.Toplam),
+                        ToplamKar = x.Sum(y => y.Toplam) - x.Sum(y => urunDict[y.UrunId].Fiyat * y.SatisMiktari),
+                        ToplamFiyat = x.Sum(y => urunDict[y.UrunId].Fiyat * y.SatisMiktari),
+                        ToplamSatisMiktari = x.Sum(y => y.SatisMiktari),
+                    }).ToList();
 
                 var result = new Result<ICollection<KarDto>>
                 {
@@ -341,16 +393,17 @@ namespace B2BApp.Business.Abstract
                     Time = DateTime.Now
                 };
 
-                _logger.LogInformation("kar hesaplandı");
+                _logger.LogInformation("Kâr hesaplandı");
 
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Kar hesaplanırken bir hata oluştu");
+                _logger.LogError(ex, "Kâr hesaplanırken bir hata oluştu");
                 throw;
             }
         }
+
 
         public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId, string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2)
         {

@@ -10,7 +10,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class SatisController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPost("InsertMany")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<List<Satis>> addManySatis(List<Satis> satislar)
         {
             _satisService.addManySatis(satislar);
