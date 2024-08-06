@@ -138,7 +138,18 @@ namespace B2BApp.Api.Controllers
         {
             return _satisService.getkarsilastirmaliSatisRapor(tedarikciId, firmaId, kategoriId, subeId, urunId, donem, tarih1, tarih2);
         }
-
+        [HttpGet("getSatislarCount")]
+        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        public Result<long> getSatislarLength()
+        {
+            var satisCount = _satisService.getAll().Data.Count;
+            return new Result<long>
+            {
+                Data = satisCount,
+                Message = "Satislar başarıyla getirildi",
+                StatusCode = StatusCodes.Status200OK
+            };
+        }
 
 
     }

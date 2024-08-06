@@ -26,6 +26,7 @@ namespace B2BApp.Business.Abstract
                 var totalSatislar = satislar.Count;
                 var batchCount = (int)Math.Ceiling((double)totalSatislar / batchSize);
                 var urunler = _unitOfWork.Urun.GetAll().Data;
+           
                 List<Satis> satislarTemp = new List<Satis>();
                 for (int i = 0; i < batchCount; i++)
                 {
@@ -33,7 +34,7 @@ namespace B2BApp.Business.Abstract
 
                     foreach (var satis in batch)
                     {
-                        var urun = urunler.FirstOrDefault(u => u.Id == satis.UrunId);
+                        var urun = urunler.FirstOrDefault(u => u.Id == satis.UrunId.ToString());
                         if (urun != null)
                         {
                             var toplam = urun.SatisFiyati * satis.SatisMiktari;
@@ -47,12 +48,17 @@ namespace B2BApp.Business.Abstract
                                 Id = satis.Id
                             };
                             satislarTemp.Add(satisSon);
+                        
                         }
+                       
                     }
-
+   
                     _unitOfWork.Satis.InsertMany(satislarTemp);
                     satislarTemp.Clear();
                 }
+
+             
+                
 
                 _logger.LogInformation("Satışlar eklendi");
             }
@@ -214,28 +220,34 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                //kategoriId null ise tüm ürünleri getirir, değilse sadece o ürünleri getirir
-                var urunler = kategoriId == null ? _unitOfWork.Urun.GetAll().Data
+                // KategoriId'ye göre ürünleri getir
+                var urunler = kategoriId == null
+                    ? _unitOfWork.Urun.GetAll().Data
                     : _unitOfWork.Urun.FilterBy(x => x.KategoriId == kategoriId).Data;
 
                 var satislar = _unitOfWork.Satis.GetAll().Data;
 
+                // SubeId'ye göre şubeleri getir
+                var subeler = subeId == null
+                    ? _unitOfWork.Sube.GetAll().Data
+                    : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
 
-                //subeId null ise tüm şubeleri getirir, değilse sadece o şubeyi getirir
-                var subeler = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
+                // FirmaId'ye göre şubeleri filtrele
+                if (firmaId != null)
+                {
+                    subeler = subeler.Where(x => x.FirmaId == firmaId).ToList();
+                }
 
-                //firmaId null ise tüm firmaları getirir, değilse sadece o firmayı getirir
-                subeler = firmaId == null ? subeler : subeler.Where(x => x.FirmaId == firmaId).ToList();
+                // Tarih aralığını ayarla
+                var baslangicTarihi = ilkTarih ?? DateTime.MinValue;
+                var bitisTarihi = ikinciTarih ?? DateTime.MaxValue;
 
-                //ilk ve ikinci tarih filtresi isetnmediğinde kullanılır
-                ilkTarih = ilkTarih ?? DateTime.MinValue;
-                ikinciTarih = ikinciTarih ?? DateTime.MaxValue;
-
+                // SatisDto listesini oluştur
                 var satislarDto = (
                     from urun in urunler
                     join satis in satislar on urun.Id equals satis.UrunId
                     join sube in subeler on satis.SubeId equals sube.Id
-                    where satis.SatisTarihi >= ilkTarih && satis.SatisTarihi <= ikinciTarih
+                    where satis.SatisTarihi >= baslangicTarihi && satis.SatisTarihi <= bitisTarihi
                     select new SatisDto
                     {
                         Id = satis.Id,
@@ -244,26 +256,27 @@ namespace B2BApp.Business.Abstract
                         Sube = sube,
                         Toplam = satis.Toplam,
                         Urun = urun
-
                     }).ToList();
 
+                // Sonucu oluştur ve döndür
                 var result = new Result<ICollection<SatisDto>>
                 {
                     Data = satislarDto,
-                    Message = "ürün satışı detayları ile getirldi",
+                    Message = "Ürün satışı detayları ile getirildi",
                     StatusCode = 200,
                     Time = DateTime.Now
-
                 };
-                _logger.LogInformation("ürün satışı detayları ile getirldi");
+
+                _logger.LogInformation("Ürün satışı detayları ile getirildi");
 
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "ürün satışı detayları getirilirken hata oluştu");
+                _logger.LogError(ex, "Ürün satışı detayları getirilirken hata oluştu");
                 throw;
             }
+
         }
 
         public Result<Satis> getSatisById(ObjectId objectId)
@@ -474,6 +487,10 @@ namespace B2BApp.Business.Abstract
 
         }
 
-    
+       
+
+
+
+
     }
 }
