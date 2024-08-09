@@ -5,6 +5,7 @@ using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace B2BApp.Business.Abstract
 {
@@ -346,47 +347,53 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var satislar = _unitOfWork.Satis.GetAll().Data.AsQueryable();
+                // Sorguyu IQueryable olarak başlatın
+                var satislarQuery = _unitOfWork.Satis.GetAll().Data.AsQueryable();
 
+                // Filtreleri adım adım uygulayın
                 if (ilkTarih.HasValue)
-                    satislar = satislar.Where(x => x.SatisTarihi >= ilkTarih);
+                {
+                    satislarQuery = satislarQuery.Where(s => s.SatisTarihi >= ilkTarih.Value);
+                }
 
                 if (ikinciTarih.HasValue)
-                    satislar = satislar.Where(x => x.SatisTarihi <= ikinciTarih);
+                {
+                    satislarQuery = satislarQuery.Where(s => s.SatisTarihi <= ikinciTarih.Value);
+                }
 
                 if (!string.IsNullOrEmpty(subeId))
-                    satislar = satislar.Where(x => x.SubeId == subeId);
+                {
+                    satislarQuery = satislarQuery.Where(s => s.SubeId == subeId);
+                }
 
                 if (!string.IsNullOrEmpty(firmaId))
                 {
-                    var subeIds = _unitOfWork.Sube.GetAll()
-                                                  .Data
-                                                  .Where(s => s.FirmaId == firmaId)
-                                                  .Select(s => s.Id)
-                                                  .ToList();
-                    satislar = satislar.Where(x => subeIds.Contains(x.SubeId));
+                    var subeIds = _unitOfWork.Sube.GetAll().Data.Select(s => s.Id).ToList();
+                    satislarQuery = satislarQuery.Where(s => subeIds.Contains(s.SubeId));
                 }
 
                 if (!string.IsNullOrEmpty(kategoriId))
                 {
-                    var urunIds = _unitOfWork.Urun.GetAll()
-                                                  .Data
-                                                  .Where(u => u.KategoriId == kategoriId)
-                                                  .Select(u => u.Id)
-                                                  .ToList();
-                    satislar = satislar.Where(x => urunIds.Contains(x.UrunId));
+                    var urunIds = _unitOfWork.Urun.GetAll().Data.Select(u => u.Id).ToList();
+                    satislarQuery = satislarQuery.Where(s => urunIds.Contains(s.UrunId));
                 }
 
                 if (!string.IsNullOrEmpty(urunId))
-                    satislar = satislar.Where(x => x.UrunId == urunId);
+                {
+                    satislarQuery = satislarQuery.Where(s => s.UrunId == urunId);
+                }
 
-                var satisList = satislar.ToList();
+                // Sorguyu çalıştırın ve verileri çekin
+                var satislar = satislarQuery.ToList();
 
+                // Gerekli veri sözlüklerini oluşturun
                 var urunDict = _unitOfWork.Urun.GetAll().Data.ToDictionary(u => u.Id);
                 var subeDict = _unitOfWork.Sube.GetAll().Data.ToDictionary(s => s.Id);
                 var firmaDict = _unitOfWork.Firma.GetAll().Data.ToDictionary(f => f.Id);
 
-                var groupedSatislar = satisList.GroupBy(x => x.UrunId)
+                // Sonuçları gruplandırın ve hesaplayın
+                var groupedSatislar = satislar
+                    .GroupBy(x => x.UrunId)
                     .Select(x => new KarDto
                     {
                         Urun = urunDict[x.Key],
@@ -396,8 +403,11 @@ namespace B2BApp.Business.Abstract
                         ToplamKar = x.Sum(y => y.Toplam) - x.Sum(y => urunDict[y.UrunId].Fiyat * y.SatisMiktari),
                         ToplamFiyat = x.Sum(y => urunDict[y.UrunId].Fiyat * y.SatisMiktari),
                         ToplamSatisMiktari = x.Sum(y => y.SatisMiktari),
-                    }).ToList();
+                    })
+                    .ToList();
+              
 
+                // Sonucu oluşturun ve geri dönün
                 var result = new Result<ICollection<KarDto>>
                 {
                     Data = groupedSatislar,
@@ -407,15 +417,24 @@ namespace B2BApp.Business.Abstract
                 };
 
                 _logger.LogInformation("Kâr hesaplandı");
-
+               
+             
                 return result;
             }
             catch (Exception ex)
             {
+                GC.Collect();
                 _logger.LogError(ex, "Kâr hesaplanırken bir hata oluştu");
                 throw;
             }
+            finally
+            {
+                // Bellek temizliği            
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
+
 
 
         public Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId, string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2)
@@ -426,12 +445,24 @@ namespace B2BApp.Business.Abstract
             var donem2Tarih1 = DateTime.Now;
             var donem2Tarih2 = DateTime.Now;
 
-            var satislar = _unitOfWork.Satis.GetAll().Data;
-            satislar = satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.TedarikciId == tedarikciId).ToList();
+            //var satislar = _unitOfWork.Satis.GetAll().Data;
+            ////Burası Optimize edilecek
+            //satislar = satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.TedarikciId == tedarikciId).ToList();
+            //satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetById(x.SubeId).Data.FirmaId == firmaId).ToList();
+            //satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.KategoriId == kategoriId).ToList();
+            //satislar = subeId == null ? satislar : satislar.Where(x => x.SubeId == subeId).ToList();
+            //satislar = urunId == null ? satislar : satislar.Where(x => x.UrunId == urunId).ToList();
+            var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data.AsQueryable();
+            var satislar = new List<Satis>();
+            foreach (var urun in urunler)
+            {
+                satislar.AddRange(_unitOfWork.Satis.FilterBy(x => x.UrunId == urun.Id).Data);
+            }
             satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetById(x.SubeId).Data.FirmaId == firmaId).ToList();
             satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.KategoriId == kategoriId).ToList();
             satislar = subeId == null ? satislar : satislar.Where(x => x.SubeId == subeId).ToList();
             satislar = urunId == null ? satislar : satislar.Where(x => x.UrunId == urunId).ToList();
+
 
             if (donem.Contains("aylik"))
             {
