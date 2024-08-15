@@ -18,7 +18,7 @@ namespace B2BApp.Web.Core.Controllers
                 var handler = new JwtSecurityTokenHandler();
                 var jsonToken = handler.ReadToken(Request.Cookies["jwt"]) as JwtSecurityToken;
 
-                // Claims (iddialar) JSON olarak okuma
+                // Claims JSON olarak okuma
                 var claimsJson = new JObject();
                 foreach (var claim in jsonToken.Claims)
                 {

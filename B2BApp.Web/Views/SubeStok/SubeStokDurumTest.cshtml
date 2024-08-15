@@ -5,69 +5,18 @@
 }
 
 <div class="container">
-    <h2>Sube Stok</h2>
-
-    <!--Filtre Start-->
-
-    <div class="p-3 border bg-light">
-
-        <br />
-        <div class="row">
-            <div class="col">
-                <label for="firma">Firmalar:</label>
-                <select id="firma" class="form-control js-example-basic-single">
-                    <option></option>
-
-                </select>
-            </div>
-
-            <div class="col">
-                <label for="sube">Şubeler:</label>
-                <select id="sube" class="form-control">
-                    <option></option>
-                </select>
-            </div>
-
-            <div class="col">
-                <label for="kategori">Kategori:</label>
-                <select id="kategori" class="form-control">
-                    <option></option>
-                </select>
-            </div>
-
-        </div>
-        <br />
-
-        <br />
-        <div class="" style="display: flex;justify-content: flex-end;">
-            <button class="btn btn-primary" onclick="applyFilter()">Filtreyi Uygula</button>
-        </div>
-    </div>
+    <h2>Sube Stok Rapor</h2>
     <br />
-    <!--Filtre End-->
-    <br />
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        flatpickr('.datepicker', {
-            dateFormat: 'd-m-Y'
-        });
-    </script>
 
     <div class="p-3 border bg-light">
 
         <table id="subeStokTable" class="display" style="width:100%">
             <thead>
-                <tr>
-                    <th>Şube Adi</th>
-                    <th>Ürün</th>
-                    <th>Stok</th>
+                <tr id="headerRow">
+                    <th>Id</th>
+                    <th>Urun Adı</th>
                 </tr>
             </thead>
-            <tfoot>
-            </tfoot>
         </table>
     </div>
 </div>
@@ -76,14 +25,14 @@
 
 
 
-
+ 
 <link rel="stylesheet" href="" />
 @* select2 kullanımı *@
 
 
 
 <script type="text/javascript">
-
+  
     let table;
     let firma = null;
     var kategori = null;
@@ -91,20 +40,49 @@
 
     function initTable() {
         $.ajax({
-            url: 'https://10.60.60.141/api/SubeStok/GetAllWithDetailsByFilters',
+            url: 'https://10.60.60.141/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
                 'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
-            data: {
-                'subeId': sube,
-                'firmaId': firma,
-                'kategoriId': kategori
+            data: { 
+                'tedarikciId': '@ViewBag.FirmaId',
+           
+                 'subeId': sube,
+                 'kategoriId': kategori,
+                 'firmaId': firma
             }
         }).done(function (response) {
-            
+
+            var subeAdiList = response.data.map(function (item) {
+                return item.sube.subeAdi;
+            });
+
+            var uniqueSubeAdiList = [...new Set(subeAdiList)];
+
+            uniqueSubeAdiList.forEach(function(subeAdi) {
+                debugger;
+                 table = $('#subeStokTable').DataTable();
+
+                // <thead> içindeki <tr> elemanını seç
+                var headerRow = $('#subeStokTable thead tr');
+
+                // Yeni bir <th> elementi oluştur ve başlık metni ekle
+                
+
+                // Yeni <th> elemanını <tr> içine ekle
+                headerRow.append($('<th>' + 'ss' + '</th>'));
+
+                // DataTable'ı yeniden initialize et (Opsiyonel, gerekirse)
+                table.destroy(); // Eski DataTable'ı yok et
+                $('#myTable').DataTable(); // Tabloyu yeniden initialize et
+            });
+           
+           // debugger;
             table = $('#subeStokTable').DataTable({
+                "scrollX": true,
+                "responsive": true,
                 "data": response.data,
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
 
@@ -115,22 +93,20 @@
                                 "extend": 'pdfHtml5',
                                 "exportOptions": {
                                     "columns": [0, 1, 2],
-
+                                   
                                 },
                                 "className": "btn btn-success"
                             },
-
+                            
                         ]
                     }
 
                 },
 
-
+                
                 "columns": [
-                    { "data": 'sube.subeAdi' },
+                    { "data": 'urun.id' },
                     { "data": 'urun.urunAdi' },
-                    { "data": 'stok', className: 'text-start' },
-
                 ]
             });
 
@@ -140,18 +116,6 @@
     initTable();
 
 
-    function applyFilter() {
-
-        firma = $('#firma').val() ?? "";
-        kategori = $('#kategori').val() ?? "";
-        sube = $('#sube').val() ?? "";
-
-
-        table.destroy();
-        initTable();
-
-
-    }
 
     function loadSelectsDatas() {
 
@@ -184,6 +148,20 @@
                     text: data.subeAdi
                 };
             });
+
+
+
+
+            subeler.forEach(function(sube) {
+                var newHeader = document.createElement("th");
+                newHeader.innerText = sube.text;
+                // <th> elemanını <tr> içine ekle
+                headerRow.appendChild(newHeader);
+            });
+
+            
+            
+
             var select = $("#sube").select2({
                 placeholder: "Subeler",
                 data: subeler,
@@ -212,6 +190,5 @@
 
     }
 
-    loadSelectsDatas();
-
+    
 </script>

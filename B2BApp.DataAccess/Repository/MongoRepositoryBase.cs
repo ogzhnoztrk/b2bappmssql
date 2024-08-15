@@ -37,6 +37,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
         public async Task<Result<ICollection<T>>> GetAllAsync()
@@ -54,6 +58,10 @@ namespace DataAccess.Repository
                 result.Message = $"AsQueryable {ex.Message}";
                 result.StatusCode = 400;
                 result.Data = null;
+            }
+            finally
+            {
+                GC.Collect();
             }
             return result;
         }
@@ -77,6 +85,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -98,15 +110,43 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
         public void DeleteMany(Expression<Func<T, bool>> filter)
         {
-            _collection.DeleteMany(filter);
+            try
+            {
+                _collection.DeleteMany(filter);
+            }
+            catch (Exception)
+            {
+
+               // throw;
+            }
+            finally
+            {
+                GC.Collect();
+            }
+            
         }
         public async Task DeleteManyAsync(Expression<Func<T, bool>> filter)
         {
-            await _collection.DeleteManyAsync(filter);
+            
+            try
+            {
+await _collection.DeleteManyAsync(filter);
+            }catch(Exception ex)
+            {
+
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
         public Result<T> DeleteOne(Expression<Func<T, bool>> filter)
         {
@@ -123,6 +163,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
         public async Task<Result<T>> DeleteOneAsync(Expression<Func<T, bool>> filter)
@@ -138,6 +182,10 @@ namespace DataAccess.Repository
                 result.Message = $"DeleteOneAsync {ex.Message}";
                 result.StatusCode = 400;
                 result.Data = null;
+            }
+            finally
+            {
+                GC.Collect();
             }
             return result;
         }
@@ -157,6 +205,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -174,6 +226,10 @@ namespace DataAccess.Repository
                 result.Message = $"FilterBy {ex.Message}";
                 result.StatusCode = 400;
                 result.Data = null;
+            }
+            finally
+            {
+                GC.Collect();
             }
             return result;
         }
@@ -200,6 +256,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -225,6 +285,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -241,6 +305,10 @@ namespace DataAccess.Repository
                 result.Message = $"InsertMany {ex.Message}";
                 result.StatusCode = 400;
                 result.Data = null;
+            }
+            finally
+            {
+                GC.Collect();
             }
             return result;
         }
@@ -259,6 +327,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -276,6 +348,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -292,6 +368,10 @@ namespace DataAccess.Repository
                 result.Message = $"InsertOneAsync {ex.Message}";
                 result.StatusCode = 400;
                 result.Data = null;
+            }
+            finally
+            {
+                GC.Collect();
             }
             return result;
         }
@@ -317,6 +397,10 @@ namespace DataAccess.Repository
                 result.StatusCode = 400;
                 result.Data = null;
             }
+            finally
+            {
+                GC.Collect();
+            }
             return result;
         }
 
@@ -340,6 +424,10 @@ namespace DataAccess.Repository
                 result.Message = $"GetById {ex.Message}";
                 result.StatusCode = 400;
                 result.Data = null;
+            }
+            finally
+            {
+                GC.Collect();
             }
             return result;
         }

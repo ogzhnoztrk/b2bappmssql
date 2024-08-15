@@ -23,6 +23,14 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
+          // GET: SubeStokController
+        public ActionResult SubeStokDurumTest()
+        {
+            // JWT'yi çözme
+            if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
+
+            return View();
+        }
 
         public ActionResult StokRapor()
         {
