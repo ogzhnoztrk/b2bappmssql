@@ -1,9 +1,15 @@
 ﻿using B2BApp.Entities.Abstract;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace B2BApp.Entities.Concrete
 {
-    public class Kategori : BaseModel
+    [Table("TBL_KATEGORI_TANIM")]
+    public class Kategori 
     {
+        [Column("ktgr_id"),Key]
+        public Guid Id { get; set; }
+        [Column("ktgr_adi")]
         public string KategoriAdi { get; set; }
     }
 }

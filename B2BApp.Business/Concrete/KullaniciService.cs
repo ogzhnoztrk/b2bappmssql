@@ -1,11 +1,12 @@
-﻿using B2BApp.Business.Concrete;
+﻿using B2BApp.Business.Abstract;
+using B2BApp.Core.Models.Concrete;
 using B2BApp.DataAccess.Abstract;
+using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
-using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 
-namespace B2BApp.Business.Abstract
+namespace B2BApp.Business.Concrete
 {
     public class KullaniciService : IKullaniciService
     {
@@ -68,10 +69,10 @@ namespace B2BApp.Business.Abstract
             var tedarikciler = _unitOfWork.Tedarikci.GetAll().Data;
             var kullanicilarDto = (
                 from kullanici in kullanicilar
-                join tedarikci in tedarikciler on kullanici.TedarikciId equals tedarikci.Id
+                join tedarikci in tedarikciler on kullanici.TedarikciId equals tedarikci.Id.ToString()
                 select new KullaniciDto
                 {
-                    Id = kullanici.Id,
+                    Id = kullanici.Id.ToString(),
                     Tedarikci = tedarikci,
                     KullaniciAdi = kullanici.KullaniciAdi,
                     SifreHash = kullanici.SifreHash,

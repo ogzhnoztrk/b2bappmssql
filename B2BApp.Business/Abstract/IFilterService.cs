@@ -1,5 +1,5 @@
-﻿using B2BApp.DTOs.FilterDtos;
-using Core.Models.Concrete;
+﻿using B2BApp.Core.Models.Concrete;
+using B2BApp.DTOs.FilterDtos;
 
 namespace B2BApp.Business.Abstract
 {

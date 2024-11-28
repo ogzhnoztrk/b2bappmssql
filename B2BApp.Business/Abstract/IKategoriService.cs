@@ -1,5 +1,5 @@
-﻿using B2BApp.Entities.Concrete;
-using Core.Models.Concrete;
+﻿using B2BApp.Core.Models.Concrete;
+using B2BApp.Entities.Concrete;
 using MongoDB.Bson;
 
 namespace B2BApp.Business.Abstract

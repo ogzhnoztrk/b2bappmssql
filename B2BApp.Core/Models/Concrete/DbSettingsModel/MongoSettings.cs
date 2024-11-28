@@ -1,4 +1,4 @@
-﻿namespace Core.Models.Concrete.DbSettingsModel
+﻿namespace B2BApp.Core.Models.Concrete.DbSettingsModel
 {
     public class MongoSettings
     {

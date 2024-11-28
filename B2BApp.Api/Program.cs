@@ -1,8 +1,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using B2BApp.Business.DependecyResolvers.Autofac;
+using B2BApp.Core.Models.Concrete.DbSettingsModel;
 using B2BApp.Core.Utilities.Helpers.Security;
-using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;

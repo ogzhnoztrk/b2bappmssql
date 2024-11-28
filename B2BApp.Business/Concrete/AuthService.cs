@@ -1,10 +1,10 @@
 ﻿using B2BApp.Business.Abstract;
+using B2BApp.Core.Models.Concrete;
 using B2BApp.Core.Utilities.Helpers.Security;
 using B2BApp.Core.Utilities.Helpers.Security.Hashing;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
-using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

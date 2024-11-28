@@ -1,13 +1,13 @@
-﻿using Core.Models.Concrete;
-using Core.Models.Concrete.DbSettingsModel;
-using Core.Repository.Abstract;
-using DataAccess.Context;
+﻿using B2BApp.Core.Models.Concrete;
+using B2BApp.Core.Models.Concrete.DbSettingsModel;
+using B2BApp.Core.Repository.Abstract;
+using B2BApp.DataAccess.Context;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace DataAccess.Repository
+namespace B2BApp.DataAccess.Repository
 {
     public class MongoRepositoryBase<T> : IRepository<T> where T : class, new()
     {
@@ -125,21 +125,22 @@ namespace DataAccess.Repository
             catch (Exception)
             {
 
-               // throw;
+                // throw;
             }
             finally
             {
                 GC.Collect();
             }
-            
+
         }
         public async Task DeleteManyAsync(Expression<Func<T, bool>> filter)
         {
-            
+
             try
             {
-await _collection.DeleteManyAsync(filter);
-            }catch(Exception ex)
+                await _collection.DeleteManyAsync(filter);
+            }
+            catch (Exception ex)
             {
 
             }

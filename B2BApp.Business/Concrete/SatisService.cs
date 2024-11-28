@@ -1,13 +1,14 @@
-﻿using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.Business.Abstract;
+using B2BApp.Core.Models.Concrete;
+using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
-using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace B2BApp.Business.Abstract
+namespace B2BApp.Business.Concrete
 {
     public class SatisService : ISatisService
     {
@@ -27,7 +28,7 @@ namespace B2BApp.Business.Abstract
                 var totalSatislar = satislar.Count;
                 var batchCount = (int)Math.Ceiling((double)totalSatislar / batchSize);
                 var urunler = _unitOfWork.Urun.GetAll().Data;
-           
+
                 List<Satis> satislarTemp = new List<Satis>();
                 for (int i = 0; i < batchCount; i++)
                 {
@@ -35,7 +36,7 @@ namespace B2BApp.Business.Abstract
 
                     foreach (var satis in batch)
                     {
-                        var urun = urunler.FirstOrDefault(u => u.Id == satis.UrunId.ToString());
+                        var urun = urunler.FirstOrDefault(u => u.Id == Guid.Parse(satis.UrunId));
                         if (urun != null)
                         {
                             var toplam = urun.SatisFiyati * satis.SatisMiktari;
@@ -49,17 +50,17 @@ namespace B2BApp.Business.Abstract
                                 Id = satis.Id
                             };
                             satislarTemp.Add(satisSon);
-                        
+
                         }
-                       
+
                     }
-   
+
                     _unitOfWork.Satis.InsertMany(satislarTemp);
                     satislarTemp.Clear();
                 }
 
-             
-                
+
+
 
                 _logger.LogInformation("Satışlar eklendi");
             }
@@ -137,10 +138,10 @@ namespace B2BApp.Business.Abstract
 
                 foreach (var satis in satislar)
                 {
-                    
+
                     var satisDto = new SatisDto
                     {
-                        Id = satis.Id,
+                        Id = satis.Id.ToString(),
                         SatisMiktari = satis.SatisMiktari,
                         SatisTarihi = satis.SatisTarihi,
                         Toplam = satis.Toplam,
@@ -173,7 +174,7 @@ namespace B2BApp.Business.Abstract
                 var satislar = _unitOfWork.Satis.GetAll().Data;
 
                 //subeId null ise tüm şubeleri getirir, değilse sadece o şubeyi getirir
-                var subeler = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
+                var subeler = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id.ToString() == subeId).Data;
 
                 //firmaId null ise tüm firmaları getirir, değilse sadece o firmayı getirir
                 subeler = firmaId == null ? subeler : subeler.Where(x => x.FirmaId == firmaId).ToList();
@@ -184,12 +185,12 @@ namespace B2BApp.Business.Abstract
 
                 var satislarDto = (
                     from urun in urunler
-                    join satis in satislar on urun.Id equals satis.UrunId
-                    join sube in subeler on satis.SubeId equals sube.Id
+                    join satis in satislar on urun.Id.ToString() equals satis.UrunId
+                    join sube in subeler on satis.SubeId equals sube.Id.ToString()
                     where satis.SatisTarihi >= ilkTarih && satis.SatisTarihi <= ikinciTarih
                     select new SatisDto
                     {
-                        Id = satis.Id,
+                        Id = satis.Id.ToString(),
                         SatisMiktari = satis.SatisMiktari,
                         SatisTarihi = satis.SatisTarihi,
                         Sube = sube,
@@ -231,7 +232,7 @@ namespace B2BApp.Business.Abstract
                 // SubeId'ye göre şubeleri getir
                 var subeler = subeId == null
                     ? _unitOfWork.Sube.GetAll().Data
-                    : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
+                    : _unitOfWork.Sube.FilterBy(x => x.Id.ToString() == subeId).Data;
 
                 // FirmaId'ye göre şubeleri filtrele
                 if (firmaId != null)
@@ -246,12 +247,12 @@ namespace B2BApp.Business.Abstract
                 // SatisDto listesini oluştur
                 var satislarDto = (
                     from urun in urunler
-                    join satis in satislar on urun.Id equals satis.UrunId
-                    join sube in subeler on satis.SubeId equals sube.Id
+                    join satis in satislar on urun.Id.ToString() equals satis.UrunId
+                    join sube in subeler on satis.SubeId equals sube.Id.ToString()
                     where satis.SatisTarihi >= baslangicTarihi && satis.SatisTarihi <= bitisTarihi
                     select new SatisDto
                     {
-                        Id = satis.Id,
+                        Id = satis.Id.ToString(),
                         SatisMiktari = satis.SatisMiktari,
                         SatisTarihi = satis.SatisTarihi,
                         Sube = sube,
@@ -303,7 +304,7 @@ namespace B2BApp.Business.Abstract
 
             var result = new Result<SatisDto>
             {
-                Data = new SatisDto { Id = satis.Id, Urun = urun, Sube = sube, SatisMiktari = satis.SatisMiktari, SatisTarihi = satis.SatisTarihi, Toplam = satis.Toplam },
+                Data = new SatisDto { Id = satis.Id.ToString(), Urun = urun, Sube = sube, SatisMiktari = satis.SatisMiktari, SatisTarihi = satis.SatisTarihi, Toplam = satis.Toplam },
                 Message = "Satis bilgileri getirildi",
                 StatusCode = 200,
                 Time = DateTime.Now,
@@ -369,13 +370,13 @@ namespace B2BApp.Business.Abstract
                 if (!string.IsNullOrEmpty(firmaId))
                 {
                     var subeIds = _unitOfWork.Sube.GetAll().Data.Select(s => s.Id).ToList();
-                    satislarQuery = satislarQuery.Where(s => subeIds.Contains(s.SubeId));
+                    satislarQuery = satislarQuery.Where(s => subeIds.Contains(Guid.Parse(s.SubeId)));
                 }
 
                 if (!string.IsNullOrEmpty(kategoriId))
                 {
                     var urunIds = _unitOfWork.Urun.GetAll().Data.Select(u => u.Id).ToList();
-                    satislarQuery = satislarQuery.Where(s => urunIds.Contains(s.UrunId));
+                    satislarQuery = satislarQuery.Where(s => urunIds.Contains(Guid.Parse(s.UrunId)));
                 }
 
                 if (!string.IsNullOrEmpty(urunId))
@@ -396,16 +397,16 @@ namespace B2BApp.Business.Abstract
                     .GroupBy(x => x.UrunId)
                     .Select(x => new KarDto
                     {
-                        Urun = urunDict[x.Key],
-                        Sube = subeDict[x.First().SubeId],
-                        Firma = firmaDict[subeDict[x.First().SubeId].FirmaId],
+                        Urun = urunDict[Guid.Parse(x.Key)],
+                        Sube = subeDict[Guid.Parse(x.First().SubeId)],
+                        Firma = firmaDict[Guid.Parse(subeDict[Guid.Parse(x.First().SubeId)].FirmaId)],
                         ToplamSatisFiyat = x.Sum(y => y.Toplam),
-                        ToplamKar = x.Sum(y => y.Toplam) - x.Sum(y => urunDict[y.UrunId].Fiyat * y.SatisMiktari),
-                        ToplamFiyat = x.Sum(y => urunDict[y.UrunId].Fiyat * y.SatisMiktari),
+                        ToplamKar = x.Sum(y => y.Toplam) - x.Sum(y => urunDict[Guid.Parse(y.UrunId)].Fiyat * y.SatisMiktari),
+                        ToplamFiyat = x.Sum(y => urunDict[Guid.Parse(y.UrunId)].Fiyat * y.SatisMiktari),
                         ToplamSatisMiktari = x.Sum(y => y.SatisMiktari),
                     })
                     .ToList();
-              
+
 
                 // Sonucu oluşturun ve geri dönün
                 var result = new Result<ICollection<KarDto>>
@@ -417,8 +418,8 @@ namespace B2BApp.Business.Abstract
                 };
 
                 _logger.LogInformation("Kâr hesaplandı");
-               
-             
+
+
                 return result;
             }
             catch (Exception ex)
@@ -456,7 +457,7 @@ namespace B2BApp.Business.Abstract
             var satislar = new List<Satis>();
             foreach (var urun in urunler)
             {
-                satislar.AddRange(_unitOfWork.Satis.FilterBy(x => x.UrunId == urun.Id).Data);
+                satislar.AddRange(_unitOfWork.Satis.FilterBy(x => x.UrunId == urun.Id.ToString()).Data);
             }
             satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetById(x.SubeId).Data.FirmaId == firmaId).ToList();
             satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetById(x.UrunId).Data.KategoriId == kategoriId).ToList();
@@ -468,7 +469,7 @@ namespace B2BApp.Business.Abstract
             {
                 var fark = donem1Tarih2.Value.Subtract(donem1Tarih1.Value).Days;
 
-                donem2Tarih1 = donem1Tarih1.Value.AddDays(-(Math.Abs(fark)) - 1);
+                donem2Tarih1 = donem1Tarih1.Value.AddDays(-Math.Abs(fark) - 1);
                 donem2Tarih2 = donem1Tarih1.Value.AddDays(-1);
             }
             else if (donem.Contains("yillik"))
@@ -518,7 +519,7 @@ namespace B2BApp.Business.Abstract
 
         }
 
-       
+
 
 
 

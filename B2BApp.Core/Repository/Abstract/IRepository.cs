@@ -1,7 +1,7 @@
-﻿using Core.Models.Concrete;
+﻿using B2BApp.Core.Models.Concrete;
 using System.Linq.Expressions;
 
-namespace Core.Repository.Abstract
+namespace B2BApp.Core.Repository.Abstract
 {
     public interface IRepository<TEntity> where TEntity : class, new()
     {
