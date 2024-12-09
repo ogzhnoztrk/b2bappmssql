@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
-namespace B2BApp.Api.Controllers
+namespace B2BApp.Api.Controllers   
 {
     [Route("api/[controller]")]
     [ApiController]
