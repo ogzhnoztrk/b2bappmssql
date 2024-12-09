@@ -1,12 +1,11 @@
-﻿using B2BApp.Business.Abstract;
-using B2BApp.Core.Models.Concrete;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
+using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 
-namespace B2BApp.Business.Concrete
+namespace B2BApp.Business.Abstract
 {
     public class UrunService : IUrunService
     {
@@ -93,7 +92,7 @@ namespace B2BApp.Business.Concrete
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.Id.ToString(),
+                            Id = urun.Id,
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci,
                             SatisFiyati = urun.SatisFiyati
@@ -150,7 +149,7 @@ namespace B2BApp.Business.Concrete
                 }
                 else
                 {
-                    tedarikci = new() { Id = Guid.NewGuid(), TedarikciAdi = "AA", TedarikciTel = "00" };
+                    tedarikci = new() { Id = ObjectId.GenerateNewId().ToString(), TedarikciAdi = "AA", TedarikciTel = "00" };
 
 
                 }
@@ -160,7 +159,7 @@ namespace B2BApp.Business.Concrete
 
                 var result = new Result<UrunDto>
                 {
-                    Data = new UrunDto { Id = urun.Id.ToString(), Fiyat = urun.Fiyat, UrunAdi = urun.UrunAdi, Kategori = kategori, Tedarikci = tedarikci, SatisFiyati = urun.SatisFiyati },
+                    Data = new UrunDto { Id = urun.Id, Fiyat = urun.Fiyat, UrunAdi = urun.UrunAdi, Kategori = kategori, Tedarikci = tedarikci, SatisFiyati = urun.SatisFiyati },
                     Message = "Ürün Kategori Bilgileri İle Getirildi",
                     StatusCode = 200,
                     Time = DateTime.Now,
@@ -195,7 +194,7 @@ namespace B2BApp.Business.Concrete
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.Id.ToString(),
+                            Id = urun.Id,
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci,
                             SatisFiyati = urun.SatisFiyati

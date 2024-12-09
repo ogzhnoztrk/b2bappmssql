@@ -1,6 +1,6 @@
 ﻿using B2BApp.Entities.Concrete;
 
-namespace B2BApp.DTOs
+namespace B2BApp.Business.Concrete
 {
     public class KullaniciDto
     {

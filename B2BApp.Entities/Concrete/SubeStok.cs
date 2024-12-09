@@ -1,26 +1,11 @@
 ﻿using B2BApp.Entities.Abstract;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace B2BApp.Entities.Concrete
 {
-    [Table("TBL_SUBE_STOK")]
-    public class SubeStok
+    public class SubeStok : BaseModel
     {
-        [Column("sstk_id"), Key]
-        public Guid Id { get; set; }
-
-        [Column("sube_id")]
         public string SubeId { get; set; }
-        [ForeignKey(nameof(SubeId))]
-        public virtual Sube Sube { get; set; }
-
-        [Column("urun_id")] 
         public string UrunId { get; set; }
-        [ForeignKey(nameof(UrunId))]
-        public virtual Urun Urun { get; set; }
-
-        [Column("sstk_stok_adet")] 
         public double Stok { get; set; }
     }
 }

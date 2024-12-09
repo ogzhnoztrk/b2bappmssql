@@ -1,5 +1,5 @@
-﻿using B2BApp.Core.Models.Concrete;
-using B2BApp.DTOs;
+﻿using B2BApp.DTOs;
+using Core.Models.Concrete;
 
 namespace B2BApp.Business.Abstract
 {

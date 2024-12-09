@@ -1,5 +1,5 @@
-﻿using B2BApp.Core.Models.Concrete.DbSettingsModel;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
+using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.Extensions.Options;
 
 namespace B2BApp.DataAccess.Concrete

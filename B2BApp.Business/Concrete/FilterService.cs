@@ -1,7 +1,7 @@
 ﻿using B2BApp.Business.Abstract;
-using B2BApp.Core.Models.Concrete;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs.FilterDtos;
+using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 
 namespace B2BApp.Business.Concrete

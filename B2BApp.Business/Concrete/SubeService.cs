@@ -1,12 +1,11 @@
-﻿using B2BApp.Business.Abstract;
-using B2BApp.Core.Models.Concrete;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
+using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 
-namespace B2BApp.Business.Concrete
+namespace B2BApp.Business.Abstract
 {
     public class SubeService : ISubeService
     {
@@ -111,7 +110,7 @@ namespace B2BApp.Business.Concrete
                 foreach (var sube in subeler)
                 {
                     var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
-                    subelerDTOs.Add(new SubeDto { Id = sube.Id.ToString(), SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
+                    subelerDTOs.Add(new SubeDto { Id = sube.Id, SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
 
 
                 }
@@ -142,7 +141,7 @@ namespace B2BApp.Business.Concrete
                 var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
                 var subelerDTO = new SubeDto
                 {
-                    Id = sube.Id.ToString(),
+                    Id = sube.Id,
                     SubeAdi = sube.SubeAdi,
                     SubeTel = sube.SubeTel,
                     Firma = firma

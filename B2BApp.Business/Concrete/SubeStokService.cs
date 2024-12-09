@@ -1,15 +1,14 @@
-﻿using B2BApp.Business.Abstract;
-using B2BApp.Core.Models.Concrete;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
+using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System.Linq.Expressions;
 
-namespace B2BApp.Business.Concrete
+namespace B2BApp.Business.Abstract
 {
     public class SubeStokService : ISubeStokService
     {
@@ -20,12 +19,12 @@ namespace B2BApp.Business.Concrete
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
-
+     
         public void addManySubeStok(List<SubeStok> subeStokList)
         {
             //şubeId ve urunid aynı olan verileri sil
             var duplicateStoklar = new List<SubeStok>();
-
+            
             foreach (var subeStok in subeStokList)
             {
                 var duplicateStok = _unitOfWork.SubeStok.FilterBy(x => x.SubeId == subeStok.SubeId && x.UrunId == subeStok.UrunId).Data;
@@ -95,19 +94,19 @@ namespace B2BApp.Business.Concrete
                 //kategoriId null ise tüm ürünlerin stoklarını getir, değilse sadece seçili kategorinin stoklarını getir
                 var urunler = kategoriId == null ? _unitOfWork.Urun.GetAll().Data : _unitOfWork.Urun.FilterBy(x => x.KategoriId == kategoriId).Data;
                 //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
-                var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id.ToString() == subeId).Data;
+                var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
                 //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
                 sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
 
                 var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
 
                 var subeStokDTOs = (from urun in urunler
-                                    join subeStok in subeStoklar on urun.Id.ToString() equals subeStok.UrunId
+                                    join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
 
-                                    join sub in sube on subeStok.SubeId equals sub.Id.ToString()
+                                    join sub in sube on subeStok.SubeId equals sub.Id
                                     select new SubeStokDto
                                     {
-                                        id = subeStok.Id.ToString(),
+                                        id = subeStok.Id,
                                         Stok = subeStok.Stok,
                                         Sube = sub,
                                         Urun = urun,
@@ -146,7 +145,7 @@ namespace B2BApp.Business.Concrete
                     var sube = _unitOfWork.Sube.GetById(subeStok.SubeId).Data;
                     subeStokDTOs.Add(new SubeStokDto
                     {
-                        id = subeStok.Id.ToString(),
+                        id = subeStok.Id,
                         Stok = subeStok.Stok,
                         Sube = sube,
                         Urun = urun
@@ -182,17 +181,17 @@ namespace B2BApp.Business.Concrete
 
 
                 //subeId null ise tüm şubelerin stoklarını getir, değilse sadece seçili şubenin stoklarını getir
-                var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id.ToString() == subeId).Data;
+                var sube = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.FilterBy(x => x.Id == subeId).Data;
                 //firmaId null ise tüm firmaların stoklarını getir, değilse sadece seçili firmanın stoklarını getir
                 sube = firmaId == null ? sube : sube.Where(x => x.FirmaId == firmaId).ToList();
 
                 var subeStoklar = _unitOfWork.SubeStok.GetAll().Data;
 
                 var subeStokDTOs = (from urun in urunler
-                                    join subeStok in subeStoklar on urun.Id.ToString() equals subeStok.UrunId
+                                    join subeStok in subeStoklar on urun.Id equals subeStok.UrunId
                                     where urun.TedarikciId == tedarikciId
 
-                                    join sub in sube on subeStok.SubeId equals sub.Id.ToString()
+                                    join sub in sube on subeStok.SubeId equals sub.Id
                                     select new SubeStokDto
                                     {
                                         id = tedarikciId,
@@ -246,7 +245,7 @@ namespace B2BApp.Business.Concrete
 
                 var subeStokDto = new SubeStokDto
                 {
-                    id = subeStok.Id.ToString(),
+                    id = subeStok.Id,
                     Stok = subeStok.Stok,
                     Sube = sube,
                     Urun = urun,

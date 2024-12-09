@@ -1,8 +1,8 @@
-﻿using B2BApp.Core.Models.Concrete.DbSettingsModel;
+﻿using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace B2BApp.DataAccess.Context
+namespace DataAccess.Context
 {
     public class MongoDbContext
     {

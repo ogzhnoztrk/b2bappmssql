@@ -1,37 +1,15 @@
 ﻿using B2BApp.Entities.Abstract;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace B2BApp.Entities.Concrete
 {
-    [Table("TBL_SIPARIS")]
-    public class Siparis 
+    public class Siparis : BaseModel
     {
-        [Column("sprs_id"), Key]
-        public Guid Id { get; set; }
-
-        [Column("sube_id")] 
         public string SubeId { get; set; }
-        [ForeignKey(nameof(SubeId))]
-        public virtual Sube Sube { get; set; }
-      
-        [Column("urun_id")] 
         public string UrunId { get; set; }
-        [ForeignKey(nameof(UrunId))]
-        public virtual Urun Urun{ get; set; }
-           
-        [Column("tdrk_id")] 
         public string TedarikciId { get; set; }
-        [ForeignKey(nameof(TedarikciId))]
-        public virtual Tedarikci Tedarikci{ get; set; }
-
-        [Column("sprs_adet")]
         public double Adet { get; set; }
-        [Column("sprs_toplam")] 
         public double Toplam { get; set; }
-        [Column("sprs_tarih")] 
         public DateTime SiparisTarih { get; set; }
-        [Column("sprs_is_active")] 
         public bool IsActive { get; set; }
     }
 }

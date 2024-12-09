@@ -1,7 +1,7 @@
 ﻿using B2BApp.Business.Abstract;
-using B2BApp.Core.Models.Concrete;
 using B2BApp.DataAccess.Abstract;
 using B2BApp.DTOs;
+using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 
 namespace B2BApp.Business.Concrete
@@ -28,11 +28,11 @@ namespace B2BApp.Business.Concrete
                     (
                         from urun in urunler
                         where urun.TedarikciId == tedarikciId
-                        join satis in satislar on urun.Id.ToString() equals satis.UrunId
-                        join sube in subeler on satis.SubeId equals sube.Id.ToString()
+                        join satis in satislar on urun.Id equals satis.UrunId
+                        join sube in subeler on satis.SubeId equals sube.Id
                         select new SatisDto
                         {
-                            Id = satis.Id.ToString(),
+                            Id = satis.Id,
                             Sube = sube,
                             Urun = urun,
                             SatisMiktari = satis.SatisMiktari,
@@ -51,7 +51,7 @@ namespace B2BApp.Business.Concrete
                 var toplamUrunSatis = (
                     from urun in urunler
                     where urun.TedarikciId == tedarikciId
-                    join satis in satislar on urun.Id.ToString() equals satis.UrunId
+                    join satis in satislar on urun.Id equals satis.UrunId
                     into g
                     select new { urunAdi = urun.UrunAdi, toplam = g.Sum(x => x.SatisMiktari) }
 
@@ -73,7 +73,7 @@ namespace B2BApp.Business.Concrete
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.Id.ToString(),
+                            Id = urun.Id,
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci
 

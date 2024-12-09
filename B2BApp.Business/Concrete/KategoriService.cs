@@ -1,11 +1,10 @@
-﻿using B2BApp.Business.Abstract;
-using B2BApp.Core.Models.Concrete;
-using B2BApp.DataAccess.Abstract;
+﻿using B2BApp.DataAccess.Abstract;
 using B2BApp.Entities.Concrete;
+using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 
-namespace B2BApp.Business.Concrete
+namespace B2BApp.Business.Abstract
 {
     public class KategoriService : IKategoriService
     {

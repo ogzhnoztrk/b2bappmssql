@@ -1,4 +1,4 @@
-﻿namespace B2BApp.Core.Models.Concrete
+﻿namespace Core.Models.Concrete
 {
     public class Result<T>
     {
