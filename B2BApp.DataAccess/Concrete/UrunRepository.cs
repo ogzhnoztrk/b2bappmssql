@@ -1,13 +1,14 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DataAccess.Context;
+using B2BApp.DataAccess.Repository;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Repository;
 using Microsoft.Extensions.Options;
 
 namespace B2BApp.DataAccess.Abstract
 {
-    public class UrunRepository : MongoRepositoryBase<Urun>, IUrunRepository
+    public class UrunRepository : SqlRepositoryBase<Urun>, IUrunRepository
     {
-        public UrunRepository(IOptions<MongoSettings> settings) : base(settings)
+        public UrunRepository(SqlDbContext db) : base(db)
         {
         }
     }

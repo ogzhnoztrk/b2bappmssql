@@ -1,13 +1,14 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DataAccess.Context;
+using B2BApp.DataAccess.Repository;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Repository;
 using Microsoft.Extensions.Options;
 
 namespace B2BApp.DataAccess.Abstract
 {
-    public class SubeStokRepository : MongoRepositoryBase<SubeStok>, ISubeStokRepository
+    public class SubeStokRepository : SqlRepositoryBase<SubeStok>, ISubeStokRepository
     {
-        public SubeStokRepository(IOptions<MongoSettings> settings) : base(settings)
+        public SubeStokRepository(SqlDbContext db) : base(db)
         {
         }
     }

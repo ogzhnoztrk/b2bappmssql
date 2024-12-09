@@ -1,14 +1,15 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DataAccess.Context;
+using B2BApp.DataAccess.Repository;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Repository;
 using Microsoft.Extensions.Options;
 
 namespace B2BApp.DataAccess.Abstract
 {
-    public class SiparisRepository : MongoRepositoryBase<Siparis>, ISiparisRepository
+    public class SiparisRepository : SqlRepositoryBase<Siparis>, ISiparisRepository
     {
-        public SiparisRepository(IOptions<MongoSettings> settings) : base(settings)
+        public SiparisRepository(SqlDbContext db) : base(db)
         {
         }
       

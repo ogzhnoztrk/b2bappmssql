@@ -1,4 +1,5 @@
 ﻿using B2BApp.DataAccess.Abstract;
+using B2BApp.DataAccess.Context;
 using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.Extensions.Options;
 
@@ -6,21 +7,21 @@ namespace B2BApp.DataAccess.Concrete
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private static IOptions<MongoSettings> _settings;
+        private readonly SqlDbContext _db;
 
 
-        public UnitOfWork(IOptions<MongoSettings> settings)
+        public UnitOfWork(SqlDbContext db)
         {
-            _settings = settings;
-            Firma = new FirmaRepository(_settings);
-            Kategori = new KategoriRepository(_settings);
-            Satis = new SatisRepository(_settings);
-            Sube = new SubeRepository(_settings);
-            SubeStok = new SubeStokRepository(_settings);
-            Urun = new UrunRepository(_settings);
-            Tedarikci = new TedarikciRepository(_settings);
-            Kullanici = new UserRepository(_settings);
-            Siparis = new SiparisRepository(_settings);
+            _db = db;
+            Firma = new FirmaRepository(_db);
+            Kategori = new KategoriRepository(_db);
+            Satis = new SatisRepository(_db);
+            Sube = new SubeRepository(_db);
+            SubeStok = new SubeStokRepository(_db);
+            Urun = new UrunRepository(_db);
+            Tedarikci = new TedarikciRepository(_db);
+            Kullanici = new UserRepository(_db);
+            Siparis = new SiparisRepository(_db);
         }
 
         public IFirmaRepository Firma { get; private set; }

@@ -3,6 +3,10 @@
     public class Result<T>
     {
 
+        public Result()
+        {
+
+        }
         /// <summary>
         /// hepsini el ile atama yapackasan
         /// </summary>
@@ -10,25 +14,15 @@
         /// <param name="message"></param>
         /// <param name="data"></param>
         /// <param name="time"></param>
-        public Result(int statusCode, string message, T data, DateTime time)
+        public Result(int statusCode, string message, T data)
         {
             StatusCode = statusCode;
             Message = message;
             Data = data;
-            Time = time;
         }
-        /// <summary>
-        /// boş constructor
-        /// </summary>
-        public Result()
-        {
-
-        }
-
-        public int StatusCode { get; set; } = 200;
+        public int StatusCode { get; set; }
         public string Message { get; set; }
-
-        public DateTime Time { get; set; } = DateTime.Now;
+        public DateTime Time { get; private set; } = DateTime.Now;
         public T Data { get; set; }
     }
 

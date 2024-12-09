@@ -2,8 +2,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using B2BApp.Business.DependecyResolvers.Autofac;
 using B2BApp.Core.Utilities.Helpers.Security;
+using B2BApp.DataAccess.Context;
 using Core.Models.Concrete.DbSettingsModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
@@ -80,12 +82,13 @@ builder.Services.AddSwaggerGen();
 
 
 //mongodb ile ilgili ayarlar
-builder.Services.Configure<MongoSettings>(o =>
-{
-    o.ConnectionString = builder.Configuration.GetSection("MongoDbConnectionString:ConnectionString").Value!;
-    o.DatabaseName = builder.Configuration.GetSection("MongoDbConnectionString:DatabaseName").Value!;
-});
-
+//builder.Services.Configure<MongoSettings>(o =>
+//{
+//    o.ConnectionString = builder.Configuration.GetSection("MongoDbConnectionString:ConnectionString").Value!;
+//    o.DatabaseName = builder.Configuration.GetSection("MongoDbConnectionString:DatabaseName").Value!;
+//});
+//mssql baðlantýsý
+builder.Services.AddDbContext<SqlDbContext>(o => o.UseSqlServer(connectionString: builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 var app = builder.Build();

@@ -1,13 +1,14 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DataAccess.Context;
+using B2BApp.DataAccess.Repository;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Repository;
 using Microsoft.Extensions.Options;
 
 namespace B2BApp.DataAccess.Abstract
 {
-    public class UserRepository : MongoRepositoryBase<Kullanici>, IUserRepository
+    public class UserRepository : SqlRepositoryBase<Kullanici>, IUserRepository
     {
-        public UserRepository(IOptions<MongoSettings> settings) : base(settings)
+        public UserRepository(SqlDbContext db) : base(db)
         {
         }
     }

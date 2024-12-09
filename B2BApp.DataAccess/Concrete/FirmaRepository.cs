@@ -1,13 +1,12 @@
-﻿using B2BApp.Entities.Concrete;
-using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Repository;
-using Microsoft.Extensions.Options;
+﻿using B2BApp.DataAccess.Context;
+using B2BApp.DataAccess.Repository;
+using B2BApp.Entities.Concrete;
 
 namespace B2BApp.DataAccess.Abstract
 {
-    public class FirmaRepository : MongoRepositoryBase<Firma>, IFirmaRepository
+    public class FirmaRepository : SqlRepositoryBase<Firma>, IFirmaRepository
     {
-        public FirmaRepository(IOptions<MongoSettings> settings) : base(settings)
+        public FirmaRepository(SqlDbContext db) : base(db)
         {
         }
     }

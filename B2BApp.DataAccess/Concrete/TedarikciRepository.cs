@@ -1,13 +1,14 @@
-﻿using B2BApp.Entities.Concrete;
+﻿using B2BApp.DataAccess.Context;
+using B2BApp.DataAccess.Repository;
+using B2BApp.Entities.Concrete;
 using Core.Models.Concrete.DbSettingsModel;
-using DataAccess.Repository;
 using Microsoft.Extensions.Options;
 
 namespace B2BApp.DataAccess.Abstract
 {
-    public class TedarikciRepository : MongoRepositoryBase<Tedarikci>, ITedarikciRepository
+    public class TedarikciRepository : SqlRepositoryBase<Tedarikci>, ITedarikciRepository
     {
-        public TedarikciRepository(IOptions<MongoSettings> settings) : base(settings)
+        public TedarikciRepository(SqlDbContext db) : base(db)
         {
         }
     }
