@@ -10,13 +10,13 @@ namespace B2BApp.Business.Abstract
 
         void addUrun(Urun urunler);
         void updateUrun(Urun urunler, string urunId);
-        void deleteUrun(ObjectId objectId);
+        void deleteUrun(Guid objectId);
         Result<ICollection<Urun>> getAll();
         Result<ICollection<UrunDto>> getAllWithKategoriAdiAndTedarikci();
-        Result<UrunDto> getUrunWithKategoriAndTedarikci(ObjectId objectId);
+        Result<UrunDto> getUrunWithKategoriAndTedarikci(Guid objectId);
         Result<ICollection<UrunDto>> getUrunlerWithDetailsByTedarikciId(string tedarikciId);
 
-        Result<Urun> getUrunById(ObjectId objectId);
+        Result<Urun> getUrunById(Guid objectId);
 
     }
 }

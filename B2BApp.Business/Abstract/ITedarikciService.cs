@@ -9,9 +9,9 @@ namespace B2BApp.Business.Abstract
 
         void addTedarikci(Tedarikci Tedarikciler);
         void updateTedarikci(Tedarikci Tedarikciler, string TedarikciId);
-        void deleteTedarikci(ObjectId objectId);
+        void deleteTedarikci(Guid objectId);
         Result<ICollection<Tedarikci>> getAll();
-        Result<Tedarikci> getTedarikciById(ObjectId objectId);
+        Result<Tedarikci> getTedarikciById(Guid objectId);
 
     }
 }

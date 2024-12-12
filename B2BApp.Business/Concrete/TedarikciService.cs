@@ -21,7 +21,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _unitOfWork.Tedarikci.InsertOne(Tedarikci);
+                _unitOfWork.Tedarikci.Add(Tedarikci);
                 _logger.LogInformation("Tedarikçi Eklendi");
 
             }
@@ -32,11 +32,11 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteTedarikci(ObjectId objectId)
+        public void deleteTedarikci(Guid objectId)
         {
             try
             {
-                _unitOfWork.Tedarikci.DeleteById(objectId.ToString());
+                _unitOfWork.Tedarikci.Remove(_unitOfWork.Tedarikci.GetFirstOrDefault(x=>x.TedarikciId == objectId).Data);
                 _logger.LogInformation("Tedarikçi Silindi");
             }
             catch (Exception ex)
@@ -60,12 +60,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<Tedarikci> getTedarikciById(ObjectId objectId)
+        public Result<Tedarikci> getTedarikciById(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Tedarikçi Getirildi");
-                return _unitOfWork.Tedarikci.GetById(objectId.ToString());
+                return _unitOfWork.Tedarikci.GetFirstOrDefault(x=>x.TedarikciId == objectId);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _unitOfWork.Tedarikci.ReplaceOne(Tedarikci, TedarikciId); _logger.LogInformation("Tedarikçi Güncellendi");
+                _unitOfWork.Tedarikci.Update(Tedarikci; _logger.LogInformation("Tedarikçi Güncellendi");
 
             }
             catch (Exception ex)

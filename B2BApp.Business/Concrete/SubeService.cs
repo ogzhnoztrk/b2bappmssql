@@ -22,7 +22,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _unitOfWork.Sube.InsertOne(Sube);
+                _unitOfWork.Sube.Add(Sube);
                 _logger.LogInformation("Şube Eklendi");
             }
             catch (Exception ex)
@@ -32,12 +32,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteSube(ObjectId objectId)
+        public void deleteSube(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Şube Silindi");
-                _unitOfWork.Sube.DeleteById(objectId.ToString());
+                _unitOfWork.Sube.Remove(_unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace B2BApp.Business.Abstract
                 {
                     _logger.LogInformation("Firmaya göre Tüm Şubeler Getirildi");
 
-                    return _unitOfWork.Sube.FilterBy(x => x.FirmaId == firmaId);
+                    return _unitOfWork.Sube.GetAll(x => x.FirmaId.ToString() == firmaId);
                 }
 
 
@@ -77,7 +77,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Firmaya Göre Şubeler Getirildi");
-                return _unitOfWork.Sube.FilterBy(x => x.FirmaId == firmaId);
+                return _unitOfWork.Sube.GetAll(x => x.FirmaId.ToString() == firmaId);
             }
             catch (Exception ex)
             {
@@ -86,12 +86,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<Sube> getSubeById(ObjectId objectId)
+        public Result<Sube> getSubeById(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Şube Getirildi");
-                return _unitOfWork.Sube.GetById(objectId.ToString());
+                return _unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == objectId);
             }
             catch (Exception ex)
             {
@@ -109,8 +109,8 @@ namespace B2BApp.Business.Abstract
                 var subelerDTOs = new List<SubeDto>();
                 foreach (var sube in subeler)
                 {
-                    var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
-                    subelerDTOs.Add(new SubeDto { Id = sube.Id, SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
+                    var firma = _unitOfWork.Firma.GetFirstOrDefault(q => q.FirmaId == sube.FirmaId).Data;
+                    subelerDTOs.Add(new SubeDto { Id = sube.SubeId.ToString(), SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
 
 
                 }
@@ -119,8 +119,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = subelerDTOs,
                     Message = "Şubeler Firmaları İle Birlikte Getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now,
+                    StatusCode = 200 
                 };
                 _logger.LogInformation("Şubeler Firmaları İle Birlikte Getirildi");
                 return result;
@@ -133,15 +132,15 @@ namespace B2BApp.Business.Abstract
 
         }
 
-        public Result<SubeDto> getSubeWithFirma(ObjectId objectId)
+        public Result<SubeDto> getSubeWithFirma(Guid objectId)
         {
             try
             {
-                var sube = _unitOfWork.Sube.GetById(objectId.ToString()).Data;
-                var firma = _unitOfWork.Firma.GetById(sube.FirmaId).Data;
+                var sube = _unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == objectId).Data;
+                var firma = _unitOfWork.Firma.GetFirstOrDefault(q => q.FirmaId == sube.FirmaId).Data;
                 var subelerDTO = new SubeDto
                 {
-                    Id = sube.Id,
+                    Id = sube.SubeId.ToString(),
                     SubeAdi = sube.SubeAdi,
                     SubeTel = sube.SubeTel,
                     Firma = firma
@@ -152,8 +151,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = subelerDTO,
                     Message = "Şubeler Firmaları İle Birlikte Getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now,
+                    StatusCode = 200 
                 };
                 _logger.LogInformation("Şubeler Firmaları İle Birlikte Getirildi");
                 return result;
@@ -170,7 +168,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Şube Güncellendi");
-                _unitOfWork.Sube.ReplaceOne(Sube, Sube.Id.ToString());
+                _unitOfWork.Sube.Update(Sube);
             }
             catch (Exception ex)
             {

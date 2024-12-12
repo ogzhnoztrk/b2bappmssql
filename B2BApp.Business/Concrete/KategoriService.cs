@@ -21,7 +21,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Kategori eklendi");
-                _unitOfWork.Kategori.InsertOne(kategori);
+                _unitOfWork.Kategori.Add(kategori);
             }
             catch (Exception ex)
             {
@@ -30,12 +30,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteKategori(ObjectId objectId)
+        public void deleteKategori(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("KategoriSilindi");
-                _unitOfWork.Kategori.DeleteById(objectId.ToString());
+                _unitOfWork.Kategori.Remove(_unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -58,12 +58,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<Kategori> getKategoriById(ObjectId objectId)
+        public Result<Kategori> getKategoriById(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Kategori getirildi");
-                return _unitOfWork.Kategori.GetById(objectId.ToString());
+                return _unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == objectId);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Kategori güncellendi");
-                _unitOfWork.Kategori.ReplaceOne(kategori, kategoriId);
+                _unitOfWork.Kategori.Update(kategori);
             }
             catch (Exception ex)
             {

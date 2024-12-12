@@ -10,10 +10,10 @@ namespace B2BApp.Business.Abstract
 
         void addKullanici(Kullanici kullanici);
         void updateKullanici(Kullanici kullanici, string kullaniciId);
-        void deleteKullanici(ObjectId objectId);
+        void deleteKullanici(   Guid objectId);
         Result<ICollection<Kullanici>> getAll();
         Result<ICollection<KullaniciDto>> getAllWithTedarikci();
-        Result<Kullanici> getKullaniciById(ObjectId objectId);
+        Result<Kullanici> getKullaniciById(Guid objectId);
 
     }
 }

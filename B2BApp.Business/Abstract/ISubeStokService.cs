@@ -10,7 +10,7 @@ namespace B2BApp.Business.Abstract
         void addSubeStok(SubeStok subeStok);
         void addManySubeStok(List<SubeStok> subeStokList);
         void updateSubeStok(SubeStok subeStok, string subeStokId);
-        void deleteSubeStok(ObjectId objectId);
+        void deleteSubeStok(Guid objectId);
         Result<ICollection<SubeStok>> getAll();
         Result<ICollection<SubeStokDto>> getAllWithSubeAndUrun();
         Result<ICollection<SubeStokDto>> getAllWithSubeAndUrunByTedarikciId
@@ -29,7 +29,7 @@ namespace B2BApp.Business.Abstract
 
             );
 
-        Result<SubeStokDto> getWithSubeAndUrun(ObjectId objectId);
-        Result<SubeStok> getSubeStokById(ObjectId objectId);
+        Result<SubeStokDto> getWithSubeAndUrun(Guid objectId);
+        Result<SubeStok> getSubeStokById(Guid objectId);
     }
 }

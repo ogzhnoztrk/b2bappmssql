@@ -8,8 +8,8 @@ namespace B2BApp.Business.Abstract
     {
         void addKategori(Kategori kategori);
         void updateKategori(Kategori kategori, string kategoriId);
-        void deleteKategori(ObjectId objectId);
+        void deleteKategori(Guid objectId);
         Result<ICollection<Kategori>> getAll();
-        Result<Kategori> getKategoriById(ObjectId objectId);
+        Result<Kategori> getKategoriById(Guid objectId);
     }
 }

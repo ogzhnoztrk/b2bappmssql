@@ -21,7 +21,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Firma eklendi");
-                _unitOfWork.Firma.InsertOne(firma);
+                _unitOfWork.Firma.Add(firma);
             }
             catch (Exception ex)
             {
@@ -31,12 +31,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteFirma(ObjectId objectId)
+        public void deleteFirma(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Firma Silindi");
-                _unitOfWork.Firma.DeleteById(objectId.ToString());
+                _unitOfWork.Firma.Remove(_unitOfWork.Firma.GetFirstOrDefault(x=>x.FirmaId == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -59,12 +59,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<Firma> getFirmaById(ObjectId objectId)
+        public Result<Firma> getFirmaById(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Firma getirildi");
-                return _unitOfWork.Firma.GetById(objectId.ToString());
+                return _unitOfWork.Firma.GetFirstOrDefault(x=>x.FirmaId == objectId);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogWarning("Firma Güncellendi");
-                _unitOfWork.Firma.ReplaceOne(firma, firmaId);
+                _unitOfWork.Firma.Update(firma);
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ namespace B2BApp.Business.Abstract
         void addSatis(Satis satis);
         void addManySatis(List<Satis> satislar);
         void updateSatis(Satis satis, string satisId);
-        void deleteSatis(ObjectId objectId);
+        void deleteSatis(  int  objectId);
         Result<ICollection<Satis>> getAll();
         Result<ICollection<SatisDto>> getAllWithUrunAndSube();
         Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(
@@ -37,7 +37,7 @@ namespace B2BApp.Business.Abstract
                 string? urunId
             );
         Result<KarsilastirmaliSatisRapor> getkarsilastirmaliSatisRapor(string tedarikciId, string? firmaId, string? kategoriId, string? subeId, string? urunId, string? donem, DateTime? donem1Tarih1, DateTime? donem1Tarih2);
-        Result<SatisDto> getWithUrunAndSube(ObjectId objectId);
-        Result<Satis> getSatisById(ObjectId objectId);
+        Result<SatisDto> getWithUrunAndSube(int objectId);
+        Result<Satis> getSatisById(int objectId);
     }
 }

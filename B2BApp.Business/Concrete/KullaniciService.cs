@@ -24,7 +24,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Kullanıcı eklendi");
-                _unitOfWork.Kullanici.InsertOne(kullanici);
+                _unitOfWork.Kullanici.Add(kullanici);
             }
             catch (Exception ex)
             {
@@ -33,12 +33,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteKullanici(ObjectId objectId)
+        public void deleteKullanici(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Kullanıcı silindi");
-                _unitOfWork.Kullanici.DeleteById(objectId.ToString());
+                _unitOfWork.Kullanici.Remove(_unitOfWork.Kullanici.GetFirstOrDefault(x=>x.KullaniciId == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -68,10 +68,10 @@ namespace B2BApp.Business.Abstract
             var tedarikciler = _unitOfWork.Tedarikci.GetAll().Data;
             var kullanicilarDto = (
                 from kullanici in kullanicilar
-                join tedarikci in tedarikciler on kullanici.TedarikciId equals tedarikci.Id
+                join tedarikci in tedarikciler on kullanici.TedarikciId equals tedarikci.TedarikciId
                 select new KullaniciDto
                 {
-                    Id = kullanici.Id,
+                    Id = kullanici.KullaniciId.ToString(),
                     Tedarikci = tedarikci,
                     KullaniciAdi = kullanici.KullaniciAdi,
                     SifreHash = kullanici.SifreHash,
@@ -85,19 +85,18 @@ namespace B2BApp.Business.Abstract
             {
                 Data = kullanicilarDto,
                 Message = "Kullanıclıar detayları ile birlikte getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
 
 
         }
 
-        public Result<Kullanici> getKullaniciById(ObjectId objectId)
+        public Result<Kullanici> getKullaniciById(Guid objectId)
         {
             try
             {
                 _logger.LogInformation("Kullanıcı getirildi");
-                return _unitOfWork.Kullanici.GetById(objectId.ToString());
+                return _unitOfWork.Kullanici.GetFirstOrDefault(x=>x.KullaniciId == objectId);
             }
             catch (Exception ex)
             {
@@ -111,7 +110,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _unitOfWork.Kullanici.ReplaceOne(kullanici, kullaniciId);
+                _unitOfWork.Kullanici.Update(kullanici);
                 _logger.LogInformation("Kullanıcı güncellendi");
 
             }

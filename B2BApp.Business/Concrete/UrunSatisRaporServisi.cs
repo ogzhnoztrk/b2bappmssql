@@ -20,19 +20,19 @@ namespace B2BApp.Business.Concrete
         {
             try
             {
-                var urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+                var urunler = _unitOfWork.Urun.GetAll(x => x.TedarikciId.ToString() == tedarikciId).Data;
                 var satislar = _unitOfWork.Satis.GetAll().Data;
                 var subeler = _unitOfWork.Sube.GetAll().Data;
 
                 var satislarDto =
                     (
                         from urun in urunler
-                        where urun.TedarikciId == tedarikciId
-                        join satis in satislar on urun.Id equals satis.UrunId
-                        join sube in subeler on satis.SubeId equals sube.Id
+                        where urun.TedarikciId.ToString() == tedarikciId
+                        join satis in satislar on urun.UrunId equals satis.UrunId
+                        join sube in subeler on satis.SubeId equals sube.SubeId
                         select new SatisDto
                         {
-                            Id = satis.Id,
+                            Id = satis.SatisId.ToString(),
                             Sube = sube,
                             Urun = urun,
                             SatisMiktari = satis.SatisMiktari,
@@ -50,8 +50,8 @@ namespace B2BApp.Business.Concrete
 
                 var toplamUrunSatis = (
                     from urun in urunler
-                    where urun.TedarikciId == tedarikciId
-                    join satis in satislar on urun.Id equals satis.UrunId
+                    where urun.TedarikciId.ToString() == tedarikciId
+                    join satis in satislar on urun.UrunId equals satis.UrunId
                     into g
                     select new { urunAdi = urun.UrunAdi, toplam = g.Sum(x => x.SatisMiktari) }
 
@@ -67,13 +67,13 @@ namespace B2BApp.Business.Concrete
                     foreach (var urun in urunler)
                     {
 
-                        var kategori = _unitOfWork.Kategori.GetById(urun.KategoriId).Data;
-                        var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == urun.KategoriId).Data;
+                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.TedarikciId == urun.TedarikciId).Data;
                         var urunDto = new UrunDto
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.Id,
+                            Id = urun.UrunId.ToString(),
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci
 
@@ -92,8 +92,7 @@ namespace B2BApp.Business.Concrete
                         ToplamUrunSatis = toplamUrunSatis
                     },
                     Message = "Ürünler ve Aylık Satışlar Getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now
+                    StatusCode = 200 
 
                 };
 

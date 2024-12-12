@@ -27,8 +27,7 @@ namespace B2BApp.Business.Concrete
                     Subeler = _unitOfWork.Sube.GetAll().Data
                 },
                 Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
         }
 
@@ -44,8 +43,7 @@ namespace B2BApp.Business.Concrete
                     Urunler = _unitOfWork.Urun.GetAll().Data,
                 },
                 Message = "Şube, Tedarikçi ve Ürün bilgileri başarıyla getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
         }
 
@@ -57,11 +55,10 @@ namespace B2BApp.Business.Concrete
                 Data = new SubeUrunDto
                 {
                     Subeler = _unitOfWork.Sube.GetAll().Data,
-                    Urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data
+                    Urunler = _unitOfWork.Urun.GetAll(x => x.TedarikciId.ToString() == tedarikciId).Data
                 },
                 Message = "Şube ve Ürün bilgileri başarıyla getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
         }
 
@@ -76,8 +73,7 @@ namespace B2BApp.Business.Concrete
                     Urunler = _unitOfWork.Urun.GetAll().Data
                 },
                 Message = "Şube ve Ürün bilgileri başarıyla getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
         }
 
@@ -94,8 +90,7 @@ namespace B2BApp.Business.Concrete
                     Urunler = _unitOfWork.Urun.GetAll().Data
                 },
                 Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
         }
 
@@ -109,11 +104,10 @@ namespace B2BApp.Business.Concrete
                     Kategoriler = _unitOfWork.Kategori.GetAll().Data,
                     Firmalar = _unitOfWork.Firma.GetAll().Data,
                     Subeler = _unitOfWork.Sube.GetAll().Data,
-                    Urunler = _unitOfWork.Urun.FilterBy(x => x.TedarikciId == tedarikciId).Data
+                    Urunler = _unitOfWork.Urun.GetAll(x => x.TedarikciId.ToString() == tedarikciId).Data
                 },
                 Message = "Firma, Şube ve Kategori bilgileri başarıyla getirildi",
-                StatusCode = 200,
-                Time = DateTime.Now
+                StatusCode = 200
             };
         }
     }

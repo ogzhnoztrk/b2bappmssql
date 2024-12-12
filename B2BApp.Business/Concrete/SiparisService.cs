@@ -23,7 +23,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
+                var urun = _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == siparis.UrunId).Data;
 
                 var toplam = urun.Fiyat * siparis.Adet;
 
@@ -34,7 +34,7 @@ namespace B2BApp.Business.Abstract
                     Toplam = toplam,
                     SiparisTarih = siparis.SiparisTarih,
                     SubeId = siparis.SubeId,
-                    Id = siparis.Id,
+                    SiparisId = siparis.SiparisId,
                     TedarikciId = urun.TedarikciId,
                     IsActive = true
                 };
@@ -42,7 +42,7 @@ namespace B2BApp.Business.Abstract
 
 
                 _logger.Equals("Sipariş eklendi");
-                _unitOfWork.Siparis.InsertOne(siparisSon);
+                _unitOfWork.Siparis.Add(siparisSon);
             }
             catch (Exception ex)
             {
@@ -55,11 +55,11 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var siparis = _unitOfWork.Siparis.GetById(siparisId).Data;
+                var siparis = _unitOfWork.Siparis.GetFirstOrDefault(x=>x.SiparisId.ToString() == siparisId).Data;
 
                 siparis.IsActive = !siparis.IsActive;
 
-                _unitOfWork.Siparis.ReplaceOne(siparis, siparisId);
+                _unitOfWork.Siparis.Update(siparis);
 
 
                 _logger.LogInformation("Siparişin aktiflik durumu başarıyla değiştirildi");
@@ -67,8 +67,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = siparisId,
                     Message = "Siparişin aktiflik durumu başarıyla değiştirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now
+                    StatusCode = 200
                 };
             }
             catch (Exception ex)
@@ -78,12 +77,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public void deleteSiparis(ObjectId objectId)
+        public void deleteSiparis(int objectId)
         {
             try
             {
 
-                _unitOfWork.Siparis.DeleteById(objectId.ToString());
+                _unitOfWork.Siparis.Remove(_unitOfWork.Siparis.GetFirstOrDefault(x=>x.SiparisId == objectId).Data);
 
                 _logger.LogInformation("Sipariş başarıyla silindi");
             }
@@ -117,13 +116,13 @@ namespace B2BApp.Business.Abstract
 
                 foreach (var siparis in siparisler)
                 {
-                    var sube = _unitOfWork.Sube.GetById(siparis.SubeId).Data;
-                    var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
-                    var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+                    var sube = _unitOfWork.Sube.GetFirstOrDefault(q => q.SubeId == siparis.SubeId).Data;
+                    var urun = _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == siparis.UrunId).Data;
+                    var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(q => q.TedarikciId == urun.TedarikciId).Data;
 
                     var siparisDto = new SiparisDto
                     {
-                        Id = siparis.Id,
+                        Id = siparis.SiparisId.ToString(),
                         Adet = siparis.Adet,
                         Tarih = siparis.SiparisTarih,
                         Sube = sube,
@@ -139,8 +138,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = siparisDTOs,
                     Message = "Siparişler detayları ile başarıyla getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now
+                    StatusCode = 200
                 };
                 _logger.LogInformation("Siparişler detayları ile başarıyla getirildi");
                 return result;
@@ -158,21 +156,21 @@ namespace B2BApp.Business.Abstract
             {
                 var siparisler = _unitOfWork.Siparis.GetAll().Data;
                 siparisler = aktifMi == null ? siparisler : siparisler.Where(x => x.IsActive == aktifMi).ToList();
-                siparisler = subeId == null ? siparisler : siparisler.Where(x => x.SubeId == subeId).ToList();
-                siparisler = urunId == null ? siparisler : siparisler.Where(x => x.UrunId == urunId).ToList();
+                siparisler = subeId == null ? siparisler : siparisler.Where(x => x.SiparisId.ToString() == subeId).ToList();
+                siparisler = urunId == null ? siparisler : siparisler.Where(x => x.SiparisId.ToString() == urunId).ToList();
                 siparisler = tarih1 == null ? siparisler : siparisler.Where(x => x.SiparisTarih >= tarih1).ToList();
                 siparisler = tarih2 == null ? siparisler : siparisler.Where(x => x.SiparisTarih <= tarih2).ToList();
 
                 ICollection<SiparisDto> siparisDTOs = new List<SiparisDto>();
                 foreach (var siparis in siparisler)
                 {
-                    var sube = _unitOfWork.Sube.GetById(siparis.SubeId).Data;
-                    var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
-                    var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+                    var sube = _unitOfWork.Sube.GetFirstOrDefault(q => q.SubeId == siparis.SubeId).Data;
+                    var urun = _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == siparis.UrunId).Data;
+                    var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(q => q.TedarikciId == urun.TedarikciId).Data;
 
                     var siparisDto = new SiparisDto
                     {
-                        Id = siparis.Id,
+                        Id = siparis.SiparisId.ToString(),
                         Adet = siparis.Adet,
                         Tarih = siparis.SiparisTarih,
                         Sube = sube,
@@ -189,8 +187,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = siparisDTOs,
                     Message = "Siparişler detayları ile başarıyla getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now
+                    StatusCode = 200 
                 };
             }
             catch (Exception ex)
@@ -205,23 +202,23 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var siparisler = _unitOfWork.Siparis.FilterBy(x => x.TedarikciId == tedarikciId).Data;
+                var siparisler = _unitOfWork.Siparis.GetAll(x => x.SiparisId.ToString() == tedarikciId).Data;
                 siparisler = aktifMi == null ? siparisler : siparisler.Where(x => x.IsActive == aktifMi).ToList();
-                siparisler = subeId == null ? siparisler : siparisler.Where(x => x.SubeId == subeId).ToList();
-                siparisler = urunId == null ? siparisler : siparisler.Where(x => x.UrunId == urunId).ToList();
+                siparisler = subeId == null ? siparisler : siparisler.Where(x => x.SiparisId.ToString() == subeId).ToList();
+                siparisler = urunId == null ? siparisler : siparisler.Where(x => x.SiparisId.ToString() == urunId).ToList();
                 siparisler = tarih1 == null ? siparisler : siparisler.Where(x => x.SiparisTarih >= tarih1).ToList();
                 siparisler = tarih2 == null ? siparisler : siparisler.Where(x => x.SiparisTarih <= tarih2).ToList();
 
                 ICollection<SiparisDto> siparisDTOs = new List<SiparisDto>();
                 foreach (var siparis in siparisler)
                 {
-                    var sube = _unitOfWork.Sube.GetById(siparis.SubeId).Data;
-                    var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
-                    var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+                    var sube = _unitOfWork.Sube.GetFirstOrDefault(q => q.SubeId == siparis.SubeId).Data;
+                    var urun = _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == siparis.UrunId).Data;
+                    var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(q => q.TedarikciId == urun.TedarikciId).Data;
 
                     var siparisDto = new SiparisDto
                     {
-                        Id = siparis.Id,
+                        Id = siparis.SiparisId.ToString(),
                         Adet = siparis.Adet,
                         Tarih = siparis.SiparisTarih,
                         Sube = sube,
@@ -238,8 +235,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = siparisDTOs,
                     Message = "Siparişler detayları ile başarıyla getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now
+                        StatusCode = 200 
                 };
             }
             catch (Exception ex)
@@ -254,15 +250,15 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var siparis = _unitOfWork.Siparis.GetById(siparisId).Data;
+                var siparis = _unitOfWork.Siparis.GetFirstOrDefault(x=>x.SiparisId.ToString() == siparisId).Data;
 
-                var sube = _unitOfWork.Sube.GetById(siparis.SubeId).Data;
-                var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
-                var tedarikci = _unitOfWork.Tedarikci.GetById(urun.TedarikciId).Data;
+                var sube = _unitOfWork.Sube.GetFirstOrDefault(q => q.SubeId == siparis.SubeId).Data;
+                var urun = _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == siparis.UrunId).Data;
+                var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(q => q.TedarikciId == urun.TedarikciId).Data;
 
                 var siparisDto = new SiparisDto
                 {
-                    Id = siparis.Id,
+                    Id = siparis.SiparisId.ToString(),
                     Adet = siparis.Adet,
                     Tarih = siparis.SiparisTarih,
                     Sube = sube,
@@ -276,8 +272,7 @@ namespace B2BApp.Business.Abstract
                 {
                     Data = siparisDto,
                     Message = "Sipariş detayları ile başarıyla getirildi",
-                    StatusCode = 200,
-                    Time = DateTime.Now
+                    StatusCode = 200 
                 };
                 _logger.LogInformation("Sipariş detayları ile başarıyla getirildi");
                 return result;
@@ -289,12 +284,12 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<Siparis> getSiparisById(ObjectId objectId)
+        public Result<Siparis> getSiparisById(int objectId)
         {
             try
             {
                 _logger.LogInformation("Sipariş başarıyla getirildi");
-                return _unitOfWork.Siparis.GetById(objectId.ToString());
+                return _unitOfWork.Siparis.GetFirstOrDefault(x=>x.SiparisId == objectId);
             }
             catch (Exception ex)
             {
@@ -307,7 +302,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var urun = _unitOfWork.Urun.GetById(siparis.UrunId).Data;
+                var urun = _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == siparis.UrunId).Data;
 
                 var toplam = urun.Fiyat * siparis.Adet;
 
@@ -318,7 +313,7 @@ namespace B2BApp.Business.Abstract
                     Toplam = toplam,
                     SiparisTarih = siparis.SiparisTarih,
                     SubeId = siparis.SubeId,
-                    Id = siparis.Id,
+                    SiparisId = siparis.SiparisId ,
                     TedarikciId = urun.TedarikciId,
                     IsActive = siparis.IsActive,
                 };
@@ -326,7 +321,7 @@ namespace B2BApp.Business.Abstract
 
 
                 _logger.LogInformation("Sipariş başarıyla güncellendi");
-                _unitOfWork.Siparis.ReplaceOne(siparisSon, siparisId);
+                _unitOfWork.Siparis.Update(siparisSon );
             }
             catch (Exception ex)
             {
