@@ -92,11 +92,11 @@
 
     function initTable() {
         $.ajax({
-            url: 'https://10.60.60.141/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId',
+            url: 'https://localhost:44369/api/SubeStok/GetAllWithSubeAndUrunByTedarikciId',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'tedarikciId': '@ViewBag.FirmaId',
@@ -170,11 +170,11 @@
 
         //firmalar load
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetFirmaSubeKategoriAll',
+            url: 'https://localhost:44369/api/Filter/GetFirmaSubeKategoriAll',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
 
         }).done(function (response) {

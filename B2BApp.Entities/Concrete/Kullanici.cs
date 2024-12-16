@@ -8,14 +8,14 @@ namespace B2BApp.Entities.Concrete
     public class Kullanici 
     {
         [Column("klnc_id"), Key]
-        public Guid KullaniciId { get; set; }
+        public Guid Id { get; set; }
         [Column("klnc_adi")]
         public string KullaniciAdi { get; set; }
 
         [Column("tdrk_id")]
         public Guid TedarikciId { get; set; }
         [ForeignKey(nameof(TedarikciId))]
-        public virtual Tedarikci Tedarikci{ get; set; }
+        public virtual Tedarikci? Tedarikci{ get; set; }
 
         [Column("klnc_sifre_salt")]
         public byte[] SifreSalt { get; set; }

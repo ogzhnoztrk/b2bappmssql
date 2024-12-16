@@ -8,7 +8,7 @@ namespace B2BApp.Entities.Concrete
     public class Tedarikci 
     {
         [Column("tdrk_id"), Key]
-        public Guid TedarikciId { get; set; }
+        public Guid Id { get; set; }
         [Column("tdrk_adi")]
         public string TedarikciAdi { get; set; }
         [Column("tdrk_tel")]

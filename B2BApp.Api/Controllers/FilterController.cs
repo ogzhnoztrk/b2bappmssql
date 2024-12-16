@@ -8,7 +8,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class FilterController : ControllerBase
     {
         private readonly IFilterService _filterService;

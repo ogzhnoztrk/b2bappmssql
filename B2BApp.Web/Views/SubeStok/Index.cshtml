@@ -140,7 +140,7 @@
         table = $('#subeStokTable').DataTable({
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax": {
-                "url": "https://10.60.60.141/api/SubeStok/GetAllWithSubeAndUrun",
+                "url": "https://localhost:44369/api/SubeStok/GetAllWithSubeAndUrun",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -185,11 +185,11 @@
 
     function loadData() {
         $.ajax({
-            url: 'https://10.60.60.141/api/Sube/all',
+            url: 'https://localhost:44369/api/Sube/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -208,11 +208,11 @@
 
         });
         $.ajax({
-            url: 'https://10.60.60.141/api/urun/all',
+            url: 'https://localhost:44369/api/urun/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -238,12 +238,12 @@
         let stok = $("#stok").val();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/SubeStok',
+            url: 'https://localhost:44369/api/SubeStok',
             crossDomain: true,
             method: 'post',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "stok": 0\n}',
@@ -286,12 +286,12 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/SubeStok?id=' + data,
+                    url: 'https://localhost:44369/api/SubeStok?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -317,22 +317,22 @@
 
     function loadForUpdate(data) {
         $.ajax({
-            url: 'https://10.60.60.141/api/SubeStok/GetWithSubeAndUrun',
+            url: 'https://localhost:44369/api/SubeStok/GetWithSubeAndUrun',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
             }
         }).done(function (response) {
             $.ajax({
-                url: 'https://10.60.60.141/api/Sube/all',
+                url: 'https://localhost:44369/api/Sube/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
-                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                    //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                 }
             }).done(function (response) {
                 result = $.map(response.data, function (data) {
@@ -351,11 +351,11 @@
 
             });
             $.ajax({
-                url: 'https://10.60.60.141/api/urun/all',
+                url: 'https://localhost:44369/api/urun/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
-                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                    //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                 }
             }).done(function (response) {
                 result = $.map(response.data, function (data) {
@@ -400,12 +400,12 @@
         let id = $("#subeStokId").val();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/SubeStok?subeStokId=' + id,
+            url: 'https://localhost:44369/api/SubeStok?subeStokId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "stok": 0\n}',

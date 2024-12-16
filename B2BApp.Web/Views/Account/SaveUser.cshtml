@@ -84,7 +84,7 @@
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax":
             {
-                'url': "https://10.60.60.141/api/Kullanici/getAllWithTedarikci",
+                'url': "https://localhost:44369/api/Kullanici/getAllWithTedarikci",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -129,11 +129,11 @@
     function loadData() {
         //tedarkci
         $.ajax({
-            url: 'https://10.60.60.141/api/tedarikci/all',
+            url: 'https://localhost:44369/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -161,12 +161,12 @@
         debugger;
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Auth',
+            url: 'https://localhost:44369/api/Auth',
             crossDomain: true,
             method: 'post',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "kullaniciAdi": "string",\n  "sifre": "string",\n  "tedarikciId": "string"\n}',
@@ -208,12 +208,12 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Kullanici?id=' + data,
+                    url: 'https://localhost:44369/api/Kullanici?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);

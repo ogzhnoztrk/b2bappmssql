@@ -38,7 +38,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Kullanıcı silindi");
-                _unitOfWork.Kullanici.Remove(_unitOfWork.Kullanici.GetFirstOrDefault(x=>x.KullaniciId == objectId).Data);
+                _unitOfWork.Kullanici.Remove(_unitOfWork.Kullanici.GetFirstOrDefault(x=>x.Id == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -68,10 +68,10 @@ namespace B2BApp.Business.Abstract
             var tedarikciler = _unitOfWork.Tedarikci.GetAll().Data;
             var kullanicilarDto = (
                 from kullanici in kullanicilar
-                join tedarikci in tedarikciler on kullanici.TedarikciId equals tedarikci.TedarikciId
+                join tedarikci in tedarikciler on kullanici.TedarikciId equals tedarikci.Id
                 select new KullaniciDto
                 {
-                    Id = kullanici.KullaniciId.ToString(),
+                    Id = kullanici.Id.ToString(),
                     Tedarikci = tedarikci,
                     KullaniciAdi = kullanici.KullaniciAdi,
                     SifreHash = kullanici.SifreHash,
@@ -96,7 +96,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Kullanıcı getirildi");
-                return _unitOfWork.Kullanici.GetFirstOrDefault(x=>x.KullaniciId == objectId);
+                return _unitOfWork.Kullanici.GetFirstOrDefault(x=>x.Id == objectId);
             }
             catch (Exception ex)
             {

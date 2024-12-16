@@ -132,11 +132,11 @@
     function loadTable() {
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Satis/getkarsilastirmaliSatisRapor',
+            url: 'https://localhost:44369/api/Satis/getkarsilastirmaliSatisRapor',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'tedarikciId': '@ViewBag.FirmaId',
@@ -346,11 +346,11 @@
 
         //firmalar load
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetSubeKategoriFirmaUrunAllBytedarikciId',
+            url: 'https://localhost:44369/api/Filter/GetSubeKategoriFirmaUrunAllBytedarikciId',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'tedarikciId': '@ViewBag.FirmaId'

@@ -8,7 +8,7 @@ namespace B2BApp.Entities.Concrete
     public class Kategori 
     {
         [Column("ktgr_id"), Key]
-        public Guid KategoriId { get; set; }
+        public Guid Id { get; set; }
         [Column("ktgr_adi")]
         public string KategoriAdi { get; set; }
     }

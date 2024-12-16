@@ -91,11 +91,11 @@
 
     function initTable() {
         $.ajax({
-            url: 'https://10.60.60.141/api/SubeStok/GetAllWithDetailsByFilters',
+            url: 'https://localhost:44369/api/SubeStok/GetAllWithDetailsByFilters',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'subeId': sube,
@@ -157,11 +157,11 @@
 
         //firmalar load
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetFirmaSubeKategoriAll',
+            url: 'https://localhost:44369/api/Filter/GetFirmaSubeKategoriAll',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
 
         }).done(function (response) {

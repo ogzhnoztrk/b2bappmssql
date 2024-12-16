@@ -45,7 +45,7 @@ namespace B2BApp.Web.Controllers
             handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
             HttpClient client = new HttpClient(handler);
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://10.60.60.141/api/Auth/login");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44369/api/Auth/login");
 
             request.Headers.Add("accept", "text/plain");
 
@@ -86,7 +86,7 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-            if (!(ViewBag.FirmaId as string).Contains("6682972f420b0208d3d620a7")) return RedirectToAction("index", "home");
+           // if (!(ViewBag.FirmaId as string).Contains("6682972f420b0208d3d620a7")) return RedirectToAction("index", "home");
 
             return View();
         }

@@ -74,11 +74,11 @@
     let table;
 
     $.ajax({
-        url: 'https://10.60.60.141/api/UrunSatisRapor',
+        url: 'https://localhost:44369/api/UrunSatisRapor',
         crossDomain: true,
         headers: {
             'accept': 'text/plain',
-            'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
         },
         data: {
             'tedarikciId': "@ViewBag.FirmaId"

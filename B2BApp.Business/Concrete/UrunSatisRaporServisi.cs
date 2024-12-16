@@ -28,11 +28,11 @@ namespace B2BApp.Business.Concrete
                     (
                         from urun in urunler
                         where urun.TedarikciId.ToString() == tedarikciId
-                        join satis in satislar on urun.UrunId equals satis.UrunId
-                        join sube in subeler on satis.SubeId equals sube.SubeId
+                        join satis in satislar on urun.Id equals satis.UrunId
+                        join sube in subeler on satis.SubeId equals sube.Id
                         select new SatisDto
                         {
-                            Id = satis.SatisId.ToString(),
+                            Id = satis.Id.ToString(),
                             Sube = sube,
                             Urun = urun,
                             SatisMiktari = satis.SatisMiktari,
@@ -51,7 +51,7 @@ namespace B2BApp.Business.Concrete
                 var toplamUrunSatis = (
                     from urun in urunler
                     where urun.TedarikciId.ToString() == tedarikciId
-                    join satis in satislar on urun.UrunId equals satis.UrunId
+                    join satis in satislar on urun.Id equals satis.UrunId
                     into g
                     select new { urunAdi = urun.UrunAdi, toplam = g.Sum(x => x.SatisMiktari) }
 
@@ -67,13 +67,13 @@ namespace B2BApp.Business.Concrete
                     foreach (var urun in urunler)
                     {
 
-                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == urun.KategoriId).Data;
-                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.TedarikciId == urun.TedarikciId).Data;
+                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x=>x.Id == urun.KategoriId).Data;
+                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.Id == urun.TedarikciId).Data;
                         var urunDto = new UrunDto
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.UrunId.ToString(),
+                            Id = urun.Id.ToString(),
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci
 

@@ -10,7 +10,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    ////[Authorize]
 
     public class SatisController : ControllerBase
     {
@@ -35,7 +35,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Satis> PostSatis(Satis satis)
         {
 
@@ -49,16 +49,16 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Satis> GetSatis(string id)
         {
 
-            var satis = _satisService.getSatisById(ObjectId.Parse(id));
+            var satis = _satisService.getSatisById(Int32.Parse(id));
             return satis;
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Satis>> GetSatis()
         {
             var satislar = _satisService.getAll();
@@ -66,14 +66,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("getWithUrunAndSube")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SatisDto> getWithUrunAndSube(string id)
         {
-            return _satisService.getWithUrunAndSube(ObjectId.Parse(id));
+            return _satisService.getWithUrunAndSube(Int32.Parse(id));
         }
 
         [HttpGet("getAllWithUrunAndSube")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
         {
             return _satisService.getAllWithUrunAndSube();
@@ -94,14 +94,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetAllWithDetailsByFilters")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SatisDto>> GetAllWithUrunAndSube(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId)
         {
             return _satisService.getAllWithUrunAndSube(ilkTarih, ikinciTarih, subeId, kategoriId, firmaId);
         }
 
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
 
         public Result<Satis> UpdateSatis(Satis satis, string satisId)
         {
@@ -115,10 +115,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Satis> DeleteSatis(string id)
         {
-            _satisService.deleteSatis(ObjectId.Parse(id));
+            _satisService.deleteSatis(Int32.Parse(id));
 
             return new Result<Satis>
             {
@@ -127,7 +127,7 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet("getSatisKar")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<KarDto>> getSatisKar(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId, string? urunId)
         {
             return _satisService.getSatisKar(ilkTarih, ikinciTarih, subeId, kategoriId, firmaId, urunId);
@@ -139,7 +139,7 @@ namespace B2BApp.Api.Controllers
             return _satisService.getkarsilastirmaliSatisRapor(tedarikciId, firmaId, kategoriId, subeId, urunId, donem, tarih1, tarih2);
         }
         [HttpGet("getSatislarCount")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<long> getSatislarLength()
         {
             var satisCount = _satisService.getAll().Data.Count;

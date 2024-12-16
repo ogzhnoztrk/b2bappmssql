@@ -37,7 +37,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Şube Silindi");
-                _unitOfWork.Sube.Remove(_unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == objectId).Data);
+                _unitOfWork.Sube.Remove(_unitOfWork.Sube.GetFirstOrDefault(x=>x.Id == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Şube Getirildi");
-                return _unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == objectId);
+                return _unitOfWork.Sube.GetFirstOrDefault(x=>x.Id == objectId);
             }
             catch (Exception ex)
             {
@@ -109,8 +109,8 @@ namespace B2BApp.Business.Abstract
                 var subelerDTOs = new List<SubeDto>();
                 foreach (var sube in subeler)
                 {
-                    var firma = _unitOfWork.Firma.GetFirstOrDefault(q => q.FirmaId == sube.FirmaId).Data;
-                    subelerDTOs.Add(new SubeDto { Id = sube.SubeId.ToString(), SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
+                    var firma = _unitOfWork.Firma.GetFirstOrDefault(q => q.Id == sube.Id).Data;
+                    subelerDTOs.Add(new SubeDto { Id = sube.Id.ToString(), SubeAdi = sube.SubeAdi, SubeTel = sube.SubeTel, Firma = firma });
 
 
                 }
@@ -136,11 +136,11 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var sube = _unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == objectId).Data;
-                var firma = _unitOfWork.Firma.GetFirstOrDefault(q => q.FirmaId == sube.FirmaId).Data;
+                var sube = _unitOfWork.Sube.GetFirstOrDefault(x=>x.Id == objectId).Data;
+                var firma = _unitOfWork.Firma.GetFirstOrDefault(q => q.Id == sube.Id).Data;
                 var subelerDTO = new SubeDto
                 {
-                    Id = sube.SubeId.ToString(),
+                    Id = sube.Id.ToString(),
                     SubeAdi = sube.SubeAdi,
                     SubeTel = sube.SubeTel,
                     Firma = firma

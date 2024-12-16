@@ -36,7 +36,7 @@ namespace B2BApp.Business.Abstract
 
                     foreach (var satis in batch)
                     {
-                        var urun = urunler.FirstOrDefault(u => u.UrunId == satis.UrunId);
+                        var urun = urunler.FirstOrDefault(u => u.Id == satis.UrunId);
                         if (urun != null)
                         {
                             var toplam = urun.SatisFiyati * satis.SatisMiktari;
@@ -47,7 +47,7 @@ namespace B2BApp.Business.Abstract
                                 SubeId = satis.SubeId,
                                 Toplam = (double)toplam,
                                 UrunId = satis.UrunId,
-                                SatisId = satis.SatisId
+                                Id = satis.Id
                             };
                             satislarTemp.Add(satisSon);
                         
@@ -75,7 +75,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var urun = _unitOfWork.Urun.GetFirstOrDefault(x=>x.UrunId == satis.UrunId).Data;
+                var urun = _unitOfWork.Urun.GetFirstOrDefault(x=>x.Id == satis.UrunId).Data;
 
                 //var toplam = urun.Fiyat * satis.SatisMiktari;
                 var toplam = urun.SatisFiyati * satis.SatisMiktari;
@@ -86,7 +86,7 @@ namespace B2BApp.Business.Abstract
                     SubeId = satis.SubeId,
                     Toplam = (double)toplam,
                     UrunId = satis.UrunId,
-                    SatisId = satis.SatisId
+                    Id = satis.Id
 
                 };
 
@@ -104,7 +104,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _unitOfWork.Satis.Remove(_unitOfWork.Satis.GetFirstOrDefault(x=>x.SatisId == objectId).Data);
+                _unitOfWork.Satis.Remove(_unitOfWork.Satis.GetFirstOrDefault(x=>x.Id == objectId).Data);
                 _logger.LogError("Satış silindi");
             }
             catch (Exception ex)
@@ -141,12 +141,12 @@ namespace B2BApp.Business.Abstract
                     
                     var satisDto = new SatisDto
                     {
-                        Id = satis.SatisId.ToString(),
+                        Id = satis.Id.ToString(),
                         SatisMiktari = satis.SatisMiktari,
                         SatisTarihi = satis.SatisTarihi,
                         Toplam = satis.Toplam,
-                        Sube = _unitOfWork.Sube.GetFirstOrDefault(x => x.SubeId == satis.SubeId).Data,
-                        Urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.UrunId == satis.UrunId).Data,
+                        Sube = _unitOfWork.Sube.GetFirstOrDefault(x => x.Id == satis.SubeId).Data,
+                        Urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.Id == satis.UrunId).Data,
 
                     };
                     satisDTOs.Add(satisDto);
@@ -174,7 +174,7 @@ namespace B2BApp.Business.Abstract
                 var satislar = _unitOfWork.Satis.GetAll().Data;
 
                 //subeId null ise tüm şubeleri getirir, değilse sadece o şubeyi getirir   _unitOfWork.Sube.GetFirstOrDefault(x => x.SubeId == Guid.Parse(subeId)).Data
-                var subeler = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.GetAll(x=>x.SubeId.ToString() == subeId.ToString()).Data;
+                var subeler = subeId == null ? _unitOfWork.Sube.GetAll().Data : _unitOfWork.Sube.GetAll(x=>x.Id.ToString() == subeId.ToString()).Data;
 
                 //firmaId null ise tüm firmaları getirir, değilse sadece o firmayı getirir
                 subeler = firmaId == null ? subeler : subeler.Where(x => x.FirmaId.ToString() == firmaId).ToList();
@@ -185,12 +185,12 @@ namespace B2BApp.Business.Abstract
 
                 var satislarDto = (
                     from urun in urunler
-                    join satis in satislar on urun.UrunId equals satis.UrunId
-                    join sube in subeler on satis.SubeId equals sube.SubeId
+                    join satis in satislar on urun.Id equals satis.UrunId
+                    join sube in subeler on satis.SubeId equals sube.Id
                     where satis.SatisTarihi >= ilkTarih && satis.SatisTarihi <= ikinciTarih
                     select new SatisDto
                     {
-                        Id = satis.SatisId.ToString(),
+                        Id = satis.Id.ToString(),
                         SatisMiktari = satis.SatisMiktari,
                         SatisTarihi = satis.SatisTarihi,
                         Sube = sube,
@@ -230,7 +230,7 @@ namespace B2BApp.Business.Abstract
                 // SubeId'ye göre şubeleri getir
                 var subeler = subeId == null
                     ? _unitOfWork.Sube.GetAll().Data
-                    : _unitOfWork.Sube.GetAll(x => x.SubeId.ToString() == subeId).Data;
+                    : _unitOfWork.Sube.GetAll(x => x.Id.ToString() == subeId).Data;
 
                 // FirmaId'ye göre şubeleri filtrele
                 if (firmaId != null)
@@ -245,12 +245,12 @@ namespace B2BApp.Business.Abstract
                 // SatisDto listesini oluştur
                 var satislarDto = (
                     from urun in urunler
-                    join satis in satislar on urun.UrunId equals satis.UrunId
-                    join sube in subeler on satis.SubeId equals sube.SubeId
+                    join satis in satislar on urun.Id equals satis.UrunId
+                    join sube in subeler on satis.SubeId equals sube.Id
                     where satis.SatisTarihi >= baslangicTarihi && satis.SatisTarihi <= bitisTarihi
                     select new SatisDto
                     {
-                        Id = satis.SatisId.ToString(),
+                        Id = satis.Id.ToString(),
                         SatisMiktari = satis.SatisMiktari,
                         SatisTarihi = satis.SatisTarihi,
                         Sube = sube,
@@ -283,7 +283,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.Equals("Satış getirildi");
-                return _unitOfWork.Satis.GetFirstOrDefault(x=>x.SatisId == objectId);
+                return _unitOfWork.Satis.GetFirstOrDefault(x=>x.Id == objectId);
             }
             catch (Exception ex)
             {
@@ -295,13 +295,13 @@ namespace B2BApp.Business.Abstract
 
         public Result<SatisDto> getWithUrunAndSube(int objectId)
         {
-            var satis = _unitOfWork.Satis.GetFirstOrDefault(x=>x.SatisId == objectId).Data;
-            var sube = _unitOfWork.Sube.GetFirstOrDefault(x=>x.SubeId == satis.SubeId).Data;
-            var urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.UrunId == satis.UrunId).Data;
+            var satis = _unitOfWork.Satis.GetFirstOrDefault(x=>x.Id == objectId).Data;
+            var sube = _unitOfWork.Sube.GetFirstOrDefault(x=>x.Id == satis.SubeId).Data;
+            var urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.Id == satis.UrunId).Data;
 
             var result = new Result<SatisDto>
             {
-                Data = new SatisDto { Id = satis.SatisId.ToString(), Urun = urun, Sube = sube, SatisMiktari = satis.SatisMiktari, SatisTarihi = satis.SatisTarihi, Toplam = satis.Toplam },
+                Data = new SatisDto { Id = satis.Id.ToString(), Urun = urun, Sube = sube, SatisMiktari = satis.SatisMiktari, SatisTarihi = satis.SatisTarihi, Toplam = satis.Toplam },
                 Message = "Satis bilgileri getirildi",
                 StatusCode = 200
             };
@@ -314,7 +314,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.UrunId == satis.UrunId).Data;
+                var urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.Id == satis.UrunId).Data;
 
                 //var toplam = urun.Fiyat * satis.SatisMiktari;
                 var toplam = urun.SatisFiyati * satis.SatisMiktari;
@@ -326,7 +326,7 @@ namespace B2BApp.Business.Abstract
                     SubeId = satis.SubeId,
                     Toplam = (double)toplam,
                     UrunId = satis.UrunId,
-                    SatisId = satis.SatisId
+                    Id = satis.Id
 
                 };
 
@@ -360,33 +360,33 @@ namespace B2BApp.Business.Abstract
 
                 if (!string.IsNullOrEmpty(subeId))
                 {
-                    satislarQuery = satislarQuery.Where(s => s.SatisId.ToString() == subeId);
+                    satislarQuery = satislarQuery.Where(s => s.Id.ToString() == subeId);
                 }
 
                 if (!string.IsNullOrEmpty(firmaId))
                 {
-                    var subeIds = _unitOfWork.Sube.GetAll().Data.Select(s => s.SubeId).ToList();
+                    var subeIds = _unitOfWork.Sube.GetAll().Data.Select(s => s.Id).ToList();
                     satislarQuery = satislarQuery.Where(s => subeIds.Contains(s.SubeId));
                 }
 
                 if (!string.IsNullOrEmpty(kategoriId))
                 {
-                    var urunIds = _unitOfWork.Urun.GetAll().Data.Select(u => u.UrunId).ToList();
+                    var urunIds = _unitOfWork.Urun.GetAll().Data.Select(u => u.Id).ToList();
                     satislarQuery = satislarQuery.Where(s => urunIds.Contains(s.UrunId));
                 }
 
                 if (!string.IsNullOrEmpty(urunId))
                 {
-                    satislarQuery = satislarQuery.Where(s => s.SatisId.ToString() == urunId);
+                    satislarQuery = satislarQuery.Where(s => s.Id.ToString() == urunId);
                 }
 
                 // Sorguyu çalıştırın ve verileri çekin
                 var satislar = satislarQuery.ToList();
 
                 // Gerekli veri sözlüklerini oluşturun
-                var urunDict = _unitOfWork.Urun.GetAll().Data.ToDictionary(u => u.UrunId);
-                var subeDict = _unitOfWork.Sube.GetAll().Data.ToDictionary(s => s.SubeId);
-                var firmaDict = _unitOfWork.Firma.GetAll().Data.ToDictionary(f => f.FirmaId);
+                var urunDict = _unitOfWork.Urun.GetAll().Data.ToDictionary(u => u.Id);
+                var subeDict = _unitOfWork.Sube.GetAll().Data.ToDictionary(s => s.Id);
+                var firmaDict = _unitOfWork.Firma.GetAll().Data.ToDictionary(f => f.Id);
 
                 // Sonuçları gruplandırın ve hesaplayın
                 var groupedSatislar = satislar
@@ -452,10 +452,10 @@ namespace B2BApp.Business.Abstract
             var satislar = new List<Satis>();
             foreach (var urun in urunler)
             {
-                satislar.AddRange(_unitOfWork.Satis.GetAll(x => x.UrunId == urun.UrunId).Data);
+                satislar.AddRange(_unitOfWork.Satis.GetAll(x => x.UrunId == urun.Id).Data);
             }
-            satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetFirstOrDefault(q=> q.SubeId  == x.SubeId ).Data.FirmaId.ToString() == firmaId).ToList();
-            satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetFirstOrDefault(q=>q.UrunId == x.UrunId).Data.KategoriId.ToString() == kategoriId).ToList();
+            satislar = firmaId == null ? satislar : satislar.Where(x => _unitOfWork.Sube.GetFirstOrDefault(q=> q.Id == x.SubeId ).Data.FirmaId.ToString() == firmaId).ToList();
+            satislar = kategoriId == null ? satislar : satislar.Where(x => _unitOfWork.Urun.GetFirstOrDefault(q=>q.Id == x.UrunId).Data.KategoriId.ToString() == kategoriId).ToList();
             satislar = subeId == null ? satislar : satislar.Where(x => x.SubeId.ToString() == subeId).ToList();
             satislar = urunId == null ? satislar : satislar.Where(x => x.UrunId.ToString() == urunId).ToList();
 
@@ -477,19 +477,19 @@ namespace B2BApp.Business.Abstract
             var dto = satislar.GroupBy(x => x.UrunId)
                 .Select(x => new KarsilastirmaliSatisRaporDto
                 {
-                    Urun = _unitOfWork.Urun.GetFirstOrDefault(q=>q.UrunId == x.Key).Data,
+                    Urun = _unitOfWork.Urun.GetFirstOrDefault(q=>q.Id == x.Key).Data,
                     Donem1Miktar = x.Where(y => y.SatisTarihi >= donem1Tarih1 && y.SatisTarihi <= donem1Tarih2).Sum(y => y.SatisMiktari),
-                    Donem1Tutar = x.Where(y => y.SatisTarihi >= donem1Tarih1 && y.SatisTarihi <= donem1Tarih2).Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q=>q.UrunId == y.UrunId).Data.Fiyat * y.SatisMiktari),
+                    Donem1Tutar = x.Where(y => y.SatisTarihi >= donem1Tarih1 && y.SatisTarihi <= donem1Tarih2).Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q=>q.Id == y.UrunId).Data.Fiyat * y.SatisMiktari),
                     Donem2Miktar = x.Where(y => y.SatisTarihi >= donem2Tarih1 && y.SatisTarihi <= donem2Tarih2).Sum(y => y.SatisMiktari),
-                    Donem2Tutar = x.Where(y => y.SatisTarihi >= donem2Tarih1 && y.SatisTarihi <= donem2Tarih2).Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q=>q.UrunId == y.UrunId).Data.Fiyat * y.SatisMiktari),
+                    Donem2Tutar = x.Where(y => y.SatisTarihi >= donem2Tarih1 && y.SatisTarihi <= donem2Tarih2).Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q=>q.Id == y.UrunId).Data.Fiyat * y.SatisMiktari),
                 }).ToList();
 
             var DONEM1 = satislar.Where(x => x.SatisTarihi >= donem1Tarih1 && x.SatisTarihi <= donem1Tarih2)
                 .GroupBy(x => x.SatisTarihi.Date)
-                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == y.UrunId).Data.Fiyat * y.SatisMiktari));
+                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q => q.Id == y.UrunId).Data.Fiyat * y.SatisMiktari));
             var DONEM2 = satislar.Where(x => x.SatisTarihi >= donem2Tarih1 && x.SatisTarihi <= donem2Tarih2)
                 .GroupBy(x => x.SatisTarihi.Date)
-                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q => q.UrunId == y.UrunId).Data.Fiyat * y.SatisMiktari));
+                .ToDictionary(x => x.Key, x => x.Sum(y => _unitOfWork.Urun.GetFirstOrDefault(q => q.Id == y.UrunId).Data.Fiyat * y.SatisMiktari));
             var donemselToplam = new DonemselToplam
             {
                 Donem1 = DONEM1,

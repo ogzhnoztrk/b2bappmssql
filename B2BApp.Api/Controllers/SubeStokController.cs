@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    ////[Authorize]
 
     public class SubeStokController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPost("InsertMany")]
-       // [Authorize(Roles = "6682972f420b0208d3d620a7")]
+       // //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<List<SubeStok>> addManySubeStok(List<SubeStok> subeStok)
         {
             _subeStokService.addManySubeStok(subeStok);
@@ -36,7 +36,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> PostSubeStok(SubeStok subeStok)
         {
 
@@ -50,16 +50,16 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> GetSubeStok(string id)
         {
 
-            var subeStok = _subeStokService.getSubeStokById(ObjectId.Parse(id));
+            var subeStok = _subeStokService.getSubeStokById(Guid.Parse(id));
             return subeStok;
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeStok>> GetSubeStok()
         {
             var subeStoklar = _subeStokService.getAll();
@@ -67,10 +67,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetWithSubeAndUrun")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStokDto> GetWithSubeAndUrun(string id)
         {
-            return _subeStokService.getWithSubeAndUrun(ObjectId.Parse(id));
+            return _subeStokService.getWithSubeAndUrun(Guid.Parse(id));
         }
 
         [HttpGet("GetAllWithSubeAndUrunByTedarikciId")] //kullanıcılar ulaşabilir
@@ -85,14 +85,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetAllWithDetailsByFilters")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeStokDto>> getAllWithDetailsByFilters(string? subeId, string? firmaId, string? kategoriId)
         {
             return _subeStokService.getAllWithDetailsByFilters(subeId, firmaId, kategoriId);
         }
 
         [HttpGet("GetAllWithSubeAndUrun")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SubeStokDto>> GetAllWithSubeAndUrun()
         {
             return _subeStokService.getAllWithSubeAndUrun();
@@ -100,7 +100,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> UpdateSubeStok(SubeStok subeStok, string subeStokId)
         {
 
@@ -114,10 +114,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> DeleteSubeStok(string id)
         {
-            _subeStokService.deleteSubeStok(ObjectId.Parse(id));
+            _subeStokService.deleteSubeStok(Guid.Parse(id));
 
             return new Result<SubeStok>
             {

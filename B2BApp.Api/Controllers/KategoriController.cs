@@ -9,7 +9,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class KategoriController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
 
         public Result<Kategori> PostCompany(Kategori kategori)
         {
@@ -36,16 +36,16 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Kategori> GetCompany(string id)
         {
 
-            var kategori = _kategoriService.getKategoriById(ObjectId.Parse(id));
+            var kategori = _kategoriService.getKategoriById(Guid.Parse(id));
             return kategori;
         }
 
         [HttpGet("all")]
-        // [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        // //[Authorize(Roles = "6682972f420b0208d3d620a7")]
 
         public Result<ICollection<Kategori>> GetCompany()
         {
@@ -54,7 +54,7 @@ namespace B2BApp.Api.Controllers
             return kategoriler;
         }
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Kategori> UpdateCompany(Kategori kategori, string kategoriId)
         {
 
@@ -74,10 +74,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Kategori> DeleteCompany(string id)
         {
-            _kategoriService.deleteKategori(ObjectId.Parse(id));
+            _kategoriService.deleteKategori(Guid.Parse(id));
 
             return new Result<Kategori>
             {

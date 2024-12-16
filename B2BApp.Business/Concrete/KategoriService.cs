@@ -35,7 +35,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("KategoriSilindi");
-                _unitOfWork.Kategori.Remove(_unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == objectId).Data);
+                _unitOfWork.Kategori.Remove(_unitOfWork.Kategori.GetFirstOrDefault(x=>x.Id == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Kategori getirildi");
-                return _unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == objectId);
+                return _unitOfWork.Kategori.GetFirstOrDefault(x=>x.Id == objectId);
             }
             catch (Exception ex)
             {

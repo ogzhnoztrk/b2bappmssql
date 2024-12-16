@@ -99,11 +99,11 @@
     function loadTable() {
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Satis/getSatisKar',
+            url: 'https://localhost:44369/api/Satis/getSatisKar',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'ilkTarih': tarih1,
@@ -186,11 +186,11 @@
 
         //firmalar load
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetSubeKategoriFirmaUrunAll',
+            url: 'https://localhost:44369/api/Filter/GetSubeKategoriFirmaUrunAll',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
 
         }).done(function (response) {

@@ -33,11 +33,11 @@
 <script type="text/javascript">
     let table;
     $.ajax({
-        url: 'https://10.60.60.141/api/Urun/GetUrunlerWithDetailsByTedarikciId',
+        url: 'https://localhost:44369/api/Urun/GetUrunlerWithDetailsByTedarikciId',
         crossDomain: true,
         headers: {
             'accept': 'text/plain',
-            'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+            //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
         },
         data: {
             'tedarikciId': '@ViewBag.FirmaId'

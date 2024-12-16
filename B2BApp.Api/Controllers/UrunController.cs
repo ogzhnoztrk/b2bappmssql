@@ -11,7 +11,7 @@ namespace B2BApp.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles = "")]
-    [Authorize]
+    //[Authorize]
 
     public class UrunController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> PostUrun(Urun urun)
         {
 
@@ -39,16 +39,16 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> GetUrun(string id)
         {
 
-            var urun = _urunService.getUrunById(ObjectId.Parse(id));
+            var urun = _urunService.getUrunById(    Guid.Parse(id));
             return urun;
         }
 
         [HttpGet("GetUrunlerWithKategori")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<UrunDto>> GetUrunWithKategori()
         {
             return _urunService.getAllWithKategoriAdiAndTedarikci();
@@ -65,14 +65,14 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetUrunWithKategori")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<UrunDto> GetUrunWithKategori(string id)
         {
-            return _urunService.getUrunWithKategoriAndTedarikci(ObjectId.Parse(id));
+            return _urunService.getUrunWithKategoriAndTedarikci(Guid.Parse(id));
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Urun>> GetUrun()
         {
             var urunlar = _urunService.getAll();
@@ -80,7 +80,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> UpdateUrun(Urun urun, string urunId)
         {
             _urunService.updateUrun(urun, urunId);
@@ -93,10 +93,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> DeleteUrun(string id)
         {
-            _urunService.deleteUrun(ObjectId.Parse(id));
+            _urunService.deleteUrun(Guid.Parse(id));
 
             return new Result<Urun>
             {

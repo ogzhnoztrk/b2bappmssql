@@ -71,11 +71,11 @@
 
             "ajax":
             {
-                "url": "https://10.60.60.141/api/firma/all",
+                "url": "https://localhost:44369/api/firma/all",
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
-                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                    //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                 }
 
             },
@@ -119,11 +119,11 @@
     function getFirmaInfo(data) {
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Firma',
+            url: 'https://localhost:44369/api/Firma',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -145,12 +145,12 @@
         let id = $("#firmaId").val();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Firma?firmaId=' + id,
+            url: 'https://localhost:44369/api/Firma?firmaId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "id": "6673db08b965b70719edb1fb",\n  "firmaAdi": "string"\n}',
@@ -189,12 +189,12 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Firma?id=' + data,
+                    url: 'https://localhost:44369/api/Firma?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -243,12 +243,12 @@
 
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Firma',
+                    url: 'https://localhost:44369/api/Firma',
                     crossDomain: true,
                     method: 'post',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     data: JSON.stringify({

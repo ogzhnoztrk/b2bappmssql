@@ -151,7 +151,7 @@
             "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
             "ajax":
             {
-                "url": "https://10.60.60.141/api/Satis/getAllWithUrunAndSube",
+                "url": "https://localhost:44369/api/Satis/getAllWithUrunAndSube",
 
                 'type': 'GET',
                 'beforeSend': function (request) {
@@ -222,11 +222,11 @@
         $("#satisTarihi").val(new Date().toISOString().slice(0, 16));
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Sube/all',
+            url: 'https://localhost:44369/api/Sube/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -245,11 +245,11 @@
 
         });
         $.ajax({
-            url: 'https://10.60.60.141/api/urun/all',
+            url: 'https://localhost:44369/api/urun/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -277,12 +277,12 @@
 
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Satis',
+            url: 'https://localhost:44369/api/Satis',
             crossDomain: true,
             method: 'post',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             // data: '{\n  "id": "string",\n  "subeId": "string",\n  "urunId": "string",\n  "satisMiktari": 0,\n  "satisTarihi": "2024-06-25T08:55:04.216Z",\n  "toplam": 0\n}',
@@ -327,12 +327,12 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/SubeStok?id=' + data,
+                    url: 'https://localhost:44369/api/SubeStok?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -358,11 +358,11 @@
 
     function loadForUpdate(data) {
         $.ajax({
-            url: 'https://10.60.60.141/api/satis/GetWithUrunAndSube',
+            url: 'https://localhost:44369/api/satis/GetWithUrunAndSube',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -371,11 +371,11 @@
             //Subeler ve Urunler
             // Subeler
             $.ajax({
-                url: 'https://10.60.60.141/api/Sube/all',
+                url: 'https://localhost:44369/api/Sube/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
-                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                    //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                 }
             }).done(function (response) {
                 result = $.map(response.data, function (data) {
@@ -396,11 +396,11 @@
 
             //urunler
             $.ajax({
-                url: 'https://10.60.60.141/api/urun/all',
+                url: 'https://localhost:44369/api/urun/all',
                 crossDomain: true,
                 headers: {
                     'accept': 'text/plain',
-                    'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                    //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
 
                 }
             }).done(function (response) {
@@ -448,12 +448,12 @@
 
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Satis?satisId=' + Id,
+            url: 'https://localhost:44369/api/Satis?satisId=' + Id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({

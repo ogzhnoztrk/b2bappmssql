@@ -9,7 +9,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class TedarikciController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> PostCompany(Tedarikci tedarikci)
         {
 
@@ -36,16 +36,16 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> GetCompany(string id)
         {
 
-            var tedarikci = _tedarikciService.getTedarikciById(ObjectId.Parse(id));
+            var tedarikci = _tedarikciService.getTedarikciById( Guid.Parse(id));
             return tedarikci;
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Tedarikci>> GetCompany()
         {
             var tedarikcilar = _tedarikciService.getAll();
@@ -54,7 +54,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> UpdateCompany(Tedarikci tedarikci, string tedarikciId)
         {
             _tedarikciService.updateTedarikci(tedarikci, tedarikciId);
@@ -67,10 +67,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> DeleteCompany(string id)
         {
-            _tedarikciService.deleteTedarikci(ObjectId.Parse(id));
+            _tedarikciService.deleteTedarikci(Guid.Parse(id));
 
             return new Result<Tedarikci>
             {

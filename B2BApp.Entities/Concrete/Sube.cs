@@ -8,12 +8,12 @@ namespace B2BApp.Entities.Concrete
     public class Sube 
     {
         [Column("sube_id"), Key]
-        public Guid SubeId { get; set; }
+        public Guid Id { get; set; }
 
         [Column("firm_id")]
         public Guid FirmaId { get; set; }
         [ForeignKey(nameof(FirmaId))]
-        public virtual Firma Firma { get; set; }
+        public virtual Firma? Firma { get; set; }
 
         [Column("sube_adi")]
         public string SubeAdi { get; set; }

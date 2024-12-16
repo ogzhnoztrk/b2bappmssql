@@ -10,7 +10,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SiparisController : ControllerBase
     {
         private readonly ISiparisService _siparisService;
@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Siparis> PostSiparis(Siparis siparis)
         {
 
@@ -38,12 +38,12 @@ namespace B2BApp.Api.Controllers
         public Result<Siparis> GetSiparis(string id)
         {
 
-            var siparis = _siparisService.getSiparisById(ObjectId.Parse(id));
+            var siparis = _siparisService.getSiparisById(Int32.Parse(id));
             return siparis;
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<Siparis>> GetSiparis()
         {
             var siparislar = _siparisService.getAll();
@@ -51,21 +51,21 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("GetAllWithDetails")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SiparisDto>> GetAllWithDetails()
         {
             return _siparisService.getAllWithDetails();
         }
 
         [HttpGet("GetAllWithDetailsById")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SiparisDto> GetAllWithDetailsById(string siparisId)
         {
             return _siparisService.getAllWithDetailsById(siparisId);
         }
 
         [HttpGet("GetAllWithDetailsByFilters")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<ICollection<SiparisDto>> GetAllWithDetailsByFilters(DateTime? tarih1, DateTime? tarih2, string? urunId, string? subeId, bool? aktifMi)
         {
             return _siparisService.getAllWithDetailsByFilters(tarih1, tarih2, urunId, subeId, aktifMi);
@@ -79,7 +79,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Siparis> UpdateSiparis(Siparis siparis, string siparisId)
         {
             _siparisService.updateSiparis(siparis, siparisId);
@@ -97,10 +97,10 @@ namespace B2BApp.Api.Controllers
             return _siparisService.changeAktiflik(siparisId);
         }
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Siparis> DeleteSiparis(string id)
         {
-            _siparisService.deleteSiparis(ObjectId.Parse(id));
+            _siparisService.deleteSiparis(Int32.Parse(id));
 
             return new Result<Siparis>
             {

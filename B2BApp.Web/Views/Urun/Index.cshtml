@@ -91,7 +91,7 @@
         table = $('#urunTable').DataTable({
             "ajax":
             {
-                "url": "https://10.60.60.141/api/Urun/GetUrunlerWithKategori",
+                "url": "https://localhost:44369/api/Urun/GetUrunlerWithKategori",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -147,11 +147,11 @@
         getDataUpdate();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Urun/GetUrunWithKategori',
+            url: 'https://localhost:44369/api/Urun/GetUrunWithKategori',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -179,12 +179,12 @@
 
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Urun?urunId=' + id,
+            url: 'https://localhost:44369/api/Urun?urunId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({
@@ -225,12 +225,12 @@
                 console.log(data);
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Urun?id=' + data,
+                    url: 'https://localhost:44369/api/Urun?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     console.log(response);
@@ -283,12 +283,12 @@
             if (result.isConfirmed) {
                 console.log($('#categorySelectSave').val());
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Urun',
+                    url: 'https://localhost:44369/api/Urun',
                     crossDomain: true,
                     method: 'post',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     // data: '{\n  "id": "",\n  "urunAdi": "Urun-1",\n  "urunTel": "5312854868"\n}',
@@ -320,11 +320,11 @@
     function getDatasSave() {
         // categorySelectSave
         $.ajax({
-            url: 'https://10.60.60.141/api/Kategori/all',
+            url: 'https://localhost:44369/api/Kategori/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -344,11 +344,11 @@
 
         // TedarikciSelectSave
         $.ajax({
-            url: 'https://10.60.60.141/api/tedarikci/all',
+            url: 'https://localhost:44369/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -371,11 +371,11 @@
     function getDataUpdate() {
         // categorySelectSave
         $.ajax({
-            url: 'https://10.60.60.141/api/Kategori/all',
+            url: 'https://localhost:44369/api/Kategori/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -397,11 +397,11 @@
 
         // tedarikciSelectSave
         $.ajax({
-            url: 'https://10.60.60.141/api/tedarikci/all',
+            url: 'https://localhost:44369/api/tedarikci/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {

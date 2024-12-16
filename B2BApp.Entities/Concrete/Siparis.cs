@@ -8,22 +8,22 @@ namespace B2BApp.Entities.Concrete
     public class Siparis 
     {
         [Column("sprs_id"), Key]
-        public int SiparisId { get; set; }
+        public int Id { get; set; }
 
         [Column("sube_id")]
         public Guid SubeId { get; set; }
         [ForeignKey(nameof(SubeId))]
-        public virtual Sube Sube { get; set; }
+        public virtual Sube? Sube { get; set; }
 
         [Column("urun_id")]
         public Guid UrunId { get; set; }
         [ForeignKey(nameof(UrunId))]
-        public virtual Urun Urun { get; set; }
+        public virtual Urun? Urun { get; set; }
 
         [Column("tdrk_id")]
         public Guid TedarikciId { get; set; }
         [ForeignKey(nameof(TedarikciId))]
-        public virtual Tedarikci Tedarikci { get; set; }
+        public virtual Tedarikci? Tedarikci { get; set; }
 
         [Column("sprs_adet")]
         public double Adet { get; set; }

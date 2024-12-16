@@ -8,13 +8,13 @@ namespace B2BApp.Entities.Concrete
     [Table("TBL_URUN_TANIM")]
     public class Urun 
     {
-        [Column("urun_"), Key]
-        public Guid UrunId { get; set; }
+        [Column("urun_id"), Key]
+        public Guid Id { get; set; }
 
         [Column("ktgr_id")]
         public Guid KategoriId { get; set; }
         [ForeignKey(nameof(KategoriId))]
-        public virtual Kategori Kategori { get; set; }
+        public virtual Kategori? Kategori { get; set; }
 
         [Column("urun_adi")]
         public string UrunAdi { get; set; }
@@ -22,7 +22,7 @@ namespace B2BApp.Entities.Concrete
         [Column("tdrk_id")]
         public Guid TedarikciId { get; set; }
         [ForeignKey(nameof(TedarikciId))]
-        public virtual Tedarikci Tedarikci { get; set; }
+        public virtual Tedarikci? Tedarikci { get; set; }
 
         [Column("urun_fiyat")]
         public double Fiyat { get; set; }

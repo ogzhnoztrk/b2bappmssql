@@ -10,13 +10,13 @@ namespace B2BApp.Business.Abstract
 
         void addSiparis(Siparis siparis);
         void updateSiparis(Siparis siparis, string siparisId);
-        void deleteSiparis(Guid objectId);
+        void deleteSiparis(int objectId);
         Result<ICollection<Siparis>> getAll();
         Result<ICollection<SiparisDto>> getAllWithDetails();
         Result<ICollection<SiparisDto>> getAllWithDetailsByFiltersAndTedarikciId(string tedarikciId, DateTime? tarih1, DateTime? tarih2, string? urunId, string? subeId, bool? aktifMi);
         Result<ICollection<SiparisDto>> getAllWithDetailsByFilters(DateTime? tarih1, DateTime? tarih2, string? urunId, string? subeId, bool? aktifMi);
         Result<SiparisDto> getAllWithDetailsById(string siparisId);
-        Result<Siparis> getSiparisById(Guid objectId);
+        Result<Siparis> getSiparisById(int objectId);
         Result<String> changeAktiflik(string siparisId);
 
     }

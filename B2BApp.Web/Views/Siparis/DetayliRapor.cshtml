@@ -91,11 +91,11 @@
 
     function loadTable() {
         $.ajax({
-            url: 'https://10.60.60.141/api/Siparis/GetAllWithDetailsByFilters',
+            url: 'https://localhost:44369/api/Siparis/GetAllWithDetailsByFilters',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 
@@ -196,12 +196,12 @@
         let siparisTarih = $("#tarih").val();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Siparis',
+            url: 'https://localhost:44369/api/Siparis',
             crossDomain: true,
             method: 'post',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({
@@ -248,12 +248,12 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Siparis?id=' + id,
+                    url: 'https://localhost:44369/api/Siparis?id=' + id,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                     if (response != null || data != null) {
@@ -287,12 +287,12 @@
         var id = $("#siparisId").val();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Siparis?siparisId=' + id,
+            url: 'https://localhost:44369/api/Siparis?siparisId=' + id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({
@@ -320,11 +320,11 @@
 
     function loadSelectDatas() {
         $.ajax({
-            url: 'https://10.60.60.141/api/Filter/GetSubeUrunAll',
+            url: 'https://localhost:44369/api/Filter/GetSubeUrunAll',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             var subeSelect = $("#subeSelect").select2({
@@ -389,11 +389,11 @@
     function loadForUpdate(id) {
         loadSelectDatas();
         $.ajax({
-            url: 'https://10.60.60.141/api/Siparis/GetAllWithDetailsById',
+            url: 'https://localhost:44369/api/Siparis/GetAllWithDetailsById',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'siparisId': id
@@ -423,7 +423,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Siparis/changeAktiflik?siparisId=' + id,
+                    url: 'https://localhost:44369/api/Siparis/changeAktiflik?siparisId=' + id,
                     crossDomain: true,
                     method: 'put',
                     headers: {

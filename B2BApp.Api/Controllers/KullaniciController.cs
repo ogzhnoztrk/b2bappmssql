@@ -10,7 +10,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "6682972f420b0208d3d620a7")]
+    //[Authorize(Roles = "6682972f420b0208d3d620a7")]
     public class KullaniciController : ControllerBase
     {
         private readonly IKullaniciService _kullaniciService;
@@ -35,7 +35,7 @@ namespace B2BApp.Api.Controllers
         public Result<Kullanici> GetKullanici(string id)
         {
 
-            var kullanici = _kullaniciService.getKullaniciById(ObjectId.Parse(id));
+            var kullanici = _kullaniciService.getKullaniciById(Guid.Parse(id));
             return kullanici;
         }
         [HttpGet("all")]
@@ -67,7 +67,7 @@ namespace B2BApp.Api.Controllers
         [HttpDelete]
         public Result<Kullanici> DeleteKullanici(string id)
         {
-            _kullaniciService.deleteKullanici(ObjectId.Parse(id));
+            _kullaniciService.deleteKullanici(Guid.Parse(id));
 
             return new Result<Kullanici>
             {

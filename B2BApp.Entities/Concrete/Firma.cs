@@ -9,7 +9,7 @@ namespace B2BApp.Entities.Concrete
     public class Firma 
     {
         [Column("firm_id"), Key]
-        public Guid FirmaId { get; set; }
+        public Guid Id { get; set; }
         [Column("firm_adi")]
         public string FirmaAdi { get; set; }
         [Column("firm_tel")]

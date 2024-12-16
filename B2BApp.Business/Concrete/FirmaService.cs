@@ -36,7 +36,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Firma Silindi");
-                _unitOfWork.Firma.Remove(_unitOfWork.Firma.GetFirstOrDefault(x=>x.FirmaId == objectId).Data);
+                _unitOfWork.Firma.Remove(_unitOfWork.Firma.GetFirstOrDefault(x=>x.Id == objectId).Data);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Firma getirildi");
-                return _unitOfWork.Firma.GetFirstOrDefault(x=>x.FirmaId == objectId);
+                return _unitOfWork.Firma.GetFirstOrDefault(x=>x.Id == objectId);
             }
             catch (Exception ex)
             {

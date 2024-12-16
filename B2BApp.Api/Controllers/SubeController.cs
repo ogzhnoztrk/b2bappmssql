@@ -10,7 +10,7 @@ namespace B2BApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class SubeController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace B2BApp.Api.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> PostSube(Sube sube)
         {
 
@@ -37,15 +37,15 @@ namespace B2BApp.Api.Controllers
             };
         }
         [HttpGet]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> GetSube(string id)
         {
 
-            var sube = _subeService.getSubeById(ObjectId.Parse(id));
+            var sube = _subeService.getSubeById(Guid.Parse(id));
             return sube;
         }
         [HttpGet("all")]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
 
         public Result<ICollection<Sube>> GetAllSube(string? firmaId)
         {
@@ -69,12 +69,12 @@ namespace B2BApp.Api.Controllers
         [HttpGet("GetSubeWithFirma")]
         public Result<SubeDto> GetSubeWithFirma(string id)
         {
-            return _subeService.getSubeWithFirma(ObjectId.Parse(id));
+            return _subeService.getSubeWithFirma(Guid.Parse(id));
         }
 
 
         [HttpPut]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> UpdateSube(Sube sube, string subeId)
         {
 
@@ -88,10 +88,10 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> DeleteSube(string id)
         {
-            _subeService.deleteSube(ObjectId.Parse(id));
+            _subeService.deleteSube(Guid.Parse(id));
 
             return new Result<Sube>
             {

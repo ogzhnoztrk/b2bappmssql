@@ -18,7 +18,7 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "6682972f420b0208d3d620a7")]
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
 
         public Result<KullaniciKayitDto> Register(KullaniciKayitDto kullaniciKayitDto)
         {
@@ -32,7 +32,7 @@ namespace B2BApp.Api.Controllers
 
             if (login.StatusCode == 400)
             {
-                return new Result<string>(400, "Giriş Yapılamadı", "Giriş Yapılırken Bir Sorun Oluştu", DateTime.Now);
+                return new Result<string>(400, "Giriş Yapılamadı", "Giriş Yapılırken Bir Sorun Oluştu" );
             }
 
             //burada token oluşturulacak ve token döndürülecek

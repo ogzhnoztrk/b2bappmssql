@@ -73,7 +73,7 @@
             },
             "ajax":
             {
-                "url": "https://10.60.60.141/api/Sube/GetSubelerWithFirma",
+                "url": "https://localhost:44369/api/Sube/GetSubelerWithFirma",
                 'type': 'GET',
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + "@ViewBag.JwtCookie");
@@ -122,11 +122,11 @@
         getCategoriesUpdate();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Sube/GetSubeWithFirma',
+            url: 'https://localhost:44369/api/Sube/GetSubeWithFirma',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             data: {
                 'id': data
@@ -153,12 +153,12 @@
         let id = $("#subeId").val();
 
         $.ajax({
-            url: 'https://10.60.60.141/api/Sube?subeId='+id,
+            url: 'https://localhost:44369/api/Sube?subeId='+id,
             crossDomain: true,
             method: 'put',
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             },
             contentType: 'application/json',
             data: JSON.stringify({
@@ -197,12 +197,12 @@
                 //console.log(data);
 
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Urun?id=' + data,
+                    url: 'https://localhost:44369/api/Urun?id=' + data,
                     crossDomain: true,
                     method: 'delete',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     }
                 }).done(function (response) {
                    // console.log(response);
@@ -258,12 +258,12 @@
             if (result.isConfirmed) {
                 //console.log($('#firmaSelectSave').val());
                 $.ajax({
-                    url: 'https://10.60.60.141/api/Sube',
+                    url: 'https://localhost:44369/api/Sube',
                     crossDomain: true,
                     method: 'post',
                     headers: {
                         'accept': 'text/plain',
-                        'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                        //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
                     },
                     contentType: 'application/json',
                     // data: '{\n  "id": "string",\n  "firmaId": "string",\n  "subeAdi": "string",\n  "subeTel": "string"\n}',
@@ -293,11 +293,11 @@
     function getFirmalar() {
         // firmaSelectSave
         $.ajax({
-            url: 'https://10.60.60.141/api/firma/all',
+            url: 'https://localhost:44369/api/firma/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {
@@ -320,11 +320,11 @@
     function getCategoriesUpdate() {
         // firmaSelectDrawer
         $.ajax({
-            url: 'https://10.60.60.141/api/firma/all',
+            url: 'https://localhost:44369/api/firma/all',
             crossDomain: true,
             headers: {
                 'accept': 'text/plain',
-                'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+                //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
             }
         }).done(function (response) {
             result = $.map(response.data, function (data) {

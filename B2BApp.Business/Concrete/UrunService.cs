@@ -35,7 +35,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _unitOfWork.Urun.Remove(_unitOfWork.Urun.GetFirstOrDefault(x=>x.UrunId == objectId).Data);
+                _unitOfWork.Urun.Remove(_unitOfWork.Urun.GetFirstOrDefault(x=>x.Id == objectId).Data);
                 _logger.LogInformation("urun Silindi");
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace B2BApp.Business.Abstract
             try
             {
                 _logger.LogInformation("Urun Id ye gore getirildi");
-                return _unitOfWork.Urun.GetFirstOrDefault(x => x.UrunId == objectId);
+                return _unitOfWork.Urun.GetFirstOrDefault(x => x.Id == objectId);
             }
             catch (Exception ex)
             {
@@ -86,13 +86,13 @@ namespace B2BApp.Business.Abstract
                     foreach (var urun in urunler)
                     {
 
-                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x => x.KategoriId == urun.KategoriId).Data;
-                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.TedarikciId == urun.TedarikciId).Data;
+                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x => x.Id == urun.KategoriId).Data;
+                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.Id == urun.TedarikciId).Data;
                         var urunDto = new UrunDto
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.UrunId.ToString(),
+                            Id = urun.Id.ToString(),
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci,
                             SatisFiyati = urun.SatisFiyati
@@ -138,17 +138,17 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.UrunId == objectId).Data;
-                var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x=>x.KategoriId == urun.KategoriId).Data;
+                var urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.Id == objectId).Data;
+                var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x=>x.Id == urun.KategoriId).Data;
                 var tedarikci = new Tedarikci();
                 if (urun.TedarikciId != null)
                 {
-                    tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.TedarikciId == urun.TedarikciId).Data;
+                    tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.Id == urun.TedarikciId).Data;
 
                 }
                 else
                 {
-                    tedarikci = new() { TedarikciId = Guid.NewGuid(), TedarikciAdi = "AA", TedarikciTel = "00" };
+                    tedarikci = new() { Id = Guid.NewGuid(), TedarikciAdi = "AA", TedarikciTel = "00" };
 
 
                 }
@@ -158,7 +158,7 @@ namespace B2BApp.Business.Abstract
 
                 var result = new Result<UrunDto>
                 {
-                    Data = new UrunDto { Id = urun.UrunId.ToString(), Fiyat = urun.Fiyat, UrunAdi = urun.UrunAdi, Kategori = kategori, Tedarikci = tedarikci, SatisFiyati = urun.SatisFiyati },
+                    Data = new UrunDto { Id = urun.Id.ToString(), Fiyat = urun.Fiyat, UrunAdi = urun.UrunAdi, Kategori = kategori, Tedarikci = tedarikci, SatisFiyati = urun.SatisFiyati },
                     Message = "Ürün Kategori Bilgileri İle Getirildi",
                     StatusCode = 200 
                 };
@@ -178,7 +178,7 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                var urunler = _unitOfWork.Urun.GetAll(x => x.UrunId.ToString() == tedarikciId).Data;
+                var urunler = _unitOfWork.Urun.GetAll(x => x.Id.ToString() == tedarikciId).Data;
                 var urunDtos = new List<UrunDto>();
 
                 if (urunler != null)
@@ -186,13 +186,13 @@ namespace B2BApp.Business.Abstract
                     foreach (var urun in urunler)
                     {
 
-                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x => x.KategoriId == urun.KategoriId).Data;
-                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.TedarikciId == urun.TedarikciId).Data;
+                        var kategori = _unitOfWork.Kategori.GetFirstOrDefault(x => x.Id == urun.KategoriId).Data;
+                        var tedarikci = _unitOfWork.Tedarikci.GetFirstOrDefault(x => x.Id == urun.TedarikciId).Data;
                         var urunDto = new UrunDto
                         {
                             Kategori = kategori,
                             Fiyat = urun.Fiyat,
-                            Id = urun.UrunId.ToString(),
+                            Id = urun.Id.ToString(),
                             UrunAdi = urun.UrunAdi,
                             Tedarikci = tedarikci,
                             SatisFiyati = urun.SatisFiyati
