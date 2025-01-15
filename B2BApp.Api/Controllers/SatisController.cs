@@ -2,9 +2,16 @@
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Core.Models.Concrete;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Identity.Client;
+using MongoDB.Driver.Linq;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace B2BApp.Api.Controllers
 {
@@ -25,6 +32,10 @@ namespace B2BApp.Api.Controllers
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<List<Satis>> addManySatis(List<Satis> satislar)
         {
+            //foreach (var item in collection)
+            //{
+
+            //}
             _satisService.addManySatis(satislar);
             return new Result<List<Satis>>
             {
@@ -63,7 +74,9 @@ namespace B2BApp.Api.Controllers
         {
             var satislar = _satisService.getAll();
             return satislar;
+
         }
+
 
         [HttpGet("getWithUrunAndSube")]
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
@@ -73,11 +86,43 @@ namespace B2BApp.Api.Controllers
         }
 
         [HttpGet("getAllWithUrunAndSube")]
-        //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
+        //[Authorize(Roles = "6682972f420b0208d3d620a7")] 
+        public async Task<Result<object>> getAllWithUrunAndSube(
+            int offset = 1,
+            int limit = 10,
+            string sort = "id",
+            string order = "asc",
+            string? urun = null,
+            string? sube = null,
+            string? satisTarihi = null,
+            string? filter = null,
+            int? year = null
+            ) //SAYFALAMA KULLANILACAK
+        
         {
-            return _satisService.getAllWithUrunAndSube();
+            return await _satisService.getAllWithUrunAndSubeAsync(
+            offset, limit, sort, order, urun, sube, satisTarihi, filter, year ?? DateTime.Now.Year
+            );
         }
+
+        [HttpGet("getSatisCountAsync")]
+        public async Task<Result<IEnumerable<int>>> getSatisCountAsync(
+             int offset = 1,
+            int limit = 10,
+            string sort = "id",
+            string order = "asc",
+            string? urun = null,
+            string? sube = null,
+            string? satisTarihi = null,
+            string? filter = null,
+            int? year = null
+            )
+        {
+            return await _satisService.getSatisCountAsync(offset,limit, sort, order,urun,sube,satisTarihi,filter, year ?? DateTime.Now.Year);
+        }
+
+
+
 
         /// <summary>
         /// Date time null olabilir, null ise tüm tarihler arasında getirir, tedarikciye ait olanları tarihler arasında getirir, tedarikciye ait olanları getirir,
@@ -150,6 +195,10 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+
+
+
+
 
 
     }

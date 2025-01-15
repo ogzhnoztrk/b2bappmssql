@@ -24,7 +24,7 @@ namespace B2BApp.Api.Controllers
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Firma> PostFirma(Firma firma)
         {
-
+            //firma.Id = Guid.NewGuid();
             _firmaService.addFirma(firma);
             return new Result<Firma>
             {

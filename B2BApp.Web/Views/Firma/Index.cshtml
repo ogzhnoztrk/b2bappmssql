@@ -239,7 +239,7 @@
             }
         }).then((result) => {
             console.log(result);
-
+            debugger;
 
             if (result.isConfirmed) {
                 $.ajax({
@@ -252,11 +252,12 @@
                     },
                     contentType: 'application/json',
                     data: JSON.stringify({
-                        'id': '',
+                        //'id': '',
                         'firmaAdi': $('#firmaIsimEkle').val(),
                         'firmaTel': $('#firmaTel').val(),
                     })
                 }).done(function (response) {
+                    debugger;
                     if (response != null) {
                         //Reload/redraw the table with new data
                         table.ajax.reload();

@@ -1,6 +1,7 @@
 ﻿using B2BApp.Entities.Abstract;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace B2BApp.Entities.Concrete
 {
@@ -9,7 +10,7 @@ namespace B2BApp.Entities.Concrete
     public class Firma 
     {
         [Column("firm_id"), Key]
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         [Column("firm_adi")]
         public string FirmaAdi { get; set; }
         [Column("firm_tel")]

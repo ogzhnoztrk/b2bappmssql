@@ -4,7 +4,6 @@
 }
 <style>
     #loadingMessage {
-        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
@@ -18,15 +17,18 @@
     }
 
 </style>
-<!-- Loading Spinner -->
-<div id="loadingMessage" class="text-center">
-    <div class="text-center">
-        <div class="spinner-border" role="status" style="height:90px; width:90px; color:cornflowerblue;border-width:8px ">
-            <span class="sr-only"></span>
+
+<div class="container">
+    <h5>@DateTime.Now.Year Yılı Verileri</h5>
+
+    <!-- Loading Spinner -->
+    <div id="loadingMessage" class="text-center">
+        <div class="text-center">
+            <div class="spinner-border" role="status" style="height:90px; width:90px; color:cornflowerblue;border-width:8px ">
+                <span class="sr-only"></span>
+            </div>
         </div>
     </div>
-</div>
-<div class="container">
     <div id="content" style="display:none;">
         <div class="row" style="--bs-gutter-x: 0rem;">
             <div class="col-md-6">

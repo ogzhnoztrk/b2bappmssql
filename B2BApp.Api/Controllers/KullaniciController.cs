@@ -22,7 +22,7 @@ namespace B2BApp.Api.Controllers
         [HttpPost]
         public Result<Kullanici> PostKullanici(Kullanici kullanici)
         {
-
+           // kullanici.Id = Guid.NewGuid();
             _kullaniciService.addKullanici(kullanici);
             return new Result<Kullanici>
             {

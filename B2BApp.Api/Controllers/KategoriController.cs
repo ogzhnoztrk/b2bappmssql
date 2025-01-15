@@ -23,10 +23,9 @@ namespace B2BApp.Api.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-
         public Result<Kategori> PostCompany(Kategori kategori)
         {
-
+           // kategori.Id = Guid.NewGuid();
             _kategoriService.addKategori(kategori);
             return new Result<Kategori>
             {

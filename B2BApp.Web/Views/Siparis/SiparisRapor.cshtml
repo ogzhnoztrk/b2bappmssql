@@ -107,6 +107,7 @@
             }
 
         }).done(function (response) {
+            debugger;
             table = $('#siparislerTable').DataTable({
                 "language": { "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json' },
                 "data": response.data,
@@ -205,7 +206,7 @@
             },
             contentType: 'application/json',
             data: JSON.stringify({
-                'id': '',
+                //'id': '',
                 'subeId': subeId,
                 'urunId': urunId,
                 'tedarikciId': tedarikciId,

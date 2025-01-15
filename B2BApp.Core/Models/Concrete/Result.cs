@@ -7,13 +7,7 @@
         {
 
         }
-        /// <summary>
-        /// hepsini el ile atama yapackasan
-        /// </summary>
-        /// <param name="statusCode"></param>
-        /// <param name="message"></param>
-        /// <param name="data"></param>
-        /// <param name="time"></param>
+
         public Result(int statusCode, string message, T data)
         {
             StatusCode = statusCode;

@@ -28,7 +28,7 @@ namespace B2BApp.Api.Controllers
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Urun> PostUrun(Urun urun)
         {
-
+            //urun.Id = Guid.NewGuid();
             _urunService.addUrun(urun);
             return new Result<Urun>
             {

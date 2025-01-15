@@ -27,7 +27,7 @@ namespace B2BApp.Api.Controllers
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Sube> PostSube(Sube sube)
         {
-
+            //sube.Id = Guid.NewGuid();
             _subeService.addSube(sube);
             return new Result<Sube>
             {

@@ -24,7 +24,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Firma", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("firm_id");
@@ -260,7 +260,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Urun", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("urun_id");

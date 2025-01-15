@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace B2BApp.DataAccess.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20241216123249_mig2")]
-    partial class mig2
+    [Migration("20241217114434_aaa")]
+    partial class aaa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Firma", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("firm_id");
@@ -49,7 +49,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Kategori", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ktgr_id");
@@ -66,7 +66,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Kullanici", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("klnc_id");
@@ -185,7 +185,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Sube", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("sube_id");
@@ -213,7 +213,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.SubeStok", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("sstk_id");
@@ -241,7 +241,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Tedarikci", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("tdrk_id");
@@ -263,7 +263,7 @@ namespace B2BApp.DataAccess.Migrations
 
             modelBuilder.Entity("B2BApp.Entities.Concrete.Urun", b =>
                 {
-                    b.Property<Guid>("Id").HasDefaultValueSql("NEWID()")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("urun_id");

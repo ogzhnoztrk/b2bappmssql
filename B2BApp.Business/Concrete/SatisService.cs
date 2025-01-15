@@ -1,4 +1,5 @@
 ﻿using B2BApp.DataAccess.Abstract;
+using B2BApp.DataAccess.Context;
 using B2BApp.DTOs;
 using B2BApp.Entities.Concrete;
 using Castle.Core.Logging;
@@ -6,6 +7,9 @@ using Core.Models.Concrete;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq.Expressions;
 
 namespace B2BApp.Business.Abstract
@@ -118,8 +122,27 @@ namespace B2BApp.Business.Abstract
         {
             try
             {
-                _logger.LogInformation("Satışlar getirildi");
-                return _unitOfWork.Satis.GetAll();
+
+                var stopwatch = Stopwatch.StartNew();
+
+                var data = DapperConn.GetData<Satis>(
+                    $"SELECT " +
+                    //$" Top 100" +
+                    $"sats_id as Id," +
+                    $" sube_id as SubeId," +
+                    $" urun_id as UrunId," +
+                    $" sats_miktari as SatisMiktari," +
+                    $" sats_tarihi as SatisTarihi," +
+                    $" sats_toplam as Toplam" +
+
+                    $" FROM TBL_SATIS"
+                ).ToList();
+                stopwatch.Stop();
+
+                return new Result<ICollection<Satis>>(200, "Veri Getirildi", data);
+
+                //_logger.LogInformation("Satışlar getirildi");
+                //return _unitOfWork.Satis.GetAll();
             }
             catch (Exception ex)
             {
@@ -128,39 +151,75 @@ namespace B2BApp.Business.Abstract
             }
         }
 
-        public Result<ICollection<SatisDto>> getAllWithUrunAndSube()
+      
+        public async Task<Result<object>> getAllWithUrunAndSubeAsync
+            (
+            int offset,
+            int limit,
+            string sort,
+            string order,
+            string urun,
+            string sube,
+            string satisTarihi,
+            string filter,
+            int year
+            )
         {
             try
             {
-                var satislar = _unitOfWork.Satis.GetAll().Data;
 
-                var satisDTOs = new List<SatisDto>();
+                //var filterResult = JsonConvert.DeserializeObject<Filter>(filter);
 
-                foreach (var satis in satislar)
+                var filterString =
+                    $" WHERE" +
+                    $" sube.sube_adi LIKE '%{sube}%'   " +
+                    $" AND urun.urun_adi LIKE '%{urun}%' " +
+                    $" AND s.sats_tarihi LIKE '%{satisTarihi}%'" +
+                    $" AND s.sats_tarihi >= '{year}-01-01' AND s.sats_tarihi < '{year+1}-01-01'";
+                var query = 
+                    $"SELECT " +
+                    $" s.sats_id AS Id," +
+                    $" s.sube_id AS SubeId," +
+                    $" s.urun_id AS UrunId," +
+                    $" s.sats_miktari AS SatisMiktari," +
+                    $" s.sats_tarihi AS SatisTarihi," +
+                    $" s.sats_toplam AS Toplam," +
+                    $" urun.urun_adi AS Urun," +
+                    $" sube.sube_adi As Sube" +
+                    $" FROM TBL_SATIS s" +
+                    $" LEFT JOIN TBL_URUN_TANIM urun ON urun.urun_id = s.urun_id" +
+                    $" LEFT JOIN TBL_SUBE_TANIM sube ON sube.sube_id= s.sube_id " +
+                    filterString +
+                    $" ORDER BY {sort.ToUpper(CultureInfo.InvariantCulture)} {order.ToUpper()}" +
+                    $" OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
+
+                var data = await DapperConn.GetDataAsync<SatisTableDto>(
+                    query
+                );
+
+                var totalcount = await DapperConn.GetDataAsync<int>(
+                    $"SELECT " +
+                    //$"TOP 100" +
+                    $" Count(sats_id)" +
+                    $" FROM TBL_SATIS s" +
+                     $" LEFT JOIN TBL_URUN_TANIM urun ON urun.urun_id = s.urun_id" +
+                    $" LEFT JOIN TBL_SUBE_TANIM sube ON sube.sube_id= s.sube_id " +
+                   filterString
+
+                );
+
+                return new Result<object>(200, "Veri Getirildi ", new
                 {
-                    
-                    var satisDto = new SatisDto
-                    {
-                        Id = satis.Id.ToString(),
-                        SatisMiktari = satis.SatisMiktari,
-                        SatisTarihi = satis.SatisTarihi,
-                        Toplam = satis.Toplam,
-                        Sube = _unitOfWork.Sube.GetFirstOrDefault(x => x.Id == satis.SubeId).Data,
-                        Urun = _unitOfWork.Urun.GetFirstOrDefault(x => x.Id == satis.UrunId).Data,
-
-                    };
-                    satisDTOs.Add(satisDto);
-                }
-
-                var result = new Result<ICollection<SatisDto>> { Data = satisDTOs, Message = "Satışlar getirildi", StatusCode = 200 };
-                _logger.LogInformation("Satışlar getirildi");
-                return result;
+                    Satislar = data,
+                    TotalCount = totalcount
+                });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError(ex, "Satışlar getirilirken hata oluştu");
+
                 throw;
             }
+
         }
 
         public Result<ICollection<SatisDto>> getAllWithUrunAndSubeByTedarikciId(string tedarikciId, DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId)
@@ -216,22 +275,33 @@ namespace B2BApp.Business.Abstract
             }
         }
 
+        /// <summary>
+        /// Rapor ekranı
+        /// </summary>
+        /// <returns></returns>
         public Result<ICollection<SatisDto>> getAllWithUrunAndSube(DateTime? ilkTarih, DateTime? ikinciTarih, string? subeId, string? kategoriId, string? firmaId)
         {
             try
             {
+                var stopwwatchstart = Stopwatch.StartNew();
+                var stopwatch = Stopwatch.StartNew();
+               
                 // KategoriId'ye göre ürünleri getir
                 var urunler = kategoriId == null
                     ? _unitOfWork.Urun.GetAll().Data
                     : _unitOfWork.Urun.GetAll(x => x.KategoriId.ToString() == kategoriId).Data;
+                stopwatch.Stop();
 
+                var stopwatch2 = Stopwatch.StartNew();               
                 var satislar = _unitOfWork.Satis.GetAll().Data;
+               stopwatch2.Stop();
 
+                var stopwatch3 = Stopwatch.StartNew();
                 // SubeId'ye göre şubeleri getir
                 var subeler = subeId == null
                     ? _unitOfWork.Sube.GetAll().Data
                     : _unitOfWork.Sube.GetAll(x => x.Id.ToString() == subeId).Data;
-
+                stopwatch3.Stop();
                 // FirmaId'ye göre şubeleri filtrele
                 if (firmaId != null)
                 {
@@ -265,7 +335,7 @@ namespace B2BApp.Business.Abstract
                     Message = "Ürün satışı detayları ile getirildi",
                     StatusCode = 200
                 };
-
+                stopwwatchstart.Stop();
                 _logger.LogInformation("Ürün satışı detayları ile getirildi");
 
                 return result;
@@ -513,10 +583,36 @@ namespace B2BApp.Business.Abstract
 
         }
 
-       
+        public async Task<Result<IEnumerable<int>>> getSatisCountAsync
+            (
+            int offset,
+            int limit,
+            string sort,
+            string order,
+            string urun,
+            string sube,
+            string satisTarihi,
+            string filter,
+            int? year )
+        {
+            var filterString =
+                 $" WHERE" +
+                 $" sube.sube_adi LIKE '%{sube}%'   " +
+                 $" AND urun.urun_adi LIKE '%{urun}%' " +
+                 $" AND s.sats_tarihi LIKE '%{satisTarihi}%'" +
+                 $" AND s.sats_tarihi >= '{year}-01-01' AND s.sats_tarihi < '{year + 1}-01-01'";
+            var totalcount = await DapperConn.GetDataAsync<int>(
+                    $"SELECT " +
+                    //$"TOP 100" +
+                    $" Count(sats_id)" +
+                    $" FROM TBL_SATIS s" +
+                     $" LEFT JOIN TBL_URUN_TANIM urun ON urun.urun_id = s.urun_id" +
+                    $" LEFT JOIN TBL_SUBE_TANIM sube ON sube.sube_id= s.sube_id " +
+                   filterString
 
+                );
+            return new Result<IEnumerable<int>>(200, "Veri Getirildi ", totalcount);
 
-
-
+        }
     }
 }

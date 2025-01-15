@@ -9,7 +9,7 @@ namespace B2BApp.Entities.Concrete
     public class Urun 
     {
         [Column("urun_id"), Key]
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         [Column("ktgr_id")]
         public Guid KategoriId { get; set; }
@@ -27,6 +27,6 @@ namespace B2BApp.Entities.Concrete
         [Column("urun_fiyat")]
         public double Fiyat { get; set; }
         [Column("urun_satis_fiyat")]
-        public double? SatisFiyati { get; set; }
+        public double SatisFiyati { get; set; }
     }
 }

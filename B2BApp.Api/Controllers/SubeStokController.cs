@@ -26,6 +26,10 @@ namespace B2BApp.Api.Controllers
        // //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<List<SubeStok>> addManySubeStok(List<SubeStok> subeStok)
         {
+            //foreach (var item in subeStok)
+            //{
+            //    item.Id = Guid.NewGuid();
+            //}
             _subeStokService.addManySubeStok(subeStok);
             return new Result<List<SubeStok>>
             {
@@ -39,7 +43,7 @@ namespace B2BApp.Api.Controllers
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<SubeStok> PostSubeStok(SubeStok subeStok)
         {
-
+           // subeStok.Id = Guid.NewGuid();
             _subeStokService.addSubeStok(subeStok);
             return new Result<SubeStok>
             {

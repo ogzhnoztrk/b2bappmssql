@@ -25,6 +25,7 @@ namespace B2BApp.Api.Controllers
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
         public Result<Tedarikci> PostCompany(Tedarikci tedarikci)
         {
+           // tedarikci.Id = Guid.NewGuid();
 
             _tedarikciService.addTedarikci(tedarikci);
             return new Result<Tedarikci>

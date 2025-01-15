@@ -90,7 +90,7 @@
         <div class="col-md-6">
             <div>
                 <div class="p-3 border bg-light">
-                  
+
                     <canvas id="urunToplamSatisPie" width="618" height="309"></canvas>
                 </div>
             </div>
@@ -109,7 +109,7 @@
         <div class="col-md-6">
             <div>
                 <div class="p-3 border bg-light">
-                    
+
                     <canvas id="subeToplamSatisBar"></canvas>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                 'firmaId': firma
             }
         }).done(function (response) {
-            
+
             chartVerileriniHesapla(response);
 
             table = $('#satislarTable').DataTable({
@@ -261,8 +261,8 @@
             return accumulator;
         }, []).forEach(item => {
             kategoriToplamSatis[item.kategoriId] = item.toplam
-        });        
-        
+        });
+
         //firmalar
         const firmalarToplamSatis = {};
         var kategoriler = satisDto.reduce(function (accumulator, item) {
@@ -285,7 +285,8 @@
 
     }
 
-    loadTable();
+            loadTable();
+
 
     //filtrelerin uygulanması
     function applyFilter() {
@@ -309,7 +310,7 @@
 
 
     }
-   
+
     //selectbarlara gerekli değerlerin atanması
     function loadSelectsDatas() {
 
@@ -369,7 +370,7 @@
 
 
     }
-  
+
     function initCharts(kategoriToplamSatis, urunToplamSatis, subelerToplamSatis, firmalarToplamSatis) {
         var ctxKategoriToplamSatisPie = document.getElementById('kategoriToplamSatisPie');
         ctxKategoriToplamSatisPie.width = 618;
@@ -382,20 +383,20 @@
         var ctxSubeToplamSatisBar = document.getElementById('subeToplamSatisBar');
          ctxSubeToplamSatisBar.width = 618;
         ctxSubeToplamSatisBar.height = 309;
-                
+
 
 
 
         var ctxFirmaToplamSatisBar = document.getElementById('firmaToplamSatisBar');
         ctxFirmaToplamSatisBar.width = 618;
         ctxFirmaToplamSatisBar.height = 309;
-        
+
 
 
 
 
         urunToplamSatis_pieChart = new Chart(ctxUrunToplamSatisPie, {
-            
+
             type: 'doughnut',
             data: {
                 labels: Object.keys(urunToplamSatis),
@@ -552,10 +553,10 @@
 
         });
 
-       
 
 
-        
+
+
     }
 
     loadSelectsDatas();
