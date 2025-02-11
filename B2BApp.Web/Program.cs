@@ -1,7 +1,23 @@
+using B2BApp.Web.Helpers.HttpHelper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+
+
+
+
+
+
+Config.ip = builder.Configuration["Config:ip"];
+Config.port = int.Parse(builder.Configuration["Config:port"]);
+Config.usessl = bool.Parse(builder.Configuration["Config:usessl"]);
+Config.startpath = builder.Configuration["Config:startpath"];
+
+HttpService.ApiLink = HttpService._apiLinkGenerate(Config.ip, Config.port, Config.usessl, Config.startpath);
 
 
 var app = builder.Build();
