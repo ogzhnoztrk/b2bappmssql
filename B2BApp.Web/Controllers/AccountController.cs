@@ -1,5 +1,6 @@
 ﻿using B2BApp.Models;
 using B2BApp.Web.Core.Controllers;
+using B2BApp.Web.Helpers.HttpHelper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
@@ -41,45 +42,57 @@ namespace B2BApp.Web.Controllers
         public async Task<IActionResult> LoginPost(LoginVm loginVm)
         {
 
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
-            HttpClient client = new HttpClient(handler);
+            //HttpClientHandler handler = new HttpClientHandler();
+            //handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            //HttpClient client = new HttpClient(handler);
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44369/api/Auth/login");
+            //HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44369/api/Auth/login");
 
-            request.Headers.Add("accept", "text/plain");
+            //request.Headers.Add("ac cept", "text/plain");
 
-            request.Content = new StringContent("{\n  \"kullaniciAdi\": \"" + loginVm.KullaniciAdi + "\",\n  \"sifre\": \"" + loginVm.Sifre + "\"\n}");
-            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            //request.Content = new StringContent("{\n  \"kullaniciAdi\": \"" + loginVm.KullaniciAdi + "\",\n  \"sifre\": \"" + loginVm.Sifre + "\"\n}");
+            //request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.SendAsync(request);
-            // response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
+            //HttpResponseMessage response = await client.SendAsync(request);
+            //// response.EnsureSuccessStatusCode();
+            //string responseBody = await response.Content.ReadAsStringAsync();
 
-            // JSON string'ini ayrıştır
-            var jsonObject = JObject.Parse(responseBody);
+            //// JSON string'ini ayrıştır
+            //var jsonObject = JObject.Parse(responseBody);
 
-
-
-            if (jsonObject["statusCode"].ToString() != "400")
+            try
             {
-                // "data" alanını al
-                string data = jsonObject["data"].ToString();
+                var result = HttpService.Request<string, LoginVm>(null, HttpType.Post, "Auth/login", loginVm);
 
-                Response.Cookies.Append("jwt", data, new CookieOptions
+
+                if (!(result.Data is null))
                 {
-                    HttpOnly = true, // Cookie'ye JavaScript erişimini engeller
-                    Secure = true,   // Sadece HTTPS üzerinden iletilir
-                    SameSite = SameSiteMode.Strict, // CSRF saldırılarını önlemek için güçlendirilmiş güvenlik
-                    Expires = DateTime.UtcNow.AddHours(6) // Cookie'nin son kullanma tarihi 
+                    if (result.StatusCode.ToString() == "200")
+                    {
+                        // "data" alanını al
+                        string data = result.Data.ToString();
 
-                });
+                        Response.Cookies.Append("jwt", data, new CookieOptions
+                        {
+                            HttpOnly = true, // Cookie'ye JavaScript erişimini engeller
+                            Secure = true,   // Sadece HTTPS üzerinden iletilir
+                            SameSite = SameSiteMode.Strict, // CSRF saldırılarını önlemek için güçlendirilmiş güvenlik
+                            Expires = DateTime.UtcNow.AddHours(6) // Cookie'nin son kullanma tarihi 
+
+                        });
+                        return RedirectToAction("login");
+
+                    }
+                }
+
                 return RedirectToAction("login");
 
             }
+            catch (Exception ex)
+            {
 
-            return RedirectToAction("login");
-
+                throw;
+            }
         }
 
         public IActionResult SaveUser()

@@ -94,25 +94,21 @@ builder.Services.AddDbContext<SqlDbContext>(o => o.UseSqlServer(connectionString
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(
-        o =>
-        {
-            o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-        });
-}
-else
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(
-        o =>
-        {
-            o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-        });
-}
-
+//if (app.Environment.IsDevelopment())
+//{
+    //app.UseSwagger();
+    //app.UseSwaggerUI(
+    //    o =>
+    //    {
+    //        o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    //    });
+//}
+app.UseSwagger();
+app.UseSwaggerUI(
+    o =>
+    {
+        o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    });
 
 // Tüm originlere izin veren CORS politikasý
 app.UseCors("AllowAll");
