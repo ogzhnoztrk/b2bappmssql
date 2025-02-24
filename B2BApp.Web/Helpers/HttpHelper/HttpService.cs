@@ -19,20 +19,36 @@ namespace B2BApp.Web.Helpers.HttpHelper
             return link;
         }
 
-
+        /// <summary>
+        /// Get işlemlerinde kullanılır.  <typeparamref name="TResponse"/> değerinde bir result döner. 
+        /// </summary>
+        /// <typeparam name="TResponse">Apiden gelen cevap tipi</typeparam>
+        /// <param name="token">Yetkilendirme var ise kullanilir yok ise boş gönderilir</param>
+        /// <param name="type">Enum Olarak Tanimlanmis HttpRequestType'ler</param>
+        /// <param name="endpoint">Api tarafında "/api" kismindan sonra gelen kisim </param>
+        /// <returns></returns>
         public static Result<TResponse> Request<TResponse>(string? token, HttpType type, string endpoint) 
         {
             return Request<TResponse, object>(token, type, endpoint, null);
         }
 
-        //T şeklinde gelen veri tipine göre istek yapar ve geriye Result tipinde veri döner.
+        /// <summary>
+        /// <typeparamref name="TRequest"/> post ve put işlemlerini yaparken yollanılan değer veya model <typeparamref name="TResponse"/> değerinde bir result döner. 
+        /// </summary>
+        /// <typeparam name="TRequest">Post-Put body kısmına yerleştirilecek olan "Requst Type"</typeparam>
+        /// <typeparam name="TResponse">Apiden gelen cevap tipi</typeparam>
+        /// <param name="token">Yetkilendirme var ise kullanilir yok ise boş gönderilir</param>
+        /// <param name="type">Enum Olarak Tanimlanmis HttpRequestType'ler</param>
+        /// <param name="endpoint">Api tarafında "/api" kismindan sonra gelen kisim </param>
+        /// <param name="body"> Istek atarken body kısmına yerleştirilecek olan obje</param>
+        /// <returns></returns>
         public static Result<TResponse> Request<TResponse, TRequest>(string? token, HttpType type, string endpoint, TRequest? body) 
         {
             Result<TResponse> response;
 
             try
             {
-
+                //gelen endpoint ve apilink birleştirilir
                 var requestLink = string.Format("{0}/{1}", ApiLink, endpoint);
 
 
@@ -42,7 +58,7 @@ namespace B2BApp.Web.Helpers.HttpHelper
                     MaxResponseContentBufferSize = Int32.MaxValue
                 };
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
+              
 
                 if (!string.IsNullOrEmpty(token))
                 {
@@ -50,8 +66,8 @@ namespace B2BApp.Web.Helpers.HttpHelper
                 }
 
 
-                string bodystr = JsonConvert.SerializeObject(body);//.Replace(" ", "") bu veri içerisni de değiştiriyor
-                //bodystr = bodystr.Replace("\r\n", "").Replace("\r", "") ;
+                string bodystr = JsonConvert.SerializeObject(body);
+                
 
                 Task<HttpResponseMessage> task;
                 switch (type)
@@ -64,7 +80,7 @@ namespace B2BApp.Web.Helpers.HttpHelper
                         break;
                     case HttpType.Put:
                         //utf8 ve media type eklendi
-                        task = client.PutAsync(requestLink, content: new StringContent(bodystr));
+                        task = client.PutAsync(requestLink, content: new StringContent(bodystr, Encoding.UTF8, "application/json"));
                         break;
                     case HttpType.Delete:
                         task = client.DeleteAsync(requestLink);

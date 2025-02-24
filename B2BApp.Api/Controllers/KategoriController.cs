@@ -23,7 +23,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<Kategori> PostCompany(Kategori kategori)
+        public Result<Kategori> PostKategori(Kategori kategori)
         {
            // kategori.Id = Guid.NewGuid();
             _kategoriService.addKategori(kategori);
@@ -34,9 +34,10 @@ namespace B2BApp.Api.Controllers
                 StatusCode = StatusCodes.Status200OK
             };
         }
+        
         [HttpGet]
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<Kategori> GetCompany(string id)
+        public Result<Kategori> GetKategori(string id)
         {
 
             var kategori = _kategoriService.getKategoriById(Guid.Parse(id));
@@ -45,8 +46,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpGet("all")]
         // //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-
-        public Result<ICollection<Kategori>> GetCompany()
+        public Result<ICollection<Kategori>> GetKategori()
         {
             var kategoriler = _kategoriService.getAll();
 
@@ -54,7 +54,7 @@ namespace B2BApp.Api.Controllers
         }
         [HttpPut]
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<Kategori> UpdateCompany(Kategori kategori, string kategoriId)
+        public Result<Kategori> UpdateKategori(Kategori kategori, string kategoriId)
         {
 
             //Kategori kategori = new Kategori
@@ -74,7 +74,7 @@ namespace B2BApp.Api.Controllers
 
         [HttpDelete]
         //[Authorize(Roles = "6682972f420b0208d3d620a7")]
-        public Result<Kategori> DeleteCompany(string id)
+        public Result<Kategori> DeleteKategori(string id)
         {
             _kategoriService.deleteKategori(Guid.Parse(id));
 
