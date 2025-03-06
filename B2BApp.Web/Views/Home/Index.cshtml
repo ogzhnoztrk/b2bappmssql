@@ -1,79 +1,75 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-<style>
-    #loadingMessage {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.7); /* Arka planı yarı saydam yapın */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999; /* Üstte görünmesi için */
-        backdrop-filter: blur(5px); /* Arka planı bulanıklaştırma */
-    }
 
-</style>
+<div class="row" style="justify-content:center">
 
-<div class="container">
-    <h5>@DateTime.Now.Year Yılı Verileri</h5>
 
-    <!-- Loading Spinner -->
-    <div id="loadingMessage" class="text-center">
-        <div class="text-center">
-            <div class="spinner-border" role="status" style="height:90px; width:90px; color:cornflowerblue;border-width:8px ">
-                <span class="sr-only"></span>
+    <div class="col-xl-4 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Bar Chart</h5>
+            </div>
+            <div class="card-block">
+                <canvas id="chart-bar-1" style="width: 100%; height: 300px"></canvas>
             </div>
         </div>
     </div>
-    <div id="content" style="display:none;">
-        <div class="row" style="--bs-gutter-x: 0rem;">
-            <div class="col-md-6">
-                <div>
-                    <div class="p-3 border bg-light">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Bar [ Stacked ] Chart</h5>
             </div>
-            <div class="col-md-6">
-                <div>
-                    <div class="p-3 border bg-light">
-                        <canvas id="pieChart" width="618" height="309"></canvas>
-                    </div>
+            <div class="card-block">
+                <canvas id="chart-pie-1" style="width: 100%; height: 300px"></canvas>
+            </div>
+        </div>
+    </div>
+
+<!-- [ user activity section ] start -->
+<div class="col-xl-8 col-md-12">
+    <div class="card User-Activity">
+        <div class="card-header">
+            <h5>User Activity</h5>
+            <div class="card-header-right">
+                <div class="btn-group card-option">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="feather icon-more-horizontal"></i>
+                    </button>
+                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                        <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+                        <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+                    </ul>
+
                 </div>
             </div>
         </div>
-        <br />
-        <br />
-        <div class="row" style="--bs-gutter-x: 0rem;">
-            <div class="col-md-12">
-                <div class="p-3 border bg-light">
-                    <table id="raporTable" class="display nowrap" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Urun</th>
-                                <th>Fiyat</th>
-                                <th>Tedarikci</th>
-                                <th>Tedarikci Telefon</th>
-                                <th>Kategori</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+        <div class="card-block pb-0">
+            <div class="table-responsive">
+                <table class="table table-hover" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Fiyat</th>
+                            <th>Tedarikçi Adı</th>
+                            <th>Tedarikçi Tel</th>
+                            <th class="text-right">Kategori Adı</th>
+                    </thead>
+
+                </table>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    var ctxBar = document.getElementById('barChart');
-    var ctxPie = document.getElementById('pieChart');
-    ctxPie.width = 618;
-    ctxPie.height = 309;
-    let table;
+<!-- [ user activity section ] end -->
+</div>
+<script src="~/assets/plugins/data-tables/js/datatables.min.js"></script>
+<script src="~/assets/plugins/chart-chartjs/js/Chart.min.js"></script>
+<script>
+       let table;
 
     $.ajax({
         url: 'https://localhost:44369/api/UrunSatisRapor',
@@ -86,32 +82,14 @@
             'tedarikciId': "@ViewBag.FirmaId"
         }
     }).done(function (response) {
-        // Hide the loading message and show the content
-        $('#loadingMessage').hide();
-        $('#content').show();
-
-        table = $('#raporTable').DataTable({
+        debugger;
+        //[datatable] start
+        table = $('#datatable').DataTable({
             "data": response.data.urunler,
             "language": {
                 "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
             },
-            "layout": {
-                "bottomStart": {
-                    buttons: [
-                        {
-                            extend: 'pdf',
-                            text: 'Pdf',
-                            exportOptions: {
-                                modifier: {
-                                    page: 'current'
-                                }
-                            },
-                            title: 'Ürünler',
-                            className: 'btn btn-success',
-                        }
-                    ],
-                }
-            },
+
             "columns": [
                 { "data": 'urunAdi' },
                 { "data": 'fiyat', className: 'text-start' },
@@ -120,45 +98,81 @@
                 { "data": 'kategori.kategoriAdi' },
             ]
         });
+        //[datatable] end
 
-        barChart = new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: Object.keys(response.data.toplamAySatislar),
-                datasets: [{
-                    label: 'Toplam Satış',
-                    data: Object.values(response.data.toplamAySatislar),
-                    borderWidth: 2,
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+       // [ bar-chart ] start
+       var bar = document.getElementById("chart-bar-1").getContext('2d');
+       var theme_g1 = bar.createLinearGradient(0, 300, 0, 0);
+       theme_g1.addColorStop(0, '#1de9b6');
+       theme_g1.addColorStop(1, '#1dc4e9');
+       var theme_g2 = bar.createLinearGradient(0, 300, 0, 0);
+       theme_g2.addColorStop(0, '#899FD4');
+       theme_g2.addColorStop(1, '#A389D4');
+       var data1 = {
+           labels:  Object.keys(response.data.toplamAySatislar),
+           datasets: [{
+               label: "Toplam Ay Satislar",
+               data: Object.values(response.data.toplamAySatislar),
+               borderColor: theme_g1,
+               backgroundColor: theme_g1,
+               hoverborderColor: theme_g1,
+               hoverBackgroundColor: theme_g1,
+           }
+           // , {
+           //     label: "Data 2",
+           //     data: [30, 52, 65, 65],
+           //     borderColor: theme_g2,
+           //     backgroundColor: theme_g2,
+           //     hoverborderColor: theme_g2,
+           //     hoverBackgroundColor: theme_g2,
+           // }
+           ]
+       };
+       var myBarChart = new Chart(bar, {
+           type: 'bar',
+           data: data1,
+           options: {
+               barValueSpacing: 20
+           }
+       });
+       // [ bar-chart ] end
 
-        pieChart = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(response.data.toplamUrunSatis),
-                datasets: [{
-                    label: 'Toplam Satış',
-                    data: Object.values(response.data.toplamUrunSatis),
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                }
-            }
-        });
     });
+
+
+
+    // [ pie-chart ] start
+        var bar = document.getElementById("chart-pie-1").getContext('2d');
+        var theme_g1 = bar.createLinearGradient(100, 0, 300, 0);
+        theme_g1.addColorStop(0, 'rgba(29, 233, 182, 0.9)');
+        theme_g1.addColorStop(1, 'rgba(29, 196, 233, 0.9)');
+        var theme_g2 = bar.createLinearGradient(100, 0, 300, 0);
+        theme_g2.addColorStop(0, 'rgba(137, 159, 212, 0.9)');
+        theme_g2.addColorStop(1, 'rgba(163, 137, 212, 0.9)');
+        var data4 = {
+            labels: Object.keys(response.data.toplamUrunSatis),
+            datasets: [{
+                data: Object.values(response.data.toplamUrunSatis),
+                backgroundColor: [
+                    theme_g1,
+                    theme_g2,
+                    "#04a9f5"
+                ],
+                hoverBackgroundColor: [
+                    theme_g1,
+                    theme_g2,
+                    "#04a9f5"
+                ]
+            }]
+        };
+        var myPieChart = new Chart(bar, {
+            type: 'pie',
+            data: data4,
+            responsive: true,
+            options: {
+                maintainAspectRatio: false,
+            }
+        });
+        // [ pie-chart ] end
+
 </script>

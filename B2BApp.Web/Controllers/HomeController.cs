@@ -1,4 +1,6 @@
+using B2BApp.Entities.Concrete;
 using B2BApp.Web.Core.Controllers;
+using B2BApp.Web.Helpers.HttpHelper;
 using B2BApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -18,10 +20,11 @@ namespace B2BApp.Web.Controllers
         {
             // JWT'yi çözme
             if (Request.Cookies["jwt"] == null) return RedirectToAction("login", "Account");
-
-            return View();
+           
+                
+                return View();
         }
-
+        
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

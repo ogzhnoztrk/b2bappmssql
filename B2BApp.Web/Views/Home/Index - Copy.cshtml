@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<style>
+    #loadingMessage {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7); /* Arka planı yarı saydam yapın */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Üstte görünmesi için */
+        backdrop-filter: blur(5px); /* Arka planı bulanıklaştırma */
+    }
+
+</style>
+
+<div class="container">
+    <h5>@DateTime.Now.Year Yılı Verileri</h5>
+
+    <!-- Loading Spinner -->
+    <div id="loadingMessage" class="text-center">
+        <div class="text-center">
+            <div class="spinner-border" role="status" style="height:90px; width:90px; color:cornflowerblue;border-width:8px ">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+    </div>
+    <div id="content" style="display:none;">
+        <div class="row" style="--bs-gutter-x: 0rem;">
+            <div class="col-md-6">
+                <div>
+                    <div class="p-3 border bg-light">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <div class="p-3 border bg-light">
+                        <canvas id="pieChart" width="618" height="309"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row" style="--bs-gutter-x: 0rem;">
+            <div class="col-md-12">
+                <div class="p-3 border bg-light">
+                    <table id="raporTable" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Urun</th>
+                                <th>Fiyat</th>
+                                <th>Tedarikci</th>
+                                <th>Tedarikci Telefon</th>
+                                <th>Kategori</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var ctxBar = document.getElementById('barChart');
+    var ctxPie = document.getElementById('pieChart');
+    ctxPie.width = 618;
+    ctxPie.height = 309;
+    let table;
+
+    $.ajax({
+        url: 'https://localhost:44369/api/UrunSatisRapor',
+        crossDomain: true,
+        headers: {
+            'accept': 'text/plain',
+            //'Authorization': "Bearer " + "@ViewBag.JwtCookie"
+        },
+        data: {
+            'tedarikciId': "@ViewBag.FirmaId"
+        }
+    }).done(function (response) {
+        // Hide the loading message and show the content
+        $('#loadingMessage').hide();
+        $('#content').show();
+
+        table = $('#raporTable').DataTable({
+            "data": response.data.urunler,
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/2.0.8/i18n/tr.json',
+            },
+            "layout": {
+                "bottomStart": {
+                    buttons: [
+                        {
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            exportOptions: {
+                                modifier: {
+                                    page: 'current'
+                                }
+                            },
+                            title: 'Ürünler',
+                            className: 'btn btn-success',
+                        }
+                    ],
+                }
+            },
+            "columns": [
+                { "data": 'urunAdi' },
+                { "data": 'fiyat', className: 'text-start' },
+                { "data": 'tedarikci.tedarikciAdi' },
+                { "data": 'tedarikci.tedarikciTel' },
+                { "data": 'kategori.kategoriAdi' },
+            ]
+        });
+
+        barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(response.data.toplamAySatislar),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(response.data.toplamAySatislar),
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        pieChart = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(response.data.toplamUrunSatis),
+                datasets: [{
+                    label: 'Toplam Satış',
+                    data: Object.values(response.data.toplamUrunSatis),
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,720 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>B2B App</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/HopeUi-Dashboard/assets/images/favicon.ico" />
+
+    <!-- Library / Plugin Css Build -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/css/core/libs.min.css" />
+
+    <!-- Aos Animation Css -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/vendor/aos/dist/aos.css" />
+
+    <!-- Hope Ui Design System Css -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/css/hope-ui.min.css?v=2.0.0" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/css/custom.min.css?v=2.0.0" />
+
+    <!-- Dark Css -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/css/dark.min.css" />
+
+    <!-- Customizer Css -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/css/customizer.min.css" />
+
+    <!-- RTL Css -->
+    <link rel="stylesheet" href="~/HopeUi-Dashboard/assets/css/rtl.min.css" />
+    <!--Font awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!--Jquery script-->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Gerekli CSS ve JS -->
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/bootstrap-table.min.css"> 
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/bootstrap-table.min.js"></script> 
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script> 
+     <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.29.0/tableExport.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.29.0/libs/jsPDF/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.0/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/jspdf"></script>
+    <script src="https://unpkg.com/jspdf-autotable"></script>
+
+
+
+
+
+
+    <!--Select2 css-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!--Select2 script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+  
+      <!-- DataTable Css -->
+    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.css" rel="stylesheet">
+
+
+    <!-- DataTable Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.js"></script>
+  
+
+   @*  <!-- Gerekli CSS ve JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/bootstrap-table.min.css" defer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/bootstrap-table.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/extensions/filter-control/bootstrap-table-filter-control.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.29.0/tableExport.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.29.0/libs/jsPDF/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.5/dist/extensions/export/bootstrap-table-export.min.js" defer></script>
+
+ *@
+
+
+
+
+
+
+</head>
+<body class="  ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
+        </div>
+    </div>
+    <!-- loader END -->
+
+    <aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all ">
+        <div class="sidebar-header align-items-center justify-content-start">
+            <a asp-controller="Home" asp-action="index" class="navbar-brand">
+                <!--Logo start-->
+                <!--logo End-->
+                <!--Logo start-->
+                <div class="logo-main">
+                    <div class="logo-normal">
+                        <h4 id="collapsed-logo"></h4>
+                    </div>
+                    <div class="logo-mini">
+                        <h6 id="collapsed-logo"></h6>
+
+                    </div>
+                </div>
+                <!--logo End-->
+
+
+
+
+                <h6 class="logo-title ms-3">
+                    <img src="~/assets/images/login/seyhanlar_logo.png" class="img-fluid gradient-main animated-scaleX" alt="images" style="width: 150px;height: 40px;">
+                </h6>
+
+
+            </a>
+            <div class="sidebar-toggle" id="sidebarbuton" data-toggle="sidebar" data-active="true">
+                <i class="icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </i>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    // Tüm nav-link elementlerini seç
+                    $('#sidebarbuton').click(function () {
+                        // H1 elemanını seç
+                        var h1Element = $("#collapsed-logo");
+
+                        // H1 elemanının içeriğini kontrol et
+                        if (h1Element.text().trim() !== '') {
+                            // Eğer içerik varsa sil
+                            h1Element.empty();
+                        } else {
+                            // Eğer içerik yoksa istenen değeri ekle
+                            h1Element.text("B2B");
+                        }
+                    });
+
+
+                });
+
+
+            </script>
+        </div>
+
+        <div class="sidebar-body pt-0 data-scrollbar">
+            <div class="sidebar-list">
+                <!-- Sidebar Menu Start -->
+                <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
+                    @if (!(@ViewBag.FirmaId == "6682972f420b0208d3d620a7"))
+                    {
+                        <!--Anasayfa layer-->
+                        <li class="nav-item static-item">
+                            <a class="nav-link static-item disabled" asp-controller="Home" asp-action="Index" tabindex="-1">
+                                <span class="default-icon">Anasayfa</span>
+                                <span class="mini-icon">-</span>
+                            </a>
+                        </li>
+                        <!--Anasayfa layer Son-->
+                        <!--Anasayfa Buton-->
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Index">
+                                <i class="icon">
+                                    <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.4" d="M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z" fill="currentColor"></path>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2ZM4.53852 13.4655H7.92449C9.32676 13.4655 10.463 14.6114 10.463 16.0255V19.44C10.463 20.8532 9.32676 22 7.92449 22H4.53852C3.13626 22 2 20.8532 2 19.44V16.0255C2 14.6114 3.13626 13.4655 4.53852 13.4655ZM19.4615 13.4655H16.0755C14.6732 13.4655 13.537 14.6114 13.537 16.0255V19.44C13.537 20.8532 14.6732 22 16.0755 22H19.4615C20.8637 22 22 20.8532 22 19.44V16.0255C22 14.6114 20.8637 13.4655 19.4615 13.4655Z" fill="currentColor"></path>
+                                    </svg>
+                                </i>
+                                <span class="item-name">Anasayfa</span>
+                            </a>
+                        </li>
+                        <!--Anasayfa Buton Son-->
+                        <!--Raporlar Butonlar-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-table" role="button" aria-expanded="false" aria-controls="sidebar-table">
+                                <i class="icon">
+                                    <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.4" d="M16.6756 2H7.33333C3.92889 2 2 3.92889 2 7.33333V16.6667C2 20.0711 3.92889 22 7.33333 22H16.6756C20.08 22 22 20.0711 22 16.6667V7.33333C22 3.92889 20.08 2 16.6756 2Z" fill="currentColor"></path>
+                                        <path d="M7.36866 9.3689C6.91533 9.3689 6.54199 9.74223 6.54199 10.2045V17.0756C6.54199 17.5289 6.91533 17.9022 7.36866 17.9022C7.83088 17.9022 8.20421 17.5289 8.20421 17.0756V10.2045C8.20421 9.74223 7.83088 9.3689 7.36866 9.3689Z" fill="currentColor"></path>
+                                        <path d="M12.0352 6.08887C11.5818 6.08887 11.2085 6.4622 11.2085 6.92442V17.0755C11.2085 17.5289 11.5818 17.9022 12.0352 17.9022C12.4974 17.9022 12.8707 17.5289 12.8707 17.0755V6.92442C12.8707 6.4622 12.4974 6.08887 12.0352 6.08887Z" fill="currentColor"></path>
+                                        <path d="M16.6398 12.9956C16.1775 12.9956 15.8042 13.3689 15.8042 13.8312V17.0756C15.8042 17.5289 16.1775 17.9023 16.6309 17.9023C17.0931 17.9023 17.4664 17.5289 17.4664 17.0756V13.8312C17.4664 13.3689 17.0931 12.9956 16.6398 12.9956Z" fill="currentColor"></path>
+                                    </svg>
+                                </i>
+                                <span class="item-name">Raporlar</span>
+                                <i class="right-icon">
+                                    <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </i>
+                            </a>
+
+                            <ul class="sub-nav collapse" id="sidebar-table" data-bs-parent="#sidebar-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="SubeStok" asp-action="SubeStokDurum">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Şube Stok Durumu</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Urun" asp-action="UrunlerRapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Urunler Rapor</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Satis" asp-action="SatisRapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Satışlar Rapor</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Satis" asp-action="KSatisRapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Satış Karşılaştır</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                        <!--Raporlar Butonlar Son-->
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" asp-controller="Siparis" asp-action="SiparisRapor">
+                                <i class="icon">
+                                    <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.4" d="M16.6203 22H7.3797C4.68923 22 2.5 19.8311 2.5 17.1646V11.8354C2.5 9.16894 4.68923 7 7.3797 7H16.6203C19.3108 7 21.5 9.16894 21.5 11.8354V17.1646C21.5 19.8311 19.3108 22 16.6203 22Z" fill="currentColor"></path>
+                                        <path d="M15.7551 10C15.344 10 15.0103 9.67634 15.0103 9.27754V6.35689C15.0103 4.75111 13.6635 3.44491 12.0089 3.44491C11.2472 3.44491 10.4477 3.7416 9.87861 4.28778C9.30854 4.83588 8.99272 5.56508 8.98974 6.34341V9.27754C8.98974 9.67634 8.65604 10 8.24487 10C7.8337 10 7.5 9.67634 7.5 9.27754V6.35689C7.50497 5.17303 7.97771 4.08067 8.82984 3.26285C9.68098 2.44311 10.7814 2.03179 12.0119 2C14.4849 2 16.5 3.95449 16.5 6.35689V9.27754C16.5 9.67634 16.1663 10 15.7551 10Z" fill="currentColor"></path>
+                                    </svg>
+                                </i>
+                                <span class="item-name">Siparişler</span>
+                            </a>
+                        </li>
+                    }
+
+
+                    @if (!(@ViewBag.FirmaId == "6682972f420b0208d3d620a7"))
+                    {
+                        <!--Ayrıcı-->
+                        <li><hr class="hr-horizontal"></li>
+                        <li class="nav-item static-item">
+                            <a class="nav-link static-item disabled" href="#" tabindex="-1">
+                                <span class="default-icon">Admin</span>
+                                <span class="mini-icon">-</span>
+                            </a>
+                        </li>
+
+                        <!--admin Butonlar-->
+                        <!--admin Crud Start-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#Admin" role="button" aria-expanded="false" aria-controls="sidebar-table">
+                                <i class="icon">
+                                    <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.7688 8.71387H16.2312C18.5886 8.71387 20.5 10.5831 20.5 12.8885V17.8254C20.5 20.1308 18.5886 22 16.2312 22H7.7688C5.41136 22 3.5 20.1308 3.5 17.8254V12.8885C3.5 10.5831 5.41136 8.71387 7.7688 8.71387ZM11.9949 17.3295C12.4928 17.3295 12.8891 16.9419 12.8891 16.455V14.2489C12.8891 13.772 12.4928 13.3844 11.9949 13.3844C11.5072 13.3844 11.1109 13.772 11.1109 14.2489V16.455C11.1109 16.9419 11.5072 17.3295 11.9949 17.3295Z" fill="currentColor"></path>
+                                        <path opacity="0.4" d="M17.523 7.39595V8.86667C17.1673 8.7673 16.7913 8.71761 16.4052 8.71761H15.7447V7.39595C15.7447 5.37868 14.0681 3.73903 12.0053 3.73903C9.94257 3.73903 8.26594 5.36874 8.25578 7.37608V8.71761H7.60545C7.20916 8.71761 6.83319 8.7673 6.47754 8.87661V7.39595C6.4877 4.41476 8.95692 2 11.985 2C15.0537 2 17.523 4.41476 17.523 7.39595Z" fill="currentColor"></path>
+                                    </svg>
+                                </i>
+                                <span class="item-name">Admin CRUD</span>
+                                <i class="right-icon">
+                                    <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </i>
+                            </a>
+
+                            <ul class="sub-nav collapse" id="Admin" data-bs-parent="#sidebar-menu">
+                                @* Firma *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Firma" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Firma</span>
+                                    </a>
+                                </li>
+                                @* Kategori *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Kategori" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Kategori</span>
+                                    </a>
+                                </li>
+                                @* Tedarikci *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="tedarikci" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Tedarikci</span>
+                                    </a>
+                                </li>
+                                @* Sube *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Sube" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Sube</span>
+                                    </a>
+                                </li>
+                                @* Urun *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Urun" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Ürünler</span>
+                                    </a>
+                                </li>
+                                @* Sube Stok *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="SubeStok" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Şube Stokları</span>
+                                    </a>
+                                </li>
+                                @* Sube Satis *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Satis" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Şube Satışları</span>
+                                    </a>
+                                </li>
+                                @* Sube Satis *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Siparis" asp-action="index">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Siparisler</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+
+                        </li>
+                        <!--admin Crud End-->
+                        <!--admin Raporlar Start-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#AdminRaporlar" role="button" aria-expanded="false" aria-controls="sidebar-table">
+                                <i class="icon">
+                                    <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.4" d="M16.6756 2H7.33333C3.92889 2 2 3.92889 2 7.33333V16.6667C2 20.0711 3.92889 22 7.33333 22H16.6756C20.08 22 22 20.0711 22 16.6667V7.33333C22 3.92889 20.08 2 16.6756 2Z" fill="currentColor"></path>
+                                        <path d="M7.36866 9.3689C6.91533 9.3689 6.54199 9.74223 6.54199 10.2045V17.0756C6.54199 17.5289 6.91533 17.9022 7.36866 17.9022C7.83088 17.9022 8.20421 17.5289 8.20421 17.0756V10.2045C8.20421 9.74223 7.83088 9.3689 7.36866 9.3689Z" fill="currentColor"></path>
+                                        <path d="M12.0352 6.08887C11.5818 6.08887 11.2085 6.4622 11.2085 6.92442V17.0755C11.2085 17.5289 11.5818 17.9022 12.0352 17.9022C12.4974 17.9022 12.8707 17.5289 12.8707 17.0755V6.92442C12.8707 6.4622 12.4974 6.08887 12.0352 6.08887Z" fill="currentColor"></path>
+                                        <path d="M16.6398 12.9956C16.1775 12.9956 15.8042 13.3689 15.8042 13.8312V17.0756C15.8042 17.5289 16.1775 17.9023 16.6309 17.9023C17.0931 17.9023 17.4664 17.5289 17.4664 17.0756V13.8312C17.4664 13.3689 17.0931 12.9956 16.6398 12.9956Z" fill="currentColor"></path>
+                                    </svg>
+                                </i>
+                                <span class="item-name">Admin Raporlar</span>
+                                <i class="right-icon">
+                                    <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </i>
+                            </a>
+
+                            <ul class="sub-nav collapse" id="AdminRaporlar" data-bs-parent="#sidebar-menu">
+                                @* Kategori Satış Rapor *@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="satis" asp-action="detayliSatisRapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Satış Rapor</span>
+                                    </a>
+                                </li>
+
+                                @*Tedarikci Performans Rapor*@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="" asp-action="">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Tedarikci Performans</span>
+                                    </a>
+                                </li>
+
+                                @*Stok Rapor*@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="SubeStok" asp-action="stokrapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Stok Rapor</span>
+                                    </a>
+                                </li>
+
+                                @*Kâr Rapor*@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Satis" asp-action="KarRapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Kâr Rapor</span>
+                                    </a>
+                                </li>
+                             
+                                @*Siparis Rapor*@
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-controller="Siparis" asp-action="DetayliRapor">
+                                        <i class="icon">
+                                            <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                                <g>
+                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                </g>
+                                            </svg>
+                                        </i>
+                                        <i class="sidenav-mini-icon"> B </i>
+                                        <span class="item-name">Siparis Rapor</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+
+                        </li>
+                        <!--admin Raporlar End-->
+                        <!--admin hesap ekle-->
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" asp-controller="Account" asp-action="saveuser">
+                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="0.4" d="M21.101 9.58786H19.8979V8.41162C19.8979 7.90945 19.4952 7.5 18.999 7.5C18.5038 7.5 18.1 7.90945 18.1 8.41162V9.58786H16.899C16.4027 9.58786 16 9.99731 16 10.4995C16 11.0016 16.4027 11.4111 16.899 11.4111H18.1V12.5884C18.1 13.0906 18.5038 13.5 18.999 13.5C19.4952 13.5 19.8979 13.0906 19.8979 12.5884V11.4111H21.101C21.5962 11.4111 22 11.0016 22 10.4995C22 9.99731 21.5962 9.58786 21.101 9.58786Z" fill="currentColor"></path>
+                                    <path d="M9.5 15.0156C5.45422 15.0156 2 15.6625 2 18.2467C2 20.83 5.4332 21.5001 9.5 21.5001C13.5448 21.5001 17 20.8533 17 18.269C17 15.6848 13.5668 15.0156 9.5 15.0156Z" fill="currentColor"></path>
+                                    <path opacity="0.4" d="M9.50023 12.5542C12.2548 12.5542 14.4629 10.3177 14.4629 7.52761C14.4629 4.73754 12.2548 2.5 9.50023 2.5C6.74566 2.5 4.5376 4.73754 4.5376 7.52761C4.5376 10.3177 6.74566 12.5542 9.50023 12.5542Z" fill="currentColor"></path>
+                                </svg>
+                                <span class="item-name">Kullanıcı Ekle</span>
+                            </a>
+                        </li>
+                        <!--admin hesap ekle Son-->
+                    }
+
+                </ul>
+
+
+                <!-- Sidebar Menu End -->
+            </div>
+        </div>
+
+        <div class="sidebar-footer"></div>
+    </aside>
+    <main class="main-content">
+        <div class="position-relative iq-banner">
+            <!--Nav Start-->
+            <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
+                <div class="container-fluid navbar-inner">
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                        <!--Logo start-->
+                        <!--logo End-->
+                        <!--Logo start-->
+                        <div class="logo-main">
+                            <div class="logo-normal">
+                                <svg class="text-primary icon-30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
+                                    <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
+                                    <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
+                                    <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
+                                </svg>
+                            </div>
+                            <div class="logo-mini">
+                                <svg class="text-primary icon-30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
+                                    <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
+                                    <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
+                                    <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
+                                </svg>
+                            </div>
+                        </div>
+                        <!--logo End-->
+
+
+
+
+                        <h4 class="logo-title">Hope UI</h4>
+                    </a>
+                    <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+                        <i class="icon">
+                            <svg width="20px" class="icon-20" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+                            </svg>
+                        </i>
+                    </div>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon">
+                            <span class="mt-2 navbar-toggler-bar bar1"></span>
+                            <span class="navbar-toggler-bar bar2"></span>
+                            <span class="navbar-toggler-bar bar3"></span>
+                        </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
+
+                            <li class="nav-item dropdown">
+                                <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/HopeUi-Dashboard/assets/images/avatars/03.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+
+                                    <div class="caption ms-3 d-none d-md-block ">
+                                        <h6 class="mb-0 caption-title">@ViewBag.KullanıcıAdi</h6>
+                                        <p class="mb-0 caption-sub-title">B2B App User</p>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                                    <li>
+                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Account">
+                                            Logout
+                                            <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.89535 11.23C9.45785 11.23 9.11192 11.57 9.11192 12C9.11192 12.42 9.45785 12.77 9.89535 12.77H16V17.55C16 20 13.9753 22 11.4724 22H6.51744C4.02471 22 2 20.01 2 17.56V6.45C2 3.99 4.03488 2 6.52762 2H11.4927C13.9753 2 16 3.99 16 6.44V11.23H9.89535ZM19.6302 8.5402L22.5502 11.4502C22.7002 11.6002 22.7802 11.7902 22.7802 12.0002C22.7802 12.2002 22.7002 12.4002 22.5502 12.5402L19.6302 15.4502C19.4802 15.6002 19.2802 15.6802 19.0902 15.6802C18.8902 15.6802 18.6902 15.6002 18.5402 15.4502C18.2402 15.1502 18.2402 14.6602 18.5402 14.3602L20.1402 12.7702H16.0002V11.2302H20.1402L18.5402 9.6402C18.2402 9.3402 18.2402 8.8502 18.5402 8.5502C18.8402 8.2402 19.3302 8.2402 19.6302 8.5402Z" fill="currentColor"></path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <hr />
+
+            <!--Nav End-->
+        </div>
+
+
+
+        @RenderBody()
+
+    </main>
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            // Sayfa yüklendiğinde localStorage'dan aktif link'i al
+            var activeLink = localStorage.getItem('activeLink');
+            // Tüm nav-link elementlerini seç
+            $('.nav-link').click(function () {
+                // Önce tüm nav-link elementlerinden active class'ını kaldır
+                $('.nav-link').removeClass('active');
+                // Tıklanan elemente active class'ını ekle
+                $(this).addClass('active');
+
+                // Tıklanan link'in text içeriğini localStorage'a kaydet
+                var linkText = $(this).find('.item-name').text();
+                localStorage.setItem('activeLink', linkText);
+            });
+
+            // Eğer daha önce seçilmiş bir link varsa, onu tekrar active yap
+            if (activeLink) {
+                $('.nav-link .item-name').each(function () {
+                    if ($(this).text() === activeLink) {
+                        $(this).closest('.nav-link').addClass('active');
+                    }
+                });
+            }
+        });
+
+    </script>
+
+
+    <!--Chart Script-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!--Jquery script-->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+
+
+    <!-- Library Bundle Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/core/libs.min.js"></script> *@
+
+    <!-- External Library Bundle Script -->
+    <script src="~/HopeUi-Dashboard/assets/js/core/external.min.js"></script>
+
+    <!-- Widgetchart Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/charts/widgetcharts.js"></script> *@
+
+    <!-- mapchart Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/charts/vectore-chart.js"></script> *@
+    @* <script src="~/HopeUi-Dashboard/assets/js/charts/dashboard.js"></script> *@
+
+    <!-- fslightbox Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/plugins/fslightbox.js"></script> *@
+
+    <!-- Settings Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/plugins/setting.js"></script> *@
+
+    <!-- Slider-tab Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/plugins/slider-tabs.js"></script> *@
+
+    <!-- Form Wizard Script -->
+    @* <script src="~/HopeUi-Dashboard/assets/js/plugins/form-wizard.js"></script> *@
+
+    <!-- AOS Animation Plugin-->
+    @* <script src="~/HopeUi-Dashboard/assets/vendor/aos/dist/aos.js"></script> *@
+
+     <!-- App Script -->
+    <script src="~/HopeUi-Dashboard/assets/js/hope-ui.js" defer></script>
+ 
+
+
+    <!--Swal script-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+</body>
+</html>

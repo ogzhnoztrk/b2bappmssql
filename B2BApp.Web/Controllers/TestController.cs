@@ -31,5 +31,9 @@ namespace B2BApp.Web.Controllers
 
             return View();
         }
+        public IActionResult testpage()
+        {
+            return View();
+        }
     }
 }
